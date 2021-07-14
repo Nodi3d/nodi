@@ -1,6 +1,7 @@
 # Nodi
 
-[![test](https://github.com/mattatz/Nodi2/actions/workflows/main.yml/badge.svg)](https://github.com/Nodi3d/nodi/actions/workflows/main.yml)
+[![test](https://github.com/Nodi3d/nodi/actions/workflows/test.yml/badge.svg)](https://github.com/Nodi3d/nodi/actions/workflows/test.yml)
+[![deploy](https://github.com/Nodi3d/nodi/actions/workflows/deploy.yml/badge.svg)](https://github.com/Nodi3d/nodi/actions/workflows/deploy.yml)
 
 Nodi (β) is an online node-based geometry design tool & social development environment.
 

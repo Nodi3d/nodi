@@ -1,0 +1,35 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@main
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with: 
+        node-version: 16.x
+        registry-url: 'https://registry.npmjs.org'
+    - name: Install Dependencies
+      run: |
+        npm install -g firebase-tools
+        npm install
+    - name: Build
+      run: npm run build
+    - name: Generate
+      run: npm run generate
+    - name: Test
+      run: yarn test
+    - name: Deploy to Firebase
+      run: |
+        yarn deploy --token=${{ secrets.FIREBASE_TOKEN }}
