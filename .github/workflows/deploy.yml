@@ -24,6 +24,9 @@ jobs:
       run: |
         npm install -g firebase-tools
         npm install
+    - name: Create .firebase.env.js file
+      run: |
+        echo ${{ secrets.FIREBASE_ENV_FILE }} > .firebase.env.js
     - name: Build
       run: npm run build
     - name: Generate
