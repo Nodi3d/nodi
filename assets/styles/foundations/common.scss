@@ -1,0 +1,160 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', 'Noto Sans JP', Arial, Verdana;
+  // font-family: "Helvetica Neue", Helvetica, Arial, Verdana, Roboto, "游ゴシック", "Yu Gothic", "游ゴシック体", "YuGothic", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "Meiryo UI", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+
+label {
+  font-weight: normal;
+}
+
+ul, li {
+  list-style: none;
+}
+
+input, select, button {
+  outline: none;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin box_shadow($value...) {
+  -webkit-box-shadow: $value;
+  -moz-box-shadow: $value;
+  -ms-box-shadow: $value;
+  box-shadow: $value;
+}
+
+@mixin dark-theme-color() {
+  background-color: rgb(67, 70, 76);
+  color: #ffffff;
+}
+
+@mixin dark-hover-color() {
+  background-color: rgb(50, 55, 60);
+  color: #f0f0f0;
+}
+
+.dark-theme, .dark-theme-color {
+  @include dark-theme-color();
+}
+
+.dark-theme-hover {
+  &:hover {
+    @include dark-hover-color();
+  }
+}
+
+@mixin button-style() {
+  color: white;
+  background-color: #18a0fb;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #1277bb;
+  }
+
+  &:disabled {
+    background-color: rgb(180, 180, 180);
+    cursor: not-allowed;
+  }
+}
+
+$breakpoint-size: 760px;
+
+@mixin max-screen($break-point) {
+  @media screen and (max-width: $break-point) {
+    @content;
+  }
+}
+
+@mixin min-screen($break-point) {
+  @media screen and (min-width: $break-point) {
+    @content;
+  }
+}
+
+@mixin screen($break-point-min, $break-point-max) {
+  @media screen and (min-width: $break-point-min) and (max-width: $break-point-max) {
+    @content;
+  }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fade-out {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@mixin animation($animation-name) {
+  -webkit-animation: $animation-name;
+  -moz-animation: $animation-name;
+  animation: $animation-name;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.w180 {
+  min-width: 180px;
+}
+
+.margin-top-5 {
+  margin-top: 5px;
+}
+
+@keyframes icon-fill-animation {
+  0% { fill: white; }
+  100% { fill: #18a0fb; }
+}
+
+.step-indicator {
+  svg {
+    fill: white;
+  }
+  &.animated {
+    svg {
+      @include animation(icon-fill-animation 0.4s linear infinite alternate);
+    }
+  }
+}
+
+@mixin noselect() {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.no-select {
+  @include noselect();
+}
+
+.no-pointer-events {
+  pointer-events: none;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mr-auto {
+  margin-right: auto;
+}

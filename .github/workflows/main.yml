@@ -1,0 +1,23 @@
+name: test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: yarn install
+        run: yarn install
+      - name: eslint
+        run: yarn lint
+      - name: test
+        run: yarn test

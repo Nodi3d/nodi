@@ -1,0 +1,25 @@
+
+.graph-mapper {
+  display: inline-block;
+  box-sizing: border-box;
+
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  .graph {
+    display: inline-block;
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 100%;
+    background-color: white;
+
+    path {
+      fill: none;
+      stroke-width: 2px;
+      stroke: #333;
+    }
+  }
+}
+
