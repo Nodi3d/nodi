@@ -117,4 +117,12 @@ export default class MenuBase extends Vue {
   }
 }
 
+@include max-screen($breakpoint-size) {
+  .header__menu {
+    & > a {
+      padding: 0px 4px;
+    }
+  }
+}
+
 </style>

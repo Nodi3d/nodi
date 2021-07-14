@@ -12,13 +12,13 @@
       <li class="">
         <HelpMenu :dark="false" />
       </li>
-      <li class="mr-4" style="margin-left: auto;">
+      <li style="margin-left: auto;">
         <div class="d-flex flex-items-center">
           <input v-model="query" class="header__link--search mr-1 px-1 text-gray-dark border border-gray-dark rounded-1" type="text" placeholder="Search" @keydown.enter.prevent.stop="search">
           <a class="" @click="search" v-html="svg.search" />
         </div>
       </li>
-      <li class="" style="">
+      <li class="ml-2" style="">
         <UserMenu />
       </li>
     </ul>
