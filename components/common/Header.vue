@@ -2,7 +2,12 @@
   <header>
     <ul class="menu mb-0 rounded-0 d-flex flex-justify-start flex-items-center">
       <li class="mr-2">
-        <router-link class="header__link--image d-flex flex-items-center" to="/" v-html="svg.logoBlue" />
+        <router-link class="header__link--image header__link--image--pc flex-items-center" to="/">
+          <img src="~/assets/images/logo/logo-blue.svg" style="height: 27px;">
+        </router-link>
+        <router-link class="header__link--image header__link--image--mobile flex-items-center ml-1" to="/">
+          <img src="~/assets/images/logo/logo-blue-square.svg" style="height: 24px;">
+        </router-link>
       </li>
       <li class="">
         <router-link class="button no-underline px-3" to="/editor/">
@@ -12,13 +17,13 @@
       <li class="">
         <HelpMenu :dark="false" />
       </li>
-      <li style="margin-left: auto;">
+      <li class="mr-4 header__search ml-auto">
         <div class="d-flex flex-items-center">
           <input v-model="query" class="header__link--search mr-1 px-1 text-gray-dark border border-gray-dark rounded-1" type="text" placeholder="Search" @keydown.enter.prevent.stop="search">
           <a class="" @click="search" v-html="svg.search" />
         </div>
       </li>
-      <li class="ml-2" style="">
+      <li class="header__user mr-1" style="">
         <UserMenu />
       </li>
     </ul>
@@ -66,7 +71,9 @@ export default class Header extends Vue {
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+
+@import '~/assets/styles/foundations/common';
 
 .header__link--image {
   img, svg {
@@ -79,6 +86,28 @@ export default class Header extends Vue {
   max-width: 80px;
   &:focus {
     max-width: 180px;
+  }
+}
+
+.header__link--image--pc {
+  display: flex;
+}
+.header__link--image--mobile {
+  display: none;
+}
+
+@include max-screen($breakpoint-size) {
+  .header__link--image--pc {
+    display: none;
+  }
+  .header__link--image--mobile {
+    display: flex;
+  }
+  .header__search {
+    display: none;
+  }
+  .header__user {
+    margin-left: auto;
   }
 }
 
