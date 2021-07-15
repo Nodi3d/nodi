@@ -16,7 +16,14 @@
           >
           <div class="sorter">
             <label for="sort" class="mr-2 text-normal">Sort</label>
-            <select id="sort" v-model="sort" class="px-1 border-gray-light" name="sort" @change="onSorting" :disabled="query.length > 0">
+            <select
+              id="sort"
+              v-model="sort"
+              class="px-1 border-gray-light"
+              name="sort"
+              :disabled="query.length > 0"
+              @change="onSorting"
+            >
               <option v-for="(k, v) in sortings" :key="k" :value="v" v-text="k" />
             </select>
           </div>
@@ -107,8 +114,7 @@ export default class FilesPage extends Vue {
   }
 
   beforeDestroy (): void {
-    if (this.unsubscriber !== undefined) 
-      this.unsubscriber();
+    if (this.unsubscriber !== undefined) { this.unsubscriber(); }
   }
 
   @Watch('query')
@@ -124,11 +130,11 @@ export default class FilesPage extends Vue {
     let query: firebase.firestore.Query;
 
     // MEMO:
-    // Due to firestore limitations, 
+    // Due to firestore limitations,
     // title query and sort by timestamp cannot coexist.
     if (q.length > 0) {
       let startAt = q;
-      let endAt = q + '\uF8FF';
+      const endAt = q + '\uF8FF';
 
       if (this.projects.length > 0) {
         if (forward) {
