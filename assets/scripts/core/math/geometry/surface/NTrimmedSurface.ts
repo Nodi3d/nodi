@@ -45,6 +45,7 @@ export default class NTrimmedSurface extends NSurface {
     const mesh = new NMesh();
     mesh.vertices = points;
     mesh.faces = this.collectFaces(points);
+    mesh.computeVertexNormals();
 
     return mesh;
   }

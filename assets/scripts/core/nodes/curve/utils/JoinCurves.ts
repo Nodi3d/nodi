@@ -36,7 +36,7 @@ export default class JoinCurves extends NodeBase {
   public solve (access: DataAccess): void {
     const curves = access.getDataList(0) as NCurve[];
 
-    const result = this.join(curves);
+    const result = this.join(curves.slice());
     access.setDataList(0, result);
   }
 
