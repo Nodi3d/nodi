@@ -17,6 +17,7 @@ export default class NRectangleCurve extends NPlaneCurve implements IClosedCurve
     super(plane);
     this.x = x;
     this.y = y;
+    this._closed = true;
   }
 
   public get points (): NPoint[] {
