@@ -24,7 +24,7 @@ export default class Shatter extends NodeBase {
     const curve = access.getData(0) as NCurve;
     const parameters = access.getDataList(1) as number[];
 
-    const sorted = parameters.sort((u0, u1) => {
+    const sorted = parameters.slice().sort((u0, u1) => {
       return (u0 < u1) ? -1 : 1;
     });
     const curves = curve.trims(sorted);

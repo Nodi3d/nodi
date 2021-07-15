@@ -22,6 +22,6 @@ export default class ReverseList extends NodeBase {
 
   public solve (access: DataAccess): void {
     const list = access.getDataList(0) as any[];
-    access.setDataList(0, list.reverse());
+    access.setDataList(0, list.slice().reverse());
   }
 }

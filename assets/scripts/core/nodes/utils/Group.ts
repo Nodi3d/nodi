@@ -22,6 +22,6 @@ export default class Group extends NodeBase {
 
   public solve (access: DataAccess): void {
     const objects = access.getDataList(0);
-    access.setData(0, new NGroup(objects));
+    access.setData(0, new NGroup(objects.slice()));
   }
 }

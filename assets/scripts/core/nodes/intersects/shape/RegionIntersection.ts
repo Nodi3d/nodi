@@ -29,7 +29,7 @@ export default class RegionIntersection extends RegionCSGNode {
     const b = access.getDataList(1) as NCurve[];
     const resolution = access.getData(2) as number;
 
-    const curves = [a].concat(b);
+    const curves = [a].concat(b.slice());
     if (!this.validatePlanarClosedCurves(curves)) {
       throw new Error('Non planar closed curve included in inputs');
     }
