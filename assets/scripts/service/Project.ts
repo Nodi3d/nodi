@@ -139,7 +139,7 @@ export default class Project {
     this.viewers = json.viewers ?? [];
     this.editors = json.editors ?? [];
     this.admins = json.admins ?? [];
-    this.fork = json.fork;
+    this.fork = json.fork ?? '';
     this.timestamp = json.timestamp;
     this.deleted = json.deleted;
   }
