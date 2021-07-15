@@ -16,7 +16,7 @@
           >
           <div class="sorter">
             <label for="sort" class="mr-2 text-normal">Sort</label>
-            <select id="sort" v-model="sort" class="px-1 border-gray-light" name="sort" @change="onSorting">
+            <select id="sort" v-model="sort" class="px-1 border-gray-light" name="sort" @change="onSorting" :disabled="query.length > 0">
               <option v-for="(k, v) in sortings" :key="k" :value="v" v-text="k" />
             </select>
           </div>
@@ -47,8 +47,10 @@
 
 <script lang='ts'>
 
+import firebase from 'firebase';
+import _ from 'lodash';
 import { Vector2 } from 'three';
-import { Component, Vue } from 'nuxt-property-decorator';
+import { Component, Vue, Watch } from 'nuxt-property-decorator';
 
 import Spinner from '~/components/misc/Spinner.vue';
 import Files from '~/components/common/Files.vue';
@@ -88,49 +90,91 @@ export default class FilesPage extends Vue {
   projects: Project[] = [];
   selected: Project | null = null;
 
+  searchDebounced!: _.DebouncedFunc<any>;
+  unsubscriber?: firebase.Unsubscribe;
+
   get user (): UserState {
     return this.$accessor.user;
   }
 
   mounted (): void {
-    this.$auth.onAuthStateChanged(async (u: any | null) => {
+    this.searchDebounced = _.debounce(this.search, 500);
+    this.unsubscriber = this.$auth.onAuthStateChanged(async (u: any | null) => {
       if (u !== null) {
         await this.search('', u.uid);
       }
     });
   }
 
+  beforeDestroy (): void {
+    if (this.unsubscriber !== undefined) 
+      this.unsubscriber();
+  }
+
+  @Watch('query')
+  onQuery () {
+    this.page = 0;
+    this.clear();
+    this.searchDebounced(this.query, this.user.uid as string, true);
+  }
+
   async search (q: string, uid: string, forward: boolean = true): Promise<void> {
     this.isLoading = true;
 
-    const desc = (Object.keys(Sortings)[0] === this.sort);
+    let query: firebase.firestore.Query;
 
-    let query = this.$firestore.collection('graph')
-      .where('uid', '==', uid)
-      .where('deleted', '==', false)
-      .limit(this.size)
-      .orderBy('timestamp', desc ? 'desc' : 'asc');
+    // MEMO:
+    // Due to firestore limitations, 
+    // title query and sort by timestamp cannot coexist.
+    if (q.length > 0) {
+      let startAt = q;
+      let endAt = q + '\uF8FF';
 
-    if (this.projects.length > 0) {
-      if (forward) {
-        const proj = this.projects[this.projects.length - 1];
-        const t = new Date(1970, 0, 1);
-        t.setSeconds(proj.timestamp.seconds);
-        query = query.startAt(t);
-        this.pages[this.page] = {
-          startAt: proj
-        };
-      } else if (!forward && this.page > 0) {
-        const page = this.pages[this.page];
-        const startAt = new Date(1970, 0, 1);
-        startAt.setSeconds(page.startAt.timestamp.seconds - 1);
-        query = query.startAt(startAt);
+      if (this.projects.length > 0) {
+        if (forward) {
+          const proj = this.projects[this.projects.length - 1];
+          startAt = proj.title;
+          this.pages[this.page] = {
+            startAt: proj
+          };
+        } else if (!forward && this.page > 0) {
+          const page = this.pages[this.page];
+          startAt = page.startAt.title;
+        }
+      }
+      query = this.$firestore.collection('graph')
+        .where('uid', '==', uid)
+        .where('deleted', '==', false)
+        .orderBy('title')
+        .startAt(startAt)
+        .endAt(endAt);
+    } else {
+      const desc = (Object.keys(Sortings)[0] === this.sort);
+      query = this.$firestore.collection('graph')
+        .where('uid', '==', uid)
+        .where('deleted', '==', false)
+        .orderBy('timestamp', desc ? 'desc' : 'asc');
+      if (this.projects.length > 0) {
+        if (forward) {
+          const proj = this.projects[this.projects.length - 1];
+          const t = new Date(1970, 0, 1);
+          t.setSeconds(proj.timestamp.seconds);
+          query = query.startAt(t);
+          this.pages[this.page] = {
+            startAt: proj
+          };
+        } else if (!forward && this.page > 0) {
+          const page = this.pages[this.page];
+          const startAt = new Date(1970, 0, 1);
+          startAt.setSeconds(page.startAt.timestamp.seconds - 1);
+          query = query.startAt(startAt);
+        }
       }
     }
 
     this.clear();
 
-    const result = await query.get();
+    const result = await query.limit(this.size).get();
     const projects = result.docs.map((doc) => {
       const id = doc.ref.id;
       const data = doc.data();
@@ -256,17 +300,17 @@ export default class FilesPage extends Vue {
   onSorting (): void {
     this.page = 0;
     this.pages = {};
-    this.search(this.query, this.user.uid as string, false);
+    this.searchDebounced(this.query, this.user.uid as string, false);
   }
 
   prev (): void {
     this.page--;
-    this.search(this.query, this.user.uid as string, false);
+    this.searchDebounced(this.query, this.user.uid as string, false);
   }
 
   next (): void {
     this.page++;
-    this.search(this.query, this.user.uid as string, true);
+    this.searchDebounced(this.query, this.user.uid as string, true);
     window.scrollTo(0, 0);
   }
 }

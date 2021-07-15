@@ -85,6 +85,24 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
+          "fieldPath": "deleted",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "uid",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "title",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "graph",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
           "fieldPath": "nodes",
           "arrayConfig": "CONTAINS"
         },
