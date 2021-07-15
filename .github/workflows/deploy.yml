@@ -34,4 +34,4 @@ jobs:
       run: yarn test
     - name: Deploy to Firebase
       run: |
-        yarn deploy --token=${{ secrets.FIREBASE_TOKEN }}
+        yarn firebase:deploy --token=${{ secrets.FIREBASE_TOKEN }}

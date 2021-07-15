@@ -12,7 +12,8 @@
     "lint:fix": "yarn lint:js --fix",
     "test": "jest",
     "barrel": "node preprocess/barrel.mjs",
-    "firebase:serve": "firebase serve"
+    "firebase:serve": "firebase serve",
+    "firebase:deploy": "firebase deploy"
   },
   "dependencies": {
     "@jscad/csg": "^0.7.0",
