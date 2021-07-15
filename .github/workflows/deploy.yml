@@ -26,6 +26,11 @@ jobs:
         FIREBASE_ENV_FILE: ${{ secrets.FIREBASE_ENV_FILE }}
       run: |
         echo $FIREBASE_ENV_FILE | base64 --decode > .firebase.env.js
+    - name: Create .firebaserc file
+      env:
+        FIREBASE_RC_FILE: ${{ secrets.FIREBASE_RC_FILE }}
+      run: |
+        echo $FIREBASE_RC_FILE | base64 --decode > .firebaserc
     - name: Build
       run: npm run build
     - name: Generate
