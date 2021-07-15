@@ -2,7 +2,7 @@
   <div
     v-show="isVisible"
     ref="root"
-    class="position-absolute p-0 border box-shadow-medium bg-white"
+    class="position-absolute p-0 border box-shadow-medium color-bg-canvas"
     style="top: 0px; left: 0px;"
     @mousedown.stop="onMouseDown"
     @mouseup.stop="onMouseUp"
