@@ -93,11 +93,11 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
-import imgWhole from '~/assets/images/top/whole.png';
-import imgCreation from '~/assets/images/top/creation.gif';
-import imgCollaboration from '~/assets/images/top/collaboration.png';
-import imgMaterialization from '~/assets/images/top/materialization.jpg';
-import imgOpensource from '~/assets/images/top/opensource.png';
+import imgWhole from '~/assets/images/top/Whole.png';
+import imgCreation from '~/assets/images/top/Creation.gif';
+import imgCollaboration from '~/assets/images/top/Collaboration.png';
+import imgMaterialization from '~/assets/images/top/Materialization.jpg';
+import imgOpensource from '~/assets/images/top/Opensource.png';
 
 @Component({})
 export default class IndexPage extends Vue {
