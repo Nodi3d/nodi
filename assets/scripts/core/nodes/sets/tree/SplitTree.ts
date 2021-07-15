@@ -25,7 +25,7 @@ export default class SplitTree extends NodeBase {
     const tree = access.getDataTree(0);
     const masks = access.getDataList(1) as string[];
 
-    const { positive, negative } = tree.split(masks);
+    const { positive, negative } = tree.split(masks.slice());
     access.setDataTree(0, positive);
     access.setDataTree(1, negative);
   }

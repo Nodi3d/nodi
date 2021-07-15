@@ -2117,11 +2117,6 @@
   resolved "https://registry.yarnpkg.com/@types/d3-delaunay/-/d3-delaunay-6.0.0.tgz#c09953ac7e5460997f693d2d7bf3522e0d4a88e6"
   integrity sha512-iGm7ZaGLq11RK3e69VeMM6Oqj2SjKUB9Qhcyd1zIcqn2uE8w9GFB445yCY46NOQO3ByaNyktX1DK+Etz7ZaX+w==
 
-"@types/delaunator@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@types/delaunator/-/delaunator-3.0.0.tgz#217475640c604def83709f18f652bb372e3897ca"
-  integrity sha512-x8XXE/QqXUPafkqFXeJCQCq/S81IW/t49Nnhgx3yKmGwL89qFRxnXn5qtcil9GO3gVkjGy4SwgacOjCN1B6b7w==
-
 "@types/eslint@^7.2.6":
   version "7.28.0"
   resolved "https://registry.yarnpkg.com/@types/eslint/-/eslint-7.28.0.tgz#7e41f2481d301c68e14f483fe10b017753ce8d5a"
@@ -4611,7 +4606,7 @@ defu@^5.0.0:
   resolved "https://registry.yarnpkg.com/defu/-/defu-5.0.0.tgz#5768f0d402a555bfc4c267246b20f82ce8b5a10b"
   integrity sha512-VHg73EDeRXlu7oYWRmmrNp/nl7QkdXUxkQQKig0Zk8daNmm84AbGoC8Be6/VVLJEKxn12hR0UBmz8O+xQiAPKQ==
 
-delaunator@5, delaunator@^5.0.0:
+delaunator@5:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/delaunator/-/delaunator-5.0.0.tgz#60f052b28bd91c9b4566850ebf7756efe821d81b"
   integrity sha512-AyLvtyJdbv/U1GkiS6gUUzclRoAY4Gs75qkMygJJhU75LW4DNuSF2RMzpxs9jw9Oz1BobHjTdkG3zdP55VxAqw==

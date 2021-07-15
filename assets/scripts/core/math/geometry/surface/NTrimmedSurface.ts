@@ -1,10 +1,9 @@
 
-import Delaunator from 'delaunator';
-import { BufferAttribute, BufferGeometry, Vector3 } from 'three';
+import { Delaunay } from 'd3-delaunay';
+import { Vector3 } from 'three';
 
-import IClosedCurve, { isClosedCurve } from '../curve/IClosedCurve';
+import { isClosedCurve } from '../curve/IClosedCurve';
 import NCurve from '../curve/NCurve';
-import NLineCurve from '../curve/NLineCurve';
 import NPolylineCurve from '../curve/NPolylineCurve';
 import { TransformerType } from '../ITransformable';
 import NFace from '../mesh/NFace';
@@ -105,7 +104,7 @@ export default class NTrimmedSurface extends NSurface {
       ];
     });
 
-    const delaunay = Delaunator.from(p2d);
+    const delaunay = Delaunay.from(p2d);
     const triangles = delaunay.triangles;
 
     const faces = [];

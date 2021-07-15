@@ -8,7 +8,6 @@ module.exports = {
     '^~/(.*)$': '<rootDir>/$1',
     // '^vue$': 'vue/dist/vue.common.js'
     'three/examples/jsm/*': '<rootDir>/jest/MockModule.js',
-    delaunator: '<rootDir>/jest/MockModule.js',
     'd3-delaunay': '<rootDir>/jest/MockModule.js'
   },
   moduleFileExtensions: [

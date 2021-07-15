@@ -46,7 +46,7 @@ export default class NurbsCurve extends NodeBase {
   }
 
   public solve (access: DataAccess): void {
-    const points = access.getDataList(0) as NPoint[];
+    const points = (access.getDataList(0) as NPoint[]).slice();
     let degree = access.getData(1) as number;
     const periodic = access.getData(2) as boolean;
 
