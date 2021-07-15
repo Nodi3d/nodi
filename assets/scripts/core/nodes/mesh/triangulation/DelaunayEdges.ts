@@ -1,6 +1,5 @@
 
-import Delaunator from 'delaunator';
-import { Vector3 } from 'three';
+import { Delaunay } from 'd3-delaunay';
 import { AccessTypes } from '../../../data/AccessTypes';
 import DataAccess from '../../../data/DataAccess';
 import DataTree from '../../../data/DataTree';
@@ -54,7 +53,7 @@ export default class DelaunayEdges extends NodeBase {
       return [v.x, v.y];
     });
     if (p2d.length > 0) {
-      const delaunay = Delaunator.from(p2d);
+      const delaunay = Delaunay.from(p2d);
       const triangles = delaunay.triangles;
 
       for (let i = 0, n = triangles.length; i < n; i += 3) {
