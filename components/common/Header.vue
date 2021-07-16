@@ -9,13 +9,18 @@
           <img src="~/assets/images/logo/logo-blue-square.svg" style="height: 24px;">
         </router-link>
       </li>
-      <li class="">
+      <li>
         <router-link class="button no-underline px-3" to="/editor/">
           Editor
         </router-link>
       </li>
-      <li class="">
+      <li>
         <HelpMenu :dark="false" />
+      </li>
+      <li>
+        <a class="button no-underline px-3" href="https://nodi3d.github.io/docs/user/examples" target="blank">
+          Examples
+        </a>
       </li>
       <li class="mr-4 header__search ml-auto">
         <div class="d-flex flex-items-center">
