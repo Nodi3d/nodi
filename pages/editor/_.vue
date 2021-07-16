@@ -32,16 +32,21 @@
             @filedownload="onFileDownload"
           />
         </li>
-        <li class="">
+        <li>
           <EditMenu ref="EditMenu" :dark="true" />
         </li>
-        <li class="">
+        <li>
           <ViewMenu ref="ViewMenu" :dark="true" />
         </li>
-        <li class="">
+        <li>
           <HelpMenu :dark="true" />
         </li>
-        <li class="" style="margin-left: auto;">
+        <li class="d-flex flex-items-center dark-theme-hover" style="height: 100%;">
+          <a class="button no-underline px-3 color-text-white" href="https://nodi3d.github.io/docs/user/examples" target="blank">
+            Examples
+          </a>
+        </li>
+        <li style="margin-left: auto;">
           <UserMenu :dark="true" />
         </li>
       </ul>
