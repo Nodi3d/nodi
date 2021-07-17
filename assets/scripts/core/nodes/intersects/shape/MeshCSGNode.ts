@@ -1,20 +1,20 @@
-import { CSG } from '@jscad/csg';
+import { geometries, maths } from '@jscad/modeling';
 import NodeBase from '../../NodeBase';
 import NMesh from '../../../math/geometry/mesh/NMesh';
 import NFace from '../../../math/geometry/mesh/NFace';
 import NPoint from '../../../math/geometry/NPoint';
 
+// https://github.com/jscad/OpenJSCAD.org/tree/V2/packages/modeling/src
 export default abstract class MeshCSGNode extends NodeBase {
-  protected createMesh (solid: any): NMesh {
+  protected createMesh (solid: geometries.geom3.Geom3): NMesh {
     const mesh = new NMesh();
     let offset = 0;
 
     // https://gist.github.com/knee-cola/0a53b4e860b3c00ed6c9027c2206452c
-    solid.polygons.forEach((polygon: any) => {
+    solid.polygons.forEach((polygon: geometries.poly3.Poly3) => {
       const len = polygon.vertices.length;
-      polygon.vertices.forEach((v: any) => {
-        const p = v.pos;
-        mesh.vertices.push(new NPoint(p.x, p.y, p.z));
+      polygon.vertices.forEach((v) => {
+        mesh.vertices.push(new NPoint().fromArray(v));
       });
       for (let i = 2; i < len; i++) {
         mesh.faces.push(new NFace(offset, offset + i - 1, offset + i));
@@ -27,17 +27,17 @@ export default abstract class MeshCSGNode extends NodeBase {
     return mesh.computeFlatNormalsMesh();
   }
 
-  protected createSolid (mesh: NMesh): any {
-    const points: any[] = mesh.vertices.map((v) => {
-      return new CSG.Vector3D(v.x, v.y, v.z);
+  protected createSolid (mesh: NMesh): geometries.geom3.Geom3 {
+    const points: maths.vec3.Vec3[] = mesh.vertices.map((v) => {
+      return maths.vec3.fromValues(v.x, v.y, v.z);
     });
     const polygons = mesh.faces.map((f) => {
-      return new CSG.Polygon([
-        new CSG.Vertex(points[f.a]),
-        new CSG.Vertex(points[f.b]),
-        new CSG.Vertex(points[f.c])
+      return geometries.poly3.fromPoints([
+        points[f.a],
+        points[f.b],
+        points[f.c]
       ]);
     });
-    return CSG.fromPolygons(polygons);
+    return geometries.geom3.create(polygons);
   }
 }

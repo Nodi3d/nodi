@@ -1447,10 +1447,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@jscad/csg@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@jscad/csg/-/csg-0.7.0.tgz#a6b17e60cc88bbf81fd00024abb394e2ab42687f"
-  integrity sha512-v91oCgmGq2h8TJsxSv8EdcEzf+3K/U6JVPrprHqhU7+dfjfD/Nezz/AHKNZFQxQ++k/8xMpwZWt22MgDqygiVA==
+"@jscad/modeling@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.5.0.tgz#8da7de4f271f86ab5d87b565b54054c7ff656bb5"
+  integrity sha512-lFPbCfsY5yeN/vvgAe+1a95LUdrHT1HtoVieQdbVMF1SdcjvpSbXWcvEJNokHLZZAq0AP+678uPyx0KsCoH2GA==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
