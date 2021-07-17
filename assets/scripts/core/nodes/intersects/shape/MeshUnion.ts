@@ -1,3 +1,4 @@
+import { union } from '@jscad/modeling/src/operations/booleans';
 import { AccessTypes } from '../../../data/AccessTypes';
 import DataAccess from '../../../data/DataAccess';
 import { DataTypes } from '../../../data/DataTypes';
@@ -25,7 +26,7 @@ export default class MeshUnion extends MeshCSGNode {
     let source = this.createSolid(meshes[0]);
     for (let i = 1, n = meshes.length; i < n; i++) {
       const other = this.createSolid(meshes[i]);
-      source = source.union(other);
+      source = union([source, other]);
     }
 
     const result = this.createMesh(source);

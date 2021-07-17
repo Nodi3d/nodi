@@ -1,3 +1,4 @@
+import { subtract } from '@jscad/modeling/src/operations/booleans';
 import { AccessTypes } from '../../../data/AccessTypes';
 import DataAccess from '../../../data/DataAccess';
 import { DataTypes } from '../../../data/DataTypes';
@@ -27,7 +28,7 @@ export default class MeshDifference extends MeshCSGNode {
     let source = this.createSolid(a);
     for (let i = 0, n = b.length; i < n; i++) {
       const other = this.createSolid(b[i]);
-      source = source.subtract(other);
+      source = subtract([source, other]);
     }
 
     const result = this.createMesh(source);

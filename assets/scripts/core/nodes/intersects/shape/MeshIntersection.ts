@@ -1,3 +1,4 @@
+import { intersect } from '@jscad/modeling/src/operations/booleans';
 import { AccessTypes } from '../../../data/AccessTypes';
 import DataAccess from '../../../data/DataAccess';
 import { DataTypes } from '../../../data/DataTypes';
@@ -27,7 +28,7 @@ export default class MeshIntersection extends MeshCSGNode {
     let source = this.createSolid(a);
     for (let i = 0, n = b.length; i < n; i++) {
       const other = this.createSolid(b[i]);
-      source = source.intersect(other);
+      source = intersect([source, other]);
     }
 
     const result = this.createMesh(source);
