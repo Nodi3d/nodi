@@ -39,7 +39,6 @@
     "nuxt-typed-vuex": "^0.2.0",
     "sass": "1.32.12",
     "sass-loader": "^10.2.0",
-    "strict-event-emitter-types": "^2.0.0",
     "three": "^0.130.1",
     "timeago.js": "^4.0.2",
     "uuid": "^8.3.1",
