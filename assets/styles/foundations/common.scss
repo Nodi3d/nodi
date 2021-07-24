@@ -71,7 +71,7 @@ input, select, button {
   }
 }
 
-$breakpoint-size: 760px;
+$breakpoint-size: 860px;
 
 @mixin max-screen($break-point) {
   @media screen and (max-width: $break-point) {

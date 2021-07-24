@@ -240,17 +240,18 @@ $link-button-padding: 20px 0px;
       box-sizing: border-box;
       margin: 0px auto 80px auto;
 
+      div.text, img, .img {
+        flex-shrink: 0;
+      }
+
       img, .img {
         border-radius: 4px;
-        flex-shrink: 0;
-        width: 420px;
+        height: 100%;
       }
 
       div.text {
         box-sizing: border-box;
-        flex-shrink: 0;
         display: block;
-        width: 420px;
         text-align: left;
 
         a.link--button {
@@ -312,6 +313,10 @@ $link-button-padding: 20px 0px;
 
         &:first-child {
           margin-top: 40px;
+        }
+
+        div.text, img, .img {
+          width: 420px;
         }
 
         div.text {
