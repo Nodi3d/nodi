@@ -123,7 +123,7 @@ export default class NPlane implements ITransformable, ICopyable {
     const dx = this.xAxis.clone().applyQuaternion(R);
     const dy = this.yAxis.clone().applyQuaternion(R);
     const normal = this.normal.clone().applyQuaternion(R);
-    return new NPlane(this.origin.clone().add(T), dx, dy, normal);
+    return new NPlane(this.origin.clone().applyMatrix(m), dx, dy, normal);
   }
 
   public transform (f: TransformerType): NPlane {
@@ -133,6 +133,7 @@ export default class NPlane implements ITransformable, ICopyable {
 
     const transformedOrigin = plane.origin = f(plane.origin);
 
+    plane.origin.copy(transformedOrigin);
     plane.normal = f(origin.clone().add(plane.normal)).sub(transformedOrigin).normalize();
     plane.xAxis = f(origin.clone().add(plane.xAxis)).sub(transformedOrigin).normalize();
     plane.yAxis = f(origin.clone().add(plane.yAxis)).sub(transformedOrigin).normalize();
