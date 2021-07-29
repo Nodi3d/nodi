@@ -16,13 +16,18 @@ class DAGNode {
   }
 
   connect (to: DAGNode) {
-    this.next.push(to.uuid);
-    to.prev.push(this.uuid);
+    if (to.uuid === this.uuid) { return; }
+    if (!this.next.includes(to.uuid)) {
+      this.next.push(to.uuid);
+    }
+    if (!to.prev.includes(this.uuid)) {
+      to.prev.push(this.uuid);
+    }
   }
 }
 
 export default class DirectedAcyclicGraph {
-  nodes: DAGNode[] = [];
+  private nodes: { [index: string]: DAGNode } = {};
   hierarchy: { [index: number]: NodeBase[] } = {};
 
   constructor (jsons: NodeJSONType[], entities: NodeBase[]) {
@@ -51,16 +56,14 @@ export default class DirectedAcyclicGraph {
   }
 
   findNode (uuid: string, entity: NodeBase): DAGNode {
-    let found = this.nodes.find(n => n.uuid === uuid);
-    if (found === undefined) {
-      found = new DAGNode(entity);
-      this.nodes.push(found);
+    if (!(uuid in this.nodes)) {
+      this.nodes[uuid] = new DAGNode(entity);
     }
-    return found;
+    return this.nodes[uuid];
   }
 
   align () {
-    const roots = this.nodes.filter((n) => {
+    const roots = Object.values(this.nodes).filter((n) => {
       return (n.prev.length <= 0);
     });
 
@@ -78,8 +81,7 @@ export default class DirectedAcyclicGraph {
         */
         n.index = index;
         n.next.forEach((uuid) => {
-          const child = this.nodes.find(n => n.uuid === uuid);
-          // let child = this.findNode(uuid);
+          const child = this.nodes[uuid];
           if (child !== undefined && !next.includes(child)) {
             next.push(child);
           }
@@ -91,7 +93,7 @@ export default class DirectedAcyclicGraph {
   }
 
   construct () {
-    this.nodes.forEach((node) => {
+    Object.values(this.nodes).forEach((node) => {
       if (!(node.index in this.hierarchy)) {
         this.hierarchy[node.index] = [];
       }
