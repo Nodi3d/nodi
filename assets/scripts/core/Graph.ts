@@ -280,7 +280,7 @@ export default class Graph implements IDisposable {
             const found = jsons.find(json => json.uuid === con.uuid);
             if (found === undefined) {
               const srcNode = this.nodes.find(other => (other.uuid === con.uuid));
-              if (srcNode !== undefined) {
+              if (srcNode !== undefined && srcNode !== target) {
                 this.connectIO(srcNode, con.index, target, dstI);
               }
             }
@@ -290,7 +290,7 @@ export default class Graph implements IDisposable {
         json.outputs.forEach((output, srcO) => {
           output.connections.forEach((con) => {
             const dst = candidates.find(cand => cand.uuid === con.uuid);
-            if (dst !== undefined) {
+            if (dst !== undefined && target !== dst) {
               this.connectIO(target, srcO, dst, con.index);
             }
           });
