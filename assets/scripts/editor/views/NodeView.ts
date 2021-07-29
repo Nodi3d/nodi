@@ -317,9 +317,10 @@ export default class NodeView extends View {
     ) {
       return false;
     }
-    const node = edge.getIOView().getIO().getParent();
-    if (node === undefined) { return false; }
-    return !node.isConnected(this.getNode(), !isDestination) && io.match(edge.getIOView());
+    const node = this.getNode();
+    const target = edge.getIOView().getIO().getParent();
+    if (target === undefined || target === node) { return false; }
+    return !target.isConnected(node, !isDestination) && io.match(edge.getIOView());
   }
 
   public isConnected (other: NodeView, toInputDirection: boolean): boolean {

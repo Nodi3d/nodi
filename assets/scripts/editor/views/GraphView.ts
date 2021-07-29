@@ -209,13 +209,14 @@ export default class GraphView extends View {
 
     const io = edge.getIOView().getIO();
     const graph = this.graph.deref();
-    const parent = graph?.getParentNode(io);
+    const parent = graph?.getParentNode(io) as NodeBase;
     if (io instanceof Input) {
       this.nodes.forEach((nv) => {
-        const ncon = !nv.getNode().isConnected(parent as NodeBase, true);
+        const n = nv.getNode();
+        const ncon = !n.isConnected(parent, true);
         nv.inputs.forEach(iv => iv.highlight(false));
         nv.outputs.forEach((iv) => {
-          const connectable = ncon && iv.getIO().match(io);
+          const connectable = parent !== n && ncon && iv.getIO().match(io);
           iv.highlight(connectable);
           if (connectable) {
             this.connectableIOViews.push({ node: nv, io: iv });
@@ -224,9 +225,10 @@ export default class GraphView extends View {
       });
     } else if (io instanceof Output) {
       this.nodes.forEach((nv) => {
-        const ncon = !nv.getNode().isConnected(parent as NodeBase, false);
+        const n = nv.getNode();
+        const ncon = !n.isConnected(parent, false);
         nv.inputs.forEach((iv) => {
-          const connectable = ncon && iv.getIO().match(io);
+          const connectable = parent !== n && ncon && iv.getIO().match(io);
           iv.highlight(connectable);
           if (connectable) {
             this.connectableIOViews.push({ node: nv, io: iv });
