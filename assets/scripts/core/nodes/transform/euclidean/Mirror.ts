@@ -43,13 +43,13 @@ export default class Mirror extends NodeBase {
   private getMirrorMatrix (plane: NPlane) {
     const center = plane.origin;
     const m = new Matrix4();
-    const add = (new Matrix4()).makeTranslation(center.x, center.y, center.z);
+    const T = (new Matrix4()).makeTranslation(center.x, center.y, center.z);
     const scale = plane.xAxis.clone().add(plane.yAxis).add(plane.normal.clone().multiplyScalar(-1));
     const sz = (new Matrix4()).makeScale(scale.x, scale.y, scale.z);
-    const sub = (new Matrix4()).makeTranslation(-center.x, -center.y, -center.z);
-    m.multiply(add);
+    const IT = (new Matrix4()).makeTranslation(-center.x, -center.y, -center.z);
+    m.multiply(T);
     m.multiply(sz);
-    m.multiply(sub);
+    m.multiply(IT);
     return m;
   }
 }

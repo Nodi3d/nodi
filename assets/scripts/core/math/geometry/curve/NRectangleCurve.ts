@@ -38,9 +38,9 @@ export default class NRectangleCurve extends NPlaneCurve implements IClosedCurve
     return this.plane.origin.clone().add(dx).add(dy);
   }
 
+  /*
   public transform (f: TransformerType): NRectangleCurve {
     const plane = this.plane.transform(f);
-
     const origin = f(this.plane.origin.clone());
     const px = f(this.plane.origin.clone().add(this.plane.xAxis));
     const py = f(this.plane.origin.clone().add(this.plane.yAxis));
@@ -48,16 +48,40 @@ export default class NRectangleCurve extends NPlaneCurve implements IClosedCurve
     const sy = py.distanceTo(origin);
     return new NRectangleCurve(plane, this.x.multiply(sx), this.y.multiply(sy));
   }
+  */
+
+  public transform (f: TransformerType): NRectangleCurve {
+    const plane = this.plane.transform(f);
+    const xmin = f(this.plane.origin.clone().add(this.plane.xAxis.clone().multiplyScalar(this.x.min)));
+    const xmax = f(this.plane.origin.clone().add(this.plane.xAxis.clone().multiplyScalar(this.x.max)));
+    const ymin = f(this.plane.origin.clone().add(this.plane.yAxis.clone().multiplyScalar(this.y.min)));
+    const ymax = f(this.plane.origin.clone().add(this.plane.yAxis.clone().multiplyScalar(this.y.max)));
+    return this.transformed(plane, xmin, xmax, ymin, ymax);
+  }
 
   public applyMatrix (m: Matrix4): NRectangleCurve {
     const plane = this.plane.applyMatrix(m);
+    const xmin = this.plane.origin.clone().add(this.plane.xAxis.clone().multiplyScalar(this.x.min)).applyMatrix4(m);
+    const xmax = this.plane.origin.clone().add(this.plane.xAxis.clone().multiplyScalar(this.x.max)).applyMatrix4(m);
+    const ymin = this.plane.origin.clone().add(this.plane.yAxis.clone().multiplyScalar(this.y.min)).applyMatrix4(m);
+    const ymax = this.plane.origin.clone().add(this.plane.yAxis.clone().multiplyScalar(this.y.max)).applyMatrix4(m);
+    return this.transformed(plane, xmin, xmax, ymin, ymax);
+  }
 
-    const origin = this.plane.origin.clone().applyMatrix4(m);
-    const px = this.plane.origin.clone().add(this.plane.xAxis).applyMatrix4(m);
-    const py = this.plane.origin.clone().add(this.plane.yAxis).applyMatrix4(m);
-    const sx = px.distanceTo(origin);
-    const sy = py.distanceTo(origin);
-    return new NRectangleCurve(plane, this.x.multiply(sx), this.y.multiply(sy));
+  private transformed (plane: NPlane, xmin: NPoint, xmax: NPoint, ymin: NPoint, ymax: NPoint): NRectangleCurve {
+    xmin = xmin.sub(plane.origin);
+    xmax = xmax.sub(plane.origin);
+    ymin = ymin.sub(plane.origin);
+    ymax = ymax.sub(plane.origin);
+    const dx0 = plane.xAxis.dot(xmin);
+    const dx1 = plane.xAxis.dot(xmax);
+    const dy0 = plane.yAxis.dot(ymin);
+    const dy1 = plane.yAxis.dot(ymax);
+    return new NRectangleCurve(
+      plane,
+      new NDomain(dx0, dx1),
+      new NDomain(dy0, dy1)
+    );
   }
 
   public getPointAt (t: number): NPoint {
