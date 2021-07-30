@@ -38,18 +38,6 @@ export default class NRectangleCurve extends NPlaneCurve implements IClosedCurve
     return this.plane.origin.clone().add(dx).add(dy);
   }
 
-  /*
-  public transform (f: TransformerType): NRectangleCurve {
-    const plane = this.plane.transform(f);
-    const origin = f(this.plane.origin.clone());
-    const px = f(this.plane.origin.clone().add(this.plane.xAxis));
-    const py = f(this.plane.origin.clone().add(this.plane.yAxis));
-    const sx = px.distanceTo(origin);
-    const sy = py.distanceTo(origin);
-    return new NRectangleCurve(plane, this.x.multiply(sx), this.y.multiply(sy));
-  }
-  */
-
   public transform (f: TransformerType): NRectangleCurve {
     const plane = this.plane.transform(f);
     const xmin = f(this.plane.origin.clone().add(this.plane.xAxis.clone().multiplyScalar(this.x.min)));
