@@ -14,7 +14,7 @@ import NPoint from '../../../math/geometry/NPoint';
 import Helper from '../../../math/Helper';
 import NodeBase from '../../NodeBase';
 
-export default class FilletAtParameter extends NodeBase {
+export default class Fillet extends NodeBase {
   get displayName (): string {
     return 'Fillet';
   }
