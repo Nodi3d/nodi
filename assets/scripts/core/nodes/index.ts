@@ -46,6 +46,21 @@ import GltfExporter from './exporter/GltfExporter';
 import ObjExporter from './exporter/ObjExporter';
 import PlyExporter from './exporter/PlyExporter';
 import StlExporter from './exporter/StlExporter';
+import FrepDifference from './frep/blend/FrepDifference';
+import FrepIntersection from './frep/blend/FrepIntersection';
+import FrepSmoothUnion from './frep/blend/FrepSmoothUnion';
+import FrepUnion from './frep/blend/FrepUnion';
+import FBox from './frep/primitives/FBox';
+import FCapsule from './frep/primitives/FCapsule';
+import FCone from './frep/primitives/FCone';
+import FCylinder from './frep/primitives/FCylinder';
+import FSphere from './frep/primitives/FSphere';
+import TPMSDiamond from './frep/tpms/TPMSDiamond';
+import TPMSFischerKoch from './frep/tpms/TPMSFischerKoch';
+import TPMSGyroid from './frep/tpms/TPMSGyroid';
+import TPMSLidinoid from './frep/tpms/TPMSLidinoid';
+import TPMSSchwarzP from './frep/tpms/TPMSSchwarzP';
+import FrepRound from './frep/utils/FrepRound';
 import CurveImporter from './importer/CurveImporter';
 import MeshImporter from './importer/MeshImporter';
 import Contour from './intersects/math/Contour';
@@ -281,6 +296,21 @@ const Nodes = {
   ObjExporter,
   PlyExporter,
   StlExporter,
+  FrepDifference,
+  FrepIntersection,
+  FrepSmoothUnion,
+  FrepUnion,
+  FBox,
+  FCapsule,
+  FCone,
+  FCylinder,
+  FSphere,
+  TPMSDiamond,
+  TPMSFischerKoch,
+  TPMSGyroid,
+  TPMSLidinoid,
+  TPMSSchwarzP,
+  FrepRound,
   CurveImporter,
   MeshImporter,
   Contour,
@@ -518,6 +548,21 @@ const NodeDictionary: { [index: string]: { name:string; entity: NodeConstructorT
   'exporter/ObjExporter': { name: 'ObjExporter', entity: ObjExporter },
   'exporter/PlyExporter': { name: 'PlyExporter', entity: PlyExporter },
   'exporter/StlExporter': { name: 'StlExporter', entity: StlExporter },
+  'frep/blend/FrepDifference': { name: 'FrepDifference', entity: FrepDifference },
+  'frep/blend/FrepIntersection': { name: 'FrepIntersection', entity: FrepIntersection },
+  'frep/blend/FrepSmoothUnion': { name: 'FrepSmoothUnion', entity: FrepSmoothUnion },
+  'frep/blend/FrepUnion': { name: 'FrepUnion', entity: FrepUnion },
+  'frep/primitives/FBox': { name: 'FBox', entity: FBox },
+  'frep/primitives/FCapsule': { name: 'FCapsule', entity: FCapsule },
+  'frep/primitives/FCone': { name: 'FCone', entity: FCone },
+  'frep/primitives/FCylinder': { name: 'FCylinder', entity: FCylinder },
+  'frep/primitives/FSphere': { name: 'FSphere', entity: FSphere },
+  'frep/tpms/TPMSDiamond': { name: 'TPMSDiamond', entity: TPMSDiamond },
+  'frep/tpms/TPMSFischerKoch': { name: 'TPMSFischerKoch', entity: TPMSFischerKoch },
+  'frep/tpms/TPMSGyroid': { name: 'TPMSGyroid', entity: TPMSGyroid },
+  'frep/tpms/TPMSLidinoid': { name: 'TPMSLidinoid', entity: TPMSLidinoid },
+  'frep/tpms/TPMSSchwarzP': { name: 'TPMSSchwarzP', entity: TPMSSchwarzP },
+  'frep/utils/FrepRound': { name: 'FrepRound', entity: FrepRound },
   'importer/CurveImporter': { name: 'CurveImporter', entity: CurveImporter },
   'importer/MeshImporter': { name: 'MeshImporter', entity: MeshImporter },
   'intersects/math/Contour': { name: 'Contour', entity: Contour },
