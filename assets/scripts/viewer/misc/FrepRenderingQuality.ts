@@ -1,7 +1,7 @@
 
 export enum FrepRenderingQuality {
-  Low,
-  Normal,
-  High,
-  Ultra
+  Low = 16,
+  Normal = 32,
+  High = 64,
+  Ultra = 128,
 }

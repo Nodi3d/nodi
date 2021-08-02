@@ -16,7 +16,7 @@ export enum DataTypes {
   MESH = 1 << 13,
   GROUP = 1 << 15,
   COMPLEX = 1 << 16,
-  // FREP = 1 << 17,
+  FREP = 1 << 17,
   ANY = ~0
 }
 

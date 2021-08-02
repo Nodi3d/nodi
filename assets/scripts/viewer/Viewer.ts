@@ -39,6 +39,7 @@ import NVBox from './elements/NVBox';
 import { isRenderingModeResponsible } from './misc/IRenderingModeResponsible';
 import { CoordinateMode } from './misc/CoordinateMode';
 import NVPointTransformControls from './elements/NVPointTransformControls';
+import RaymarchingPass from './RaymarchingPass';
 
 const minZoomScale = 1 / 2;
 const maxZoomScale = 25;
@@ -63,6 +64,7 @@ export default class Viewer implements IDisposable {
   });
 
   private composer: EffectComposer;
+  private pass!: RaymarchingPass;
 
   private coordinate: CoordinateMode = CoordinateMode.ZUp;
   private scene: Scene = new Scene();
@@ -126,7 +128,7 @@ export default class Viewer implements IDisposable {
     this.cameraControls = this.createCameraControls(minZoomScale, maxZoomScale);
 
     this.composer = new EffectComposer(this.renderer);
-    this.setupComposer(this.composer, this.scene, this.camera);
+    this.setupComposer(this.composer, this.scene, this.camera, this.ambient.color);
 
     const gridGeometry = new GridGeometry(100, 1);
     this.xzGrid = new GridGroup(gridGeometry);
@@ -157,15 +159,13 @@ export default class Viewer implements IDisposable {
     this.observer.observe(this.el);
   }
 
-  private setupComposer (composer: EffectComposer, scene: Scene, camera: Camera): void {
+  private setupComposer (composer: EffectComposer, scene: Scene, camera: Camera, ambient: Color): void {
     composer.addPass(new RenderPass(scene, camera));
-    /*
-    this.pass = new RaymarchingPass(this.scene, this.camera, this.cubeMap)
-    this.pass.materialRaymarching.uniforms.ambient.value = ambientColor
-    this.pass.materialRaymarching.uniforms.lightDir.value = this.light.position.clone().normalize()
+    this.pass = new RaymarchingPass(this.scene, this.camera, this.cubeMap);
+    this.pass.materialRaymarching.uniforms.ambient.value = ambient;
+    this.pass.materialRaymarching.uniforms.lightDir.value = this.light.position.clone().normalize();
     this.pass.enabled = false // disable by default
     this.composer.addPass(this.pass);
-    */
   }
 
   private setupGrid (): void {
@@ -437,7 +437,6 @@ export default class Viewer implements IDisposable {
     });
 
     this.renderer.setClearColor(0xFFFFFF, 1);
-    // this.renderer.setClearColor(0xffffff, this.pass.enabled ? 0 : 1);
     this.composer.render();
   }
 
@@ -446,7 +445,7 @@ export default class Viewer implements IDisposable {
     const w = nr.width; const h = nr.height;
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(w, h);
-    // this.composer.setSize(w, h);
+    this.composer.setSize(w, h);
 
     this.camera.left = -w / this.factor;
     this.camera.right = w / this.factor;
@@ -464,11 +463,11 @@ export default class Viewer implements IDisposable {
         o.setRenderingMode(mode);
       }
     });
-    // this.pass.materialRaymarching.uniforms.isNormal.value = (mode !== RenderingMode.Standard)
+    this.pass.materialRaymarching.uniforms.isNormal.value = (mode !== RenderingMode.Standard);
   }
 
-  public setRenderingQuality (_iterations: number): void {
-    // this.pass.setIterations(iterations)
+  public setRenderingQuality (iterations: number): void {
+    this.pass.setIterations(iterations);
   }
 
   private setResolutions (): void {
