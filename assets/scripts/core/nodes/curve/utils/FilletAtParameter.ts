@@ -7,6 +7,7 @@ import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
 import NCurve from '../../../math/geometry/curve/NCurve';
 import NPolylineCurve from '../../../math/geometry/curve/NPolylineCurve';
+import NRectangleCurve from '../../../math/geometry/curve/NRectangleCurve';
 import { concatFilletPoints, getCornerFilletPoints } from '../../../math/geometry/FilletCurveHelper';
 import NPoint from '../../../math/geometry/NPoint';
 import NodeBase from '../../NodeBase';
@@ -33,15 +34,18 @@ export default class FilletAtParameter extends NodeBase {
     const radius = access.getData(2) as number;
     const resolution = access.getData(3) as number;
 
-    if (!(curve instanceof NPolylineCurve)) {
-      throw new TypeError('Fillet only accepts Polyline Curve');
+    if (
+      !(curve instanceof NPolylineCurve) &&
+      !(curve instanceof NRectangleCurve)
+    ) {
+      throw new TypeError('Fillet only accepts Polyline & Rectangle curve');
     }
 
     const result = this.applyFillet(curve, parameter, radius, resolution);
     access.setData(0, result);
   }
 
-  private applyFillet (curve: NPolylineCurve, parameter: number, radius: number, resolution: number): NPolylineCurve {
+  private applyFillet (curve: NPolylineCurve | NRectangleCurve, parameter: number, radius: number, resolution: number): NCurve {
     const point = curve.getPointAt(parameter);
     const points = curve.points;
 

@@ -2,6 +2,7 @@ import { Vector3 } from 'three';
 import { TWO_PI } from '../Constant';
 import Helper from '../Helper';
 import NPolylineCurve from './curve/NPolylineCurve';
+import NRectangleCurve from './curve/NRectangleCurve';
 import NPoint from './NPoint';
 
 const findContactPoint = function (start: Vector3, dir: Vector3, dm: Vector3, radius: number, limit: number = 0.5) {
@@ -76,7 +77,7 @@ const concatFilletPoints = function (sequence: NPoint[], points: NPoint[]): NPoi
   return sequence.concat(points);
 };
 
-const getFilletedPoints = function (curve: NPolylineCurve, radius: number, resolution: number): NPoint[] {
+const getFilletedPoints = function (curve: NPolylineCurve | NRectangleCurve, radius: number, resolution: number): NPoint[] {
   let sequence: NPoint[] = [];
 
   const points = curve.points;
