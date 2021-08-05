@@ -8,7 +8,7 @@ import IDisposable from '../core/misc/IDisposable';
 
 import NodeBase from '../core/nodes/NodeBase';
 import Output from '../core/io/Output';
-import { GeometryDataTypes } from '../core/data/DataTypes';
+import { DataTypes, GeometryDataTypes } from '../core/data/DataTypes';
 import NCurve from '../core/math/geometry/curve/NCurve';
 import NPolylineCurve from '../core/math/geometry/curve/NPolylineCurve';
 import NNurbsCurve from '../core/math/geometry/curve/NNurbsCurve';
@@ -40,6 +40,8 @@ import { isRenderingModeResponsible } from './misc/IRenderingModeResponsible';
 import { CoordinateMode } from './misc/CoordinateMode';
 import NVPointTransformControls from './elements/NVPointTransformControls';
 import RaymarchingPass from './RaymarchingPass';
+import FrepNodeBase from '../core/nodes/frep/FrepNodeBase';
+import FrepBase from '../core/math/frep/FrepBase';
 
 const minZoomScale = 1 / 2;
 const maxZoomScale = 25;
@@ -95,6 +97,7 @@ export default class Viewer implements IDisposable {
   private tweens: TweenGroup = new TweenGroup();
 
   private elements: IElementable[] = [];
+  private freps: FrepBase[] = [];
   private listeners: { listener: IDisposable; node: NodeBase; } [] = [];
 
   constructor (root: HTMLElement) {
@@ -196,6 +199,7 @@ export default class Viewer implements IDisposable {
     cameraControls.enableKeys = false;
     cameraControls.addEventListener('change', (_e) => {
       this.light.position.copy(this.camera.position);
+      this.pass.materialRaymarching.uniforms.lightDir.value = this.light.position.clone().normalize();
 
       this.setResolutions();
       this.triggerViewChange();
@@ -337,7 +341,32 @@ export default class Viewer implements IDisposable {
       node.markUnchanged();
     }
 
+    this.updateFreps(nodes.filter(n => n instanceof FrepNodeBase));
+
     this.computeBoundingBox();
+  }
+
+  private updateFreps(nodes: FrepNodeBase[]): void {
+    this.freps = [];
+    nodes.forEach((node) => {
+      const n = node.outputManager.getIOCount();
+      for (let i = 0; i < n; i++) {
+        const output = node.outputManager.getOutput(i) as Output;
+        if ((output.getDataType() & DataTypes.FREP) !== 0) {
+          output.getData()?.traverse((el: FrepBase) => {
+            this.freps.push(el);
+          });
+        }
+      }
+    });
+    this.pass.update(this.freps);
+
+    const enabled = this.freps.length > 0;
+    const prev = this.pass.enabled;
+    this.pass.enabled = enabled;
+    if (prev !== enabled) {
+      // this.emit('hasfrepchanged', enabled)
+    }
   }
 
   private process (node: NodeBase): void {

@@ -36,7 +36,7 @@ const Colors: { [index: string]: string } = Object.freeze({
   BOX: 'rgb(178, 121, 162)',
   MESH: 'rgb(255, 157, 166)',
   FACE: 'rgb(255, 157, 166)',
-  // FREP: 'rgb(252, 205, 229)',
+  FREP: 'rgb(252, 205, 229)',
   GROUP: 'rgb(204, 204, 204)',
   ANY: 'rgb(204, 204, 204)'
 });

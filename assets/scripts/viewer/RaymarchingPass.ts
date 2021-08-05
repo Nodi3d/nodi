@@ -41,23 +41,6 @@ export default class RaymarchingPass extends Pass {
     this.materialDepth.depthPacking = RGBADepthPacking;
     this.materialDepth.blending = NoBlending;
 
-    const src = new Matrix4();
-    src.identity();
-
-    const tr = (new Matrix4()).makeTranslation(2, 0, 0);
-    const q = new Quaternion();
-    q.setFromAxisAngle(new Vector3(1, 0, 0), Math.PI * 0.5);
-    const rot = (new Matrix4()).makeRotationFromQuaternion(q);
-    const scale = (new Matrix4()).makeScale(2, 2, 2);
-
-    src.multiply(tr);
-    src.multiply(rot);
-    src.multiply(scale);
-
-    const m = new Matrix4();
-    m.getInverse(src);
-
-    const isPerspective = (camera instanceof PerspectiveCamera);
     this.materialRaymarching = new ShaderMaterial({
       defines: {
         ITERATIONS: FrepRenderingQuality.Normal,
@@ -65,7 +48,7 @@ export default class RaymarchingPass extends Pass {
         DEPTH_PACKING: 1,
         // "DEPTH_TEST": 0,
         DEPTH_TEST: 1,
-        PERSPECTIVE_CAMERA: isPerspective ? 1 : 0,
+        PERSPECTIVE_CAMERA: 0,
         EXISTS_SCENE: 0,
         SCENE_CODE: ''
       },
