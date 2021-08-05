@@ -794,7 +794,6 @@ export default class EditorPage extends Vue {
 <style lang="scss" scoped>
 
 .nodi-container {
-
   &.dragging:before {
     content: "";
     display: block;
@@ -827,7 +826,60 @@ export default class EditorPage extends Vue {
     pointer-events: none;
     z-index: 101;
   }
+}
 
+.nodi-container ::v-deep .nodi-editor {
+  z-index: 1;
+}
+
+.nodi-container ::v-deep .resizer {
+  z-index: 100;
+}
+
+.nodi-container ::v-deep .nodi-viewer {
+  z-index: 0;
+}
+
+.step-indicator ::v-deep svg {
+  width: 22px;
+}
+
+.resizer {
+  width: 2px;
+  background-color: #ccc;
+
+  .handle {
+    z-index: 1;
+    width: 6px;
+    transform: translate(-3px);
+    cursor: col-resize;
+  }
+}
+
+.switcher {
+  $switcher-width: 24px;
+  width: $switcher-width;
+  background-color: #eee;
+  overflow: visible;
+
+  .handle {
+    width: $switcher-width;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    align-content: center;
+
+    svg {
+      width: $switcher-width;
+    }
+
+    &:not(.editor) {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
 }
 
 </style>
@@ -835,9 +887,5 @@ export default class EditorPage extends Vue {
 <style lang="scss">
 
 @import "@/assets/styles/editor.scss";
-
-.step-indicator > svg {
-  width: 22px;
-}
 
 </style>
