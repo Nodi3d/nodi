@@ -187,7 +187,7 @@ export default class RaymarchingPass extends Pass {
     renderer.autoClear = oldAutoClear;
   }
 
-  public setIterations (iterations: FrepRenderingQuality) {
+  public setIterations (iterations: number) {
     this.materialRaymarching.defines.ITERATIONS = iterations;
     this.materialRaymarching.needsUpdate = true;
   }
