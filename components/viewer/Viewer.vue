@@ -107,7 +107,7 @@ export default class ViewerComponent extends Vue {
     fullscreen: false
   };
 
-  qualities = {};
+  qualities = FrepRenderingQuality;
   renderings = Object.values(RenderingMode).filter(k => typeof (k) === 'string');
   openGUI: boolean = false;
   uiItems: UIListItem[] = [];
@@ -130,6 +130,9 @@ export default class ViewerComponent extends Vue {
     });
     viewer.onBoundingBoxChanged.on((size) => {
       this.boundingBox.copy(size);
+    });
+    viewer.onFrepChanged.on((hasFrep) => {
+      this.hasFrep = hasFrep;
     });
     viewer.setRenderingMode(this.operators.rendering);
     viewer.setGrid(this.operators.grid);
@@ -267,7 +270,7 @@ export default class ViewerComponent extends Vue {
   }
 
   onRenderingQuality () {
-    // viewer.setRenderingQuality(this.operators.quality)
+    viewer.setRenderingQuality(this.operators.quality);
   }
 
   onRenderingMode () {
