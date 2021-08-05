@@ -7,12 +7,10 @@ export default abstract class FrepBase {
   public abstract compile(p: string): string;
 
   public serialize (): string {
-    const code = this.compile('p');
-    return code;
+    return this.compile('p');
   }
 
-  // plane domain conversion
   public worldMinMaxToBoundingBox (minX: number, minY: number, minZ: number, maxX: number, maxY: number, maxZ: number) {
-    return new NBoundingBox(new NPlane(), new NDomain(minX, maxX), new NDomain(minZ, maxZ), new NDomain(-maxY, -minY));
+    return new NBoundingBox(new NPlane(), new NDomain(minX, maxX), new NDomain(minY, maxY), new NDomain(minZ, maxZ));
   }
 }

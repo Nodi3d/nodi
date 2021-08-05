@@ -2,6 +2,7 @@ import { Camera, Color, DoubleSide, Matrix4, MeshDepthMaterial, NearestFilter, N
 import { FullScreenQuad, Pass } from 'three/examples/jsm/postprocessing/Pass';
 import FrepBase from '../core/math/frep/FrepBase';
 import FrepNodeBase from '../core/nodes/frep/FrepNodeBase';
+import NVFrep from './elements/NVFrep';
 import { FrepRenderingQuality } from './misc/FrepRenderingQuality';
 
 import QuadVertexShader from './shaders/raymarching/quad.vert';
@@ -91,7 +92,7 @@ export default class RaymarchingPass extends Pass {
     this.oldClearColor = new Color();
   }
 
-  update (nodes: FrepBase[]) {
+  update (nodes: NVFrep[]) {
     // update scene
     const codes = nodes.map(n => n.compile('p'));
 

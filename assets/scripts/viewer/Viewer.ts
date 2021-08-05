@@ -24,6 +24,8 @@ import Point from '../core/nodes/vector/point/Point';
 import DataTree from '../core/data/DataTree';
 import NLineCurve from '../core/math/geometry/curve/NLineCurve';
 import NRectangleCurve from '../core/math/geometry/curve/NRectangleCurve';
+import FrepNodeBase from '../core/nodes/frep/FrepNodeBase';
+import FrepBase from '../core/math/frep/FrepBase';
 import IResolutionResponsible, { isResolutionResponsible } from './misc/IResolutionResponsible';
 import GradientCubeTexture from './misc/GradientCubeTexture';
 import { RenderingMode } from './misc/RenderingMode';
@@ -40,8 +42,7 @@ import { isRenderingModeResponsible } from './misc/IRenderingModeResponsible';
 import { CoordinateMode } from './misc/CoordinateMode';
 import NVPointTransformControls from './elements/NVPointTransformControls';
 import RaymarchingPass from './RaymarchingPass';
-import FrepNodeBase from '../core/nodes/frep/FrepNodeBase';
-import FrepBase from '../core/math/frep/FrepBase';
+import NVFrep from './elements/NVFrep';
 
 const minZoomScale = 1 / 2;
 const maxZoomScale = 25;
@@ -53,8 +54,9 @@ type ControlPivot = {
 };
 
 export default class Viewer implements IDisposable {
-  public onViewChanged: TypedEvent<OrthographicCamera> = new TypedEvent<OrthographicCamera>();
-  public onBoundingBoxChanged: TypedEvent<Vector3> = new TypedEvent<Vector3>();
+  public onViewChanged: TypedEvent<OrthographicCamera> = new TypedEvent();
+  public onBoundingBoxChanged: TypedEvent<Vector3> = new TypedEvent();
+  public onFrepChanged: TypedEvent<boolean> = new TypedEvent();
 
   private el: HTMLElement;
   private observer: ResizeObserver;
@@ -73,8 +75,8 @@ export default class Viewer implements IDisposable {
   private container: Group = new Group();
   private renderingMode: RenderingMode = RenderingMode.Standard;
   private cubeMap: GradientCubeTexture = new GradientCubeTexture();
-  private ambient: AmbientLight;
-  private light: DirectionalLight;
+  private ambient: AmbientLight = new AmbientLight(new Color(0x808080));
+  private light: DirectionalLight = new DirectionalLight(0xFFFFFF, 0.8);
   public camera: OrthographicCamera;
   private cameraControls: OrbitControls;
   private controlPivot: ControlPivot = {
@@ -87,7 +89,7 @@ export default class Viewer implements IDisposable {
   private near: number = 0.1;
   private far: number = 100;
 
-  private boundingBox: BoundingBoxLineSegment;
+  private boundingBox: BoundingBoxLineSegment = new BoundingBoxLineSegment();
   private axes: Axes = new Axes(1000, new Color(0xFF2B56), new Color(0x109151), new Color(0x428DFF));
   private gridContainer: Group = new Group();
   private xzGrid: GridGroup;
@@ -97,7 +99,7 @@ export default class Viewer implements IDisposable {
   private tweens: TweenGroup = new TweenGroup();
 
   private elements: IElementable[] = [];
-  private freps: FrepBase[] = [];
+  private freps: NVFrep[] = [];
   private listeners: { listener: IDisposable; node: NodeBase; } [] = [];
 
   constructor (root: HTMLElement) {
@@ -112,16 +114,12 @@ export default class Viewer implements IDisposable {
     this.renderer.localClippingEnabled = true;
     this.el.appendChild(this.renderer.domElement);
 
-    this.ambient = new AmbientLight(new Color(0x808080));
-    this.light = new DirectionalLight(0xFFFFFF, 0.8);
-    // this.light.position.set(20, 50, -50);
     this.light.position.set(-20, -50, 50);
 
     this.scene.add(this.ambient);
     this.scene.add(this.light);
 
     this.scene.add(this.container);
-    this.boundingBox = new BoundingBoxLineSegment();
     this.scene.add(this.boundingBox);
 
     this.camera = new OrthographicCamera(w / -this.factor, w / this.factor, h / this.factor, h / -this.factor, this.near, this.far);
@@ -167,7 +165,7 @@ export default class Viewer implements IDisposable {
     this.pass = new RaymarchingPass(this.scene, this.camera, this.cubeMap);
     this.pass.materialRaymarching.uniforms.ambient.value = ambient;
     this.pass.materialRaymarching.uniforms.lightDir.value = this.light.position.clone().normalize();
-    this.pass.enabled = false // disable by default
+    this.pass.enabled = false; // disable by default
     this.composer.addPass(this.pass);
   }
 
@@ -341,20 +339,33 @@ export default class Viewer implements IDisposable {
       node.markUnchanged();
     }
 
-    this.updateFreps(nodes.filter(n => n instanceof FrepNodeBase));
+    const freps = nodes.filter(n => n instanceof FrepNodeBase);
+    this.listeners.push(
+      ...freps.map((node) => {
+        return {
+          listener: node.onStateChanged.on(() => {
+            this.updateFreps(freps);
+            this.computeBoundingBox();
+          }),
+          node
+        };
+      })
+    );
+    this.updateFreps(freps);
 
     this.computeBoundingBox();
   }
 
-  private updateFreps(nodes: FrepNodeBase[]): void {
+  private updateFreps (nodes: FrepNodeBase[]): void {
     this.freps = [];
-    nodes.forEach((node) => {
+
+    nodes.filter(n => n.visible && n.enabled).forEach((node) => {
       const n = node.outputManager.getIOCount();
       for (let i = 0; i < n; i++) {
         const output = node.outputManager.getOutput(i) as Output;
         if ((output.getDataType() & DataTypes.FREP) !== 0) {
           output.getData()?.traverse((el: FrepBase) => {
-            this.freps.push(el);
+            this.freps.push(new NVFrep(el));
           });
         }
       }
@@ -365,7 +376,7 @@ export default class Viewer implements IDisposable {
     const prev = this.pass.enabled;
     this.pass.enabled = enabled;
     if (prev !== enabled) {
-      // this.emit('hasfrepchanged', enabled)
+      this.onFrepChanged.emit(enabled);
     }
   }
 
@@ -629,29 +640,25 @@ export default class Viewer implements IDisposable {
   private computeBoundingBox (): Box3 {
     const box = new Box3();
 
-    /*
-    this.freps.forEach(frep => {
-      const fb = frep.boundingBox
+    this.freps.forEach((frep) => {
+      const fb = frep.entity.boundingBox;
       if (fb !== undefined) {
-        const minmax = fb.getMinMax()
-        box.min.x = Math.min(box.min.x, minmax.min.x)
-        box.min.y = Math.min(box.min.y, minmax.min.y)
-        box.min.z = Math.min(box.min.z, minmax.min.z)
-        box.max.x = Math.max(box.max.x, minmax.max.x)
-        box.max.y = Math.max(box.max.y, minmax.max.y)
-        box.max.z = Math.max(box.max.z, minmax.max.z)
+        const minmax = fb.getMinMax();
+        box.min.x = Math.min(box.min.x, minmax.min.x);
+        box.min.y = Math.min(box.min.y, minmax.min.y);
+        box.min.z = Math.min(box.min.z, minmax.min.z);
+        box.max.x = Math.max(box.max.x, minmax.max.x);
+        box.max.y = Math.max(box.max.y, minmax.max.y);
+        box.max.z = Math.max(box.max.z, minmax.max.z);
       }
-    })
+    });
 
-    let size = new Vector3()
-    box.getSize(size)
+    const size = new Vector3();
+    box.getSize(size);
 
     // Use frep bounding box as adaptive eps in raymarching
-    const s = Math.max(size.x, size.y, size.z)
-    this.pass.materialRaymarching.uniforms.threshold.value = (s <= 0) ? 1e-5 : (s * 1e-3)
-    // console.log('threshold', s, this.pass.materialRaymarching.uniforms.threshold.value)
-    // console.log(s, this.camera.position)
-    */
+    const s = Math.max(size.x, size.y, size.z);
+    this.pass.materialRaymarching.uniforms.threshold.value = (s <= 0) ? 1e-5 : (s * 1e-3);
 
     this.container.traverse((object) => {
       if (object.visible && object.parent === this.container) {
@@ -664,7 +671,6 @@ export default class Viewer implements IDisposable {
 
     this.onBoundingBoxChanged.emit(this.boundingBox.displaySize);
 
-    const size = new Vector3();
     box.getSize(size);
     if (size.length() > 0) {
       const forward = new Vector3();

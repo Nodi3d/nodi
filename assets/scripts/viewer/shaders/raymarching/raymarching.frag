@@ -268,6 +268,9 @@ void main() {
     if(flag) break;
   }
 
+  // gl_FragColor = texture2D(tDepth, vUv);
+  // return;
+
   vec4 diffuse = texture2D(tDiffuse, vUv);
   if(flag) {
 #if DEPTH_TEST == 1

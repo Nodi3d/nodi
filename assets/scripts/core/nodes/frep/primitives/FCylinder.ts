@@ -40,8 +40,8 @@ export default class FCylinder extends FrepNodeBase {
     const bb = new NBoundingBox(
       plane,
       new NDomain(-r, r),
-      new NDomain(-r, r),
-      new NDomain(-h * 0.5, h * 0.5)
+      new NDomain(-h * 0.5, h * 0.5),
+      new NDomain(-r, r)
     );
     const shape = new FrepShape(f, bb);
     const frep = new FrepTransform(shape, v);
