@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { Easing, Tween, Group as TweenGroup } from '@tweenjs/tween.js';
+import { debounce, DebouncedFunc } from 'lodash';
 import IDisposable from '../core/misc/IDisposable';
 
 import NodeBase from '../core/nodes/NodeBase';
@@ -94,6 +95,7 @@ export default class Viewer implements IDisposable {
 
   private elements: IElementable[] = [];
   private listeners: { listener: IDisposable; node: NodeBase; } [] = [];
+  private debouncedComputeBoundingBox: DebouncedFunc<() => Box3> = debounce(this.computeBoundingBox);
 
   constructor (root: HTMLElement) {
     this.el = root;
@@ -285,13 +287,45 @@ export default class Viewer implements IDisposable {
     return elements;
   }
 
-  private clearChanged (nodes: NodeBase[]): void {
+  private clearUnrefChangedElements (nodes: NodeBase[]): void {
     const elements = this.elements;
     for (let i = elements.length - 1; i >= 0; i--) {
       const element = elements[i];
       const found = nodes.find(n => n.uuid === element.node);
       if (found === undefined || found.hasChanged()) {
         this.destroy(element);
+      }
+    }
+  }
+
+  private clearRefElements (node: NodeBase) {
+    const elements = this.elements;
+    for (let i = elements.length - 1; i >= 0; i--) {
+      const element = elements[i];
+      if (element.node === node.uuid) {
+        this.destroy(element);
+      }
+    }
+  }
+
+  private clearUnrefListeners (nodes: NodeBase[]): void {
+    // clear event listeners
+    for (let i = this.listeners.length - 1; i >= 0; i--) {
+      const l = this.listeners[i];
+      if (!nodes.includes(l.node)) {
+        l.listener.dispose();
+        this.listeners.splice(i, 1);
+      }
+    }
+  }
+
+  private clearRefListeners (node: NodeBase): void {
+    // clear event listeners related to changed node
+    for (let j = this.listeners.length - 1; j >= 0; j--) {
+      const l = this.listeners[j];
+      if (l.node === node) {
+        l.listener.dispose();
+        this.listeners.splice(j, 1);
       }
     }
   }
@@ -304,40 +338,35 @@ export default class Viewer implements IDisposable {
   public update (nodes: NodeBase[]): void {
     const enabled = nodes.filter(n => n.enabled && n.previewable);
 
-    this.clearChanged(enabled);
+    this.clearUnrefChangedElements(enabled);
+    this.clearUnrefListeners(enabled);
 
     for (let i = 0, n = enabled.length; i < n; i++) {
       const node = enabled[i];
 
       if (!node.hasChanged()) { continue; }
 
-      // clear event listeners related to changed node
-      for (let j = this.listeners.length - 1; j >= 0; j--) {
-        const l = this.listeners[j];
-        if (l.node === node) {
-          l.listener.dispose();
-          this.listeners.splice(j, 1);
-        }
-      }
+      this.clearRefListeners(node);
 
       if (node.visible) {
         this.process(node);
-      } else {
-        const listener = node.onStateChanged.on((e) => {
-          if (e.node.visible) {
-            this.process(node);
-            listener.dispose();
-          }
-        });
-        this.listeners.push({
-          listener, node
-        });
       }
+      const listener = node.onStateChanged.on((e) => {
+        if (e.node.visible) {
+          this.process(node);
+        } else {
+          this.clearRefElements(node);
+        }
+        this.debouncedComputeBoundingBox();
+      });
+      this.listeners.push({
+        listener, node
+      });
 
       node.markUnchanged();
     }
 
-    this.computeBoundingBox();
+    this.debouncedComputeBoundingBox();
   }
 
   private process (node: NodeBase): void {
