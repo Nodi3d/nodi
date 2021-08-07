@@ -20,7 +20,7 @@ export enum DataTypes {
   ANY = ~0
 }
 
-const GeometryDataTypes: DataTypes = DataTypes.POINT | DataTypes.PLANE | DataTypes.CURVE | DataTypes.SURFACE | DataTypes.BOX | DataTypes.MESH; // | DataTypes.FREP;
+const GeometryDataTypes: DataTypes = DataTypes.POINT | DataTypes.PLANE | DataTypes.CURVE | DataTypes.SURFACE | DataTypes.BOX | DataTypes.MESH | DataTypes.FREP;
 
 const Colors: { [index: string]: string } = Object.freeze({
   STRING: 'rgb(228, 87, 86)',

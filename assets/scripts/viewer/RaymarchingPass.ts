@@ -92,9 +92,8 @@ export default class RaymarchingPass extends Pass {
     this.oldClearColor = new Color();
   }
 
-  update (nodes: NVFrep[]) {
-    // update scene
-    const codes = nodes.map(n => n.compile('p'));
+  public update (freps: NVFrep[]): void {
+    const codes = freps.filter(n => n.visible).map(n => n.compile('p'));
 
     const defines = this.materialRaymarching.defines;
     const n = codes.length;

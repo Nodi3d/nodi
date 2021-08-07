@@ -4,8 +4,8 @@ import DataTree from '../../../data/DataTree';
 import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
+import FrepMatrix from '../../../math/frep/FrepMatrix';
 import FrepShape from '../../../math/frep/FrepShape';
-import FrepTransform from '../../../math/frep/FrepTransform';
 import { NBoundingBox, NPlane, NPoint } from '../../../math/geometry';
 import { NDomain } from '../../../math/primitive';
 import FrepNodeBase from '../FrepNodeBase';
@@ -46,7 +46,7 @@ export default class FBox extends FrepNodeBase {
       new NDomain(-d * 0.5, d * 0.5)
     );
     const shape = new FrepShape(f, bb);
-    const tr = new FrepTransform(shape, v);
+    const tr = FrepMatrix.create(shape, v);
     access.setData(0, tr);
   }
 }

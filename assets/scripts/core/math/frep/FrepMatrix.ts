@@ -1,4 +1,5 @@
 import { Matrix4, Quaternion, Vector3 } from 'three';
+import ITransformable, { TransformerType } from '../geometry/ITransformable';
 import FrepBase from './FrepBase';
 import FrepFilter from './FrepFilter';
 
@@ -13,11 +14,36 @@ export default class FrepMatrix extends FrepBase {
     this.boundingBox = this.frep.boundingBox.applyMatrix(this.matrix);
   }
 
+  public static create (frep: FrepBase, position: Vector3 = new Vector3(0, 0, 0), rotation: Quaternion = new Quaternion(), scale: Vector3 = new Vector3(1, 1, 1)): FrepMatrix {
+    const T = (new Matrix4()).makeTranslation(position.x, position.y, position.z);
+    const R = (new Matrix4()).makeRotationFromQuaternion(rotation);
+    const S = (new Matrix4()).makeScale(scale.x, scale.y, scale.z);
+    const m = new Matrix4();
+    m.multiply(T);
+    m.multiply(R);
+    m.multiply(S);
+    return new FrepMatrix(frep, m);
+  }
+
+  applyMatrix (matrix: Matrix4): ITransformable {
+    return new FrepMatrix(this, matrix);
+  }
+
+  transform (f: TransformerType): ITransformable {
+    throw new Error('Method not implemented.');
+  }
+
   public compile (p: string = 'p'): string {
     const position = new Vector3();
     const rotation = new Quaternion();
     const scale = new Vector3();
+    const u = new Vector3(1, 1, 1);
+
     this.matrix.decompose(position, rotation, scale);
+
+    if (position.length() === 0 && rotation.equals(new Quaternion().identity()) && scale.equals(u)) {
+      return this.frep.compile(p);
+    }
 
     if (scale.x === 1.0 || scale.y === 1.0 || scale.z === 1.0) {
       const inversed = this.matrix.clone().invert();
@@ -31,11 +57,11 @@ export default class FrepMatrix extends FrepBase {
       return `${distance} * ${factor.toFixed(2)}`;
     };
     const filter = new FrepFilter(code, this.frep, this.boundingBox);
-    const m = new Matrix4();
     const T = new Matrix4();
     T.makeTranslation(position.x, position.y, position.z);
     const R = new Matrix4();
     R.makeRotationFromQuaternion(rotation);
+    const m = new Matrix4();
     m.multiply(T);
     m.multiply(R);
     const inversed = m.invert();

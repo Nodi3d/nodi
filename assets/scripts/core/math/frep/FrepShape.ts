@@ -1,7 +1,7 @@
 import { NBoundingBox } from '../geometry';
-import FrepBase from './FrepBase';
+import Frep from './Frep';
 
-export default class FrepShape extends FrepBase {
+export default class FrepShape extends Frep {
   protected code: (p: string) => string;
 
   constructor (code: (p: string) => string, boundingBox: NBoundingBox) {
