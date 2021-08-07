@@ -291,12 +291,44 @@ export default class Viewer implements IDisposable {
     return elements;
   }
 
-  private clearElement (node: NodeBase) {
+  private clearUnrefChangedElements (nodes: NodeBase[]): void {
     const elements = this.elements;
     for (let i = elements.length - 1; i >= 0; i--) {
       const element = elements[i];
       if (element.node === node.uuid) {
         this.destroy(element);
+      }
+    }
+  }
+
+  private clearRefElements (node: NodeBase) {
+    const elements = this.elements;
+    for (let i = elements.length - 1; i >= 0; i--) {
+      const element = elements[i];
+      if (element.node === node.uuid) {
+        this.destroy(element);
+      }
+    }
+  }
+
+  private clearUnrefListeners (nodes: NodeBase[]): void {
+    // clear event listeners
+    for (let i = this.listeners.length - 1; i >= 0; i--) {
+      const l = this.listeners[i];
+      if (!nodes.includes(l.node)) {
+        l.listener.dispose();
+        this.listeners.splice(i, 1);
+      }
+    }
+  }
+
+  private clearRefListeners (node: NodeBase): void {
+    // clear event listeners related to changed node
+    for (let j = this.listeners.length - 1; j >= 0; j--) {
+      const l = this.listeners[j];
+      if (l.node === node) {
+        l.listener.dispose();
+        this.listeners.splice(j, 1);
       }
     }
   }
@@ -309,48 +341,25 @@ export default class Viewer implements IDisposable {
   public update (nodes: NodeBase[]): void {
     const enabled = nodes.filter(n => n.enabled && n.previewable);
 
-    const elements = this.elements;
-    for (let i = elements.length - 1; i >= 0; i--) {
-      const element = elements[i];
-      const found = nodes.find(n => n.uuid === element.node);
-      if (found === undefined || found.hasChanged()) {
-        this.destroy(element);
-      }
-    }
-
-    // clear event listeners
-    for (let i = this.listeners.length - 1; i >= 0; i--) {
-      const l = this.listeners[i];
-      if (!enabled.includes(l.node)) {
-        l.listener.dispose();
-        this.listeners.splice(i, 1);
-      }
-    }
+    this.clearUnrefChangedElements(enabled);
+    this.clearUnrefListeners(enabled);
 
     for (let i = 0, n = enabled.length; i < n; i++) {
       const node = enabled[i];
 
       if (!node.hasChanged()) { continue; }
 
-      // clear event listeners related to changed node
-      for (let j = this.listeners.length - 1; j >= 0; j--) {
-        const l = this.listeners[j];
-        if (l.node === node) {
-          l.listener.dispose();
-          this.listeners.splice(j, 1);
-        }
-      }
+      this.clearRefListeners(node);
 
       if (node.visible) {
         this.process(node);
-      } 
+      }
       const listener = node.onStateChanged.on((e) => {
         if (e.node.visible) {
-          this.process(e.node);
+          this.process(node);
         } else {
-          this.clearElement(e.node);
+          this.clearRefElements(node);
         }
-        this.updateFrep();
         this.debouncedComputeBoundingBox();
       });
       this.listeners.push({

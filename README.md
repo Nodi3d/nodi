@@ -21,7 +21,7 @@ The following libraries are that Nodi mainly depends on.
 ## Contributing
 
 - If you want to add, update, translate, or modify the [documentation](https://nodi3d.github.io/docs), please check the docs repository. [repository](https://github.com/Nodi3d/docs)
-- If you want to submit a bug report or have a general question about how use Nodi, then please start a conversation at the [forum](forum.nodi3d.com).
+- If you want to submit a bug report or have a general question about how use Nodi, then please start a conversation at the [forum](https://forum.nodi3d.com).
 - If you want to submit a change or a patch, please create a fork via Github. Once you have made the modifications, make sure that the all tests pass, and then please send a pull request. [guide](https://nodi3d.github.io/docs/developer/guide)
 
 ## Author
