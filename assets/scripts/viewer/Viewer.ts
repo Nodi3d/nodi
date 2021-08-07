@@ -281,6 +281,8 @@ export default class Viewer implements IDisposable {
         elements.push(this.plane(value));
       } else if (value instanceof NBoundingBox) {
         elements.push(this.box(value));
+      } else if (value instanceof FrepBase) {
+        elements.push(new NVFrep(value));
       }
     });
 
@@ -288,11 +290,26 @@ export default class Viewer implements IDisposable {
   }
 
   private clearChanged (nodes: NodeBase[]): void {
+    nodes.filter(n => n.hasChanged()).forEach((n) => {
+      this.clearElement(n);
+    });
+  }
+
+  private clearIsolated (nodes: NodeBase[]): void {
     const elements = this.elements;
     for (let i = elements.length - 1; i >= 0; i--) {
       const element = elements[i];
-      const found = nodes.find(n => n.uuid === element.node);
-      if (found === undefined || found.hasChanged()) {
+      if (!nodes.some(n => n.uuid === element.node)) {
+        this.destroy(element);
+      }
+    }
+  }
+
+  private clearElement (node: NodeBase) {
+    const elements = this.elements;
+    for (let i = elements.length - 1; i >= 0; i--) {
+      const element = elements[i];
+      if (element.node === node.uuid) {
         this.destroy(element);
       }
     }
@@ -306,7 +323,28 @@ export default class Viewer implements IDisposable {
   public update (nodes: NodeBase[]): void {
     const enabled = nodes.filter(n => n.enabled && n.previewable);
 
+    const elements = this.elements;
+    for (let i = elements.length - 1; i >= 0; i--) {
+      const element = elements[i];
+      const found = nodes.find(n => n.uuid === element.node);
+      if (found === undefined || found.hasChanged()) {
+        this.destroy(element);
+      }
+    }
+
+    /*
     this.clearChanged(enabled);
+    this.clearIsolated(enabled);
+
+    // clear event listeners
+    for (let i = this.listeners.length - 1; i >= 0; i--) {
+      const l = this.listeners[i];
+      if (!enabled.includes(l.node)) {
+        l.listener.dispose();
+        this.listeners.splice(i, 1);
+      }
+    }
+    */
 
     for (let i = 0, n = enabled.length; i < n; i++) {
       const node = enabled[i];
@@ -327,9 +365,13 @@ export default class Viewer implements IDisposable {
       } else {
         const listener = node.onStateChanged.on((e) => {
           if (e.node.visible) {
-            this.process(node);
+            this.process(e.node);
             listener.dispose();
+          } else {
+            // this.clearElement(e.node);
           }
+          // this.updateFrep();
+          this.computeBoundingBox();
         });
         this.listeners.push({
           listener, node
@@ -339,57 +381,21 @@ export default class Viewer implements IDisposable {
       node.markUnchanged();
     }
 
-    const freps = nodes.filter(n => n instanceof FrepNodeBase);
-    this.listeners.push(
-      ...freps.map((node) => {
-        return {
-          listener: node.onStateChanged.on(() => {
-            this.updateFreps(freps);
-            this.computeBoundingBox();
-          }),
-          node
-        };
-      })
-    );
-    this.updateFreps(freps);
-
+    // this.updateFrep();
     this.computeBoundingBox();
-  }
-
-  private updateFreps (nodes: FrepNodeBase[]): void {
-    this.freps = [];
-
-    nodes.filter(n => n.visible && n.enabled).forEach((node) => {
-      const n = node.outputManager.getIOCount();
-      for (let i = 0; i < n; i++) {
-        const output = node.outputManager.getOutput(i) as Output;
-        if ((output.getDataType() & DataTypes.FREP) !== 0) {
-          output.getData()?.traverse((el: FrepBase) => {
-            this.freps.push(new NVFrep(el));
-          });
-        }
-      }
-    });
-    this.pass.update(this.freps);
-
-    const enabled = this.freps.length > 0;
-    const prev = this.pass.enabled;
-    this.pass.enabled = enabled;
-    if (prev !== enabled) {
-      this.onFrepChanged.emit(enabled);
-    }
   }
 
   private process (node: NodeBase): void {
     const n = node.outputManager.getIOCount();
 
-    let elements: IElementable[] = [];
+    const elements: IElementable[] = [];
 
     for (let i = 0; i < n; i++) {
       const output = node.outputManager.getOutput(i) as Output;
-      if ((output.getDataType() & GeometryDataTypes) !== 0) {
+      const type = output.getDataType();
+      if ((type & GeometryDataTypes) !== 0) {
         const el = this.generate(output);
-        elements = elements.concat(el);
+        elements.push(...el);
       }
     }
 
@@ -418,7 +424,7 @@ export default class Viewer implements IDisposable {
 
     if (isDisplayNode(node)) {
       const el = node.display();
-      elements = elements.concat(el);
+      elements.push(...el);
     }
 
     elements.forEach((el) => {
@@ -427,6 +433,22 @@ export default class Viewer implements IDisposable {
       this.elements.push(el);
       if (isResolutionResponsible(el)) { this.setResolution(el); }
     });
+  }
+
+  private updateFrep (): void {
+    this.freps = this.container.children.filter(o => (o instanceof NVFrep)) as NVFrep[];
+    const visibles = this.freps.filter(o => o.visible);
+    this.updateFrepPass(visibles);
+  }
+
+  private updateFrepPass (freps: NVFrep[]): void {
+    this.pass.update(freps);
+    const enabled = freps.length > 0;
+    const prev = this.pass.enabled;
+    this.pass.enabled = enabled;
+    if (prev !== enabled) {
+      this.onFrepChanged.emit(enabled);
+    }
   }
 
   private attach (node: Point, el: Object3D): NVPointTransformControls {
@@ -642,7 +664,7 @@ export default class Viewer implements IDisposable {
 
     this.freps.forEach((frep) => {
       const fb = frep.entity.boundingBox;
-      if (fb !== undefined) {
+      if (frep.visible && fb !== undefined) {
         const minmax = fb.getMinMax();
         box.min.x = Math.min(box.min.x, minmax.min.x);
         box.min.y = Math.min(box.min.y, minmax.min.y);
