@@ -291,22 +291,6 @@ export default class Viewer implements IDisposable {
     return elements;
   }
 
-  private clearChanged (nodes: NodeBase[]): void {
-    nodes.filter(n => n.hasChanged()).forEach((n) => {
-      this.clearElement(n);
-    });
-  }
-
-  private clearIsolated (nodes: NodeBase[]): void {
-    const elements = this.elements;
-    for (let i = elements.length - 1; i >= 0; i--) {
-      const element = elements[i];
-      if (!nodes.some(n => n.uuid === element.node)) {
-        this.destroy(element);
-      }
-    }
-  }
-
   private clearElement (node: NodeBase) {
     const elements = this.elements;
     for (let i = elements.length - 1; i >= 0; i--) {
@@ -334,10 +318,6 @@ export default class Viewer implements IDisposable {
       }
     }
 
-    /*
-    this.clearChanged(enabled);
-    this.clearIsolated(enabled);
-
     // clear event listeners
     for (let i = this.listeners.length - 1; i >= 0; i--) {
       const l = this.listeners[i];
@@ -346,7 +326,6 @@ export default class Viewer implements IDisposable {
         this.listeners.splice(i, 1);
       }
     }
-    */
 
     for (let i = 0, n = enabled.length; i < n; i++) {
       const node = enabled[i];
@@ -364,26 +343,24 @@ export default class Viewer implements IDisposable {
 
       if (node.visible) {
         this.process(node);
-      } else {
-        const listener = node.onStateChanged.on((e) => {
-          if (e.node.visible) {
-            this.process(e.node);
-            listener.dispose();
-          } else {
-            // this.clearElement(e.node);
-          }
-          // this.updateFrep();
-          this.debouncedComputeBoundingBox();
-        });
-        this.listeners.push({
-          listener, node
-        });
-      }
+      } 
+      const listener = node.onStateChanged.on((e) => {
+        if (e.node.visible) {
+          this.process(e.node);
+        } else {
+          this.clearElement(e.node);
+        }
+        this.updateFrep();
+        this.debouncedComputeBoundingBox();
+      });
+      this.listeners.push({
+        listener, node
+      });
 
       node.markUnchanged();
     }
 
-    // this.updateFrep();
+    this.updateFrep();
     this.debouncedComputeBoundingBox();
   }
 
