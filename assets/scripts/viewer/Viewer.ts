@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { Easing, Tween, Group as TweenGroup } from '@tweenjs/tween.js';
+import { debounce, DebouncedFunc } from 'lodash';
 import IDisposable from '../core/misc/IDisposable';
 
 import NodeBase from '../core/nodes/NodeBase';
@@ -101,7 +102,7 @@ export default class Viewer implements IDisposable {
   private elements: IElementable[] = [];
   private freps: NVFrep[] = [];
   private listeners: { listener: IDisposable; node: NodeBase; } [] = [];
-  private computeBoundingBoxTimeout?: number;
+  private debouncedComputeBoundingBox: DebouncedFunc<() => Box3> = debounce(this.computeBoundingBox);
 
   constructor (root: HTMLElement) {
     this.el = root;
@@ -372,7 +373,7 @@ export default class Viewer implements IDisposable {
             // this.clearElement(e.node);
           }
           // this.updateFrep();
-          this.computeBoundingBoxDebounced();
+          this.debouncedComputeBoundingBox();
         });
         this.listeners.push({
           listener, node
@@ -383,7 +384,7 @@ export default class Viewer implements IDisposable {
     }
 
     // this.updateFrep();
-    this.computeBoundingBoxDebounced();
+    this.debouncedComputeBoundingBox();
   }
 
   private process (node: NodeBase): void {
@@ -658,13 +659,6 @@ export default class Viewer implements IDisposable {
     if (object.visible && !(object instanceof NVPointTransformControls)) {
       box.expandByObject(object);
     }
-  }
-
-  private computeBoundingBoxDebounced (): void {
-    if (this.computeBoundingBoxTimeout !== undefined) {
-      clearTimeout(this.computeBoundingBoxTimeout);
-    }
-    this.computeBoundingBoxTimeout = window.setTimeout(this.computeBoundingBox.bind(this), 100);
   }
 
   private computeBoundingBox (): Box3 {
