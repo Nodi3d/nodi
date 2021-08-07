@@ -101,6 +101,7 @@ export default class Viewer implements IDisposable {
   private elements: IElementable[] = [];
   private freps: NVFrep[] = [];
   private listeners: { listener: IDisposable; node: NodeBase; } [] = [];
+  private computeBoundingBoxTimeout?: number;
 
   constructor (root: HTMLElement) {
     this.el = root;
@@ -371,7 +372,7 @@ export default class Viewer implements IDisposable {
             // this.clearElement(e.node);
           }
           // this.updateFrep();
-          this.computeBoundingBox();
+          this.computeBoundingBoxDebounced();
         });
         this.listeners.push({
           listener, node
@@ -382,7 +383,7 @@ export default class Viewer implements IDisposable {
     }
 
     // this.updateFrep();
-    this.computeBoundingBox();
+    this.computeBoundingBoxDebounced();
   }
 
   private process (node: NodeBase): void {
@@ -657,6 +658,13 @@ export default class Viewer implements IDisposable {
     if (object.visible && !(object instanceof NVPointTransformControls)) {
       box.expandByObject(object);
     }
+  }
+
+  private computeBoundingBoxDebounced (): void {
+    if (this.computeBoundingBoxTimeout !== undefined) {
+      clearTimeout(this.computeBoundingBoxTimeout);
+    }
+    this.computeBoundingBoxTimeout = window.setTimeout(this.computeBoundingBox.bind(this), 100);
   }
 
   private computeBoundingBox (): Box3 {
