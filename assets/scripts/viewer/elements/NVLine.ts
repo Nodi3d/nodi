@@ -14,11 +14,15 @@ export default class NVLine extends Line2 implements IElementable, IResolutionRe
 
   constructor (points: Vector3[], color: number = 0xFF0000) {
     const geom = new LineGeometry();
-    const positions: number[] = [];
-    points.forEach((el) => {
-      positions.push(el.x, el.y, el.z);
-    });
-    geom.setPositions(positions);
+
+    if (points.length > 0) {
+      const positions: number[] = [];
+      points.forEach((el) => {
+        positions.push(el.x, el.y, el.z);
+      });
+      geom.setPositions(positions);
+    }
+
     const material = new LineMaterial({
       color,
       linewidth: 1.5,

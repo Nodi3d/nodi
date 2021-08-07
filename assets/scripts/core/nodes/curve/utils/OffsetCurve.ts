@@ -69,7 +69,7 @@ export default class OffsetCurve extends NodeBase {
         const y = ip.Y / precision;
         const dx = plane.xAxis.clone().multiplyScalar(x);
         const dy = plane.yAxis.clone().multiplyScalar(y);
-        return dx.add(dy).add(plane.origin);
+        return plane.origin.clone().add(dx).add(dy);
       });
 
       if (projected.length > 0) {
