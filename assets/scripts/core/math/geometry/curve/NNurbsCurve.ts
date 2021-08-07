@@ -38,8 +38,8 @@ export default class NNurbsCurve extends NCurve {
     return t as number;
   }
 
-  public tessellate (): Vector3[] {
-    return this.verb.tessellate().map((p: number[]) => new Vector3(p[0], p[1], p[2]));
+  public tessellate (): NPoint[] {
+    return this.verb.tessellate().map((p: number[]) => new NPoint(p[0], p[1], p[2]));
   }
 
   public controlPoints (): Vector4[] {

@@ -233,22 +233,27 @@ export default class Viewer implements IDisposable {
   }
 
   private curve (curve: NCurve): IElementable {
-    let points = [];
+    let points: NPoint[] = [];
 
-    if (curve instanceof NPolylineCurve) {
-      points = curve.points.map(p => p.clone());
-      if (curve.closed && points.length > 0) {
-        points.push(points[0].clone());
+    try {
+      if (curve instanceof NPolylineCurve) {
+        points = curve.points.map(p => p.clone());
+        if (curve.closed && points.length > 0) {
+          points.push(points[0].clone());
+        }
+      } else if (curve instanceof NLineCurve) {
+        points = [curve.a, curve.b];
+      } else if (curve instanceof NNurbsCurve) {
+        points = curve.tessellate();
+      } else if (curve instanceof NRectangleCurve) {
+        points = curve.getCornerPoints();
+        points.push(points[0]);
+      } else {
+        points = curve.getPoints(30);
       }
-    } else if (curve instanceof NLineCurve) {
-      points = [curve.a, curve.b];
-    } else if (curve instanceof NNurbsCurve) {
-      points = curve.tessellate();
-    } else if (curve instanceof NRectangleCurve) {
-      points = curve.getCornerPoints();
-      points.push(points[0]);
-    } else {
-      points = curve.getPoints(30);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn(e);
     }
 
     return new NVLine(points);
