@@ -360,6 +360,7 @@ export default class Viewer implements IDisposable {
         } else {
           this.clearRefElements(node);
         }
+        this.updateFrep();
         this.debouncedComputeBoundingBox();
       });
       this.listeners.push({
