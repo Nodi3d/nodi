@@ -361,10 +361,9 @@ export default class Viewer implements IDisposable {
         this.process(node);
       }
       const listener = node.onStateChanged.on((e) => {
+        this.clearRefElements(node);
         if (e.node.visible) {
           this.process(node);
-        } else {
-          this.clearRefElements(node);
         }
         this.updateFrep();
         this.debouncedComputeBoundingBox();

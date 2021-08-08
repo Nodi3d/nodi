@@ -51,7 +51,9 @@ export default class RaymarchingPass extends Pass {
         DEPTH_TEST: 1,
         PERSPECTIVE_CAMERA: 0,
         EXISTS_SCENE: 0,
-        SCENE_CODE: ''
+        EXISTS_SELECTED_SCENE: 0,
+        SCENE_CODE: '',
+        SELECTED_SCENE_CODE: ''
       },
       uniforms: {
         time: { value: 0.0 },
@@ -93,34 +95,45 @@ export default class RaymarchingPass extends Pass {
   }
 
   public update (freps: NVFrep[]): void {
-    const codes = freps.filter(n => n.visible).map(n => n.compile('p'));
-
+    const visibles = freps.filter(n => n.visible);
     const defines = this.materialRaymarching.defines;
-    const n = codes.length;
 
-    defines.EXISTS_SCENE = n > 0 ? 1 : 0;
-
-    if (n > 0) {
-      let scene = '';
-      if (n <= 1) {
-        scene = `return ${codes[0]};`;
-      } else {
-        // TODO: Deep nest causes 'Expression too complex error'?
-        const lines = [];
-        const u1 = `float u1 = min(${codes[0]}, ${codes[1]});`;
-        lines.push(u1);
-        for (let i = 2; i < n; i++) {
-          const u = `float u${i} = min(u${i - 1}, ${codes[i]});`;
-          lines.push(u);
-        }
-        // console.log(codes)
-        const union = lines.join(';');
-        scene = `${union}; return u${n - 1};`;
-      }
-      defines.SCENE_CODE = scene;
+    const unselected = visibles.filter(n => !n.selected);
+    const existsScene = unselected.length > 0;
+    defines.EXISTS_SCENE = existsScene ? 1 : 0;
+    if (existsScene) {
+      defines.SCENE_CODE = this.compile(unselected);
     }
 
+    const selected = visibles.filter(n => n.selected);
+    const existsSelectedScene = selected.length > 0;
+    defines.EXISTS_SELECTED_SCENE = existsSelectedScene ? 1 : 0;
+    if (existsSelectedScene) {
+      defines.SELECTED_SCENE_CODE = this.compile(selected);
+    }
+
+    console.log('update', selected, unselected);
+
     this.materialRaymarching.needsUpdate = true;
+  }
+
+  private compile (freps: NVFrep[]): string {
+    const n = freps.length;
+    const codes = freps.map(f => f.compile('p'));
+    if (n <= 1) {
+      return `return ${codes[0]};`;
+    } else {
+      // TODO: Deep nest causes 'Expression too complex error'?
+      const lines = [];
+      const u1 = `float u1 = min(${codes[0]}, ${codes[1]});`;
+      lines.push(u1);
+      for (let i = 2; i < n; i++) {
+        const u = `float u${i} = min(u${i - 1}, ${codes[i]});`;
+        lines.push(u);
+      }
+      const union = lines.join(';');
+      return `${union}; return u${n - 1};`;
+    }
   }
 
   public render (renderer: WebGLRenderer, writeBuffer: WebGLRenderTarget, readBuffer: WebGLRenderTarget) {

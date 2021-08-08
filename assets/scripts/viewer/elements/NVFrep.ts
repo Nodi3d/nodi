@@ -11,6 +11,7 @@ export default class NVFrep extends Object3D implements IElementable {
 
   private frep: FrepBase;
   node: string = '';
+  selected: boolean = false;
   private _listener?: IDisposable;
 
   constructor (frep: FrepBase) {
@@ -21,10 +22,12 @@ export default class NVFrep extends Object3D implements IElementable {
   setup (node: NodeBase): void {
     this.node = node.uuid;
     this.visible = node.visible;
+    this.selected = node.selected;
     this._listener?.dispose();
     this._listener = node.onStateChanged.on((e) => {
       const n = e.node;
       this.visible = n.visible;
+      this.selected = n.selected;
     });
   }
 
