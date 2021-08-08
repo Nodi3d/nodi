@@ -111,11 +111,11 @@ export default class RaymarchingPass extends Pass {
   }
 
   public update (freps: NVFrep[]): void {
+    this.freps = freps;
     const visibles = this.freps.filter(n => n.visible);
     const unselected = visibles.filter(n => !n.selected);
     const selected = visibles.filter(n => n.selected);
 
-    this.freps = freps;
     this.visibleFrepCount = visibles.length;
     this.selectedFrepCount = selected.length;
 

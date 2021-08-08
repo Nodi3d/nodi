@@ -102,7 +102,7 @@ export default class Viewer implements IDisposable {
   private elements: IElementable[] = [];
   private freps: NVFrep[] = [];
   private listeners: { listener: IDisposable; node: NodeBase; } [] = [];
-  private debouncedComputeBoundingBox: DebouncedFunc<() => Box3> = debounce(this.computeBoundingBox, 100);
+  private debouncedComputeBoundingBox: DebouncedFunc<() => Box3> = debounce(this.computeBoundingBox, 25);
   public debouncedUpdate: DebouncedFunc<(nodes: NodeBase[]) => void> = debounce(this.update, 50);
 
   constructor (root: HTMLElement) {
@@ -441,8 +441,7 @@ export default class Viewer implements IDisposable {
 
   private updateFrep (): void {
     this.freps = this.container.children.filter(o => (o instanceof NVFrep)) as NVFrep[];
-    const visibles = this.freps.filter(o => o.visible);
-    this.updateFrepPass(visibles);
+    this.updateFrepPass(this.freps);
   }
 
   private updateFrepPass (freps: NVFrep[]): void {
