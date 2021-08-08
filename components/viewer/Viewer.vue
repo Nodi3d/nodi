@@ -160,6 +160,7 @@ export default class ViewerComponent extends Vue {
 
   update (nodes: NodeBase[]): void {
     viewer.update(nodes.filter(node => !(node instanceof UINodeBase)));
+    // viewer.debouncedUpdate(nodes.filter(node => !(node instanceof UINodeBase)));
 
     this.clearListeners();
     const UIs: UINodeBase[] = nodes.filter(node => (node instanceof UINodeBase) && node.enabled) as UINodeBase[];
