@@ -1,7 +1,7 @@
-import { Camera, Color, DoubleSide, Matrix4, MeshDepthMaterial, NearestFilter, NoBlending, OrthographicCamera, PerspectiveCamera, Quaternion, RenderTarget, RGBADepthPacking, Scene, ShaderMaterial, Texture, Vector2, Vector3, WebGLRenderer, WebGLRenderTarget } from 'three';
+import { Camera, Color, DoubleSide, MeshDepthMaterial, NearestFilter, NoBlending, OrthographicCamera, PerspectiveCamera, Quaternion, RenderTarget, RGBADepthPacking, Scene, Shader, ShaderMaterial, Texture, UniformsUtils, Vector2, Vector3, WebGLRenderer, WebGLRenderTarget } from 'three';
 import { FullScreenQuad, Pass } from 'three/examples/jsm/postprocessing/Pass';
-import FrepBase from '../core/math/frep/FrepBase';
-import FrepNodeBase from '../core/nodes/frep/FrepNodeBase';
+import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
+import { defaultStandardColor, selectedStandardColor } from './Colors';
 import NVFrep from './elements/NVFrep';
 import { FrepRenderingQuality } from './misc/FrepRenderingQuality';
 
@@ -14,9 +14,14 @@ export default class RaymarchingPass extends Pass {
   private renderTargetDepth: WebGLRenderTarget;
   private materialDepth: MeshDepthMaterial;
   public materialRaymarching: ShaderMaterial;
+  private materialCopy: ShaderMaterial;
 
   private fsQuad: FullScreenQuad;
   private oldClearColor: Color;
+
+  private freps: NVFrep[] = [];
+  private visibleFrepCount: number = 0;
+  private selectedFrepCount: number = 0;
 
   constructor (scene: Scene, camera: OrthographicCamera, envMap: Texture, params = { width: 0, height: 0 }) {
     super();
@@ -63,6 +68,8 @@ export default class RaymarchingPass extends Pass {
 
         isNormal: { value: false },
         ambient: { value: new Color(0.2, 0.2, 0.2) },
+        defaultColor: { value: defaultStandardColor },
+        selectedColor: { value: selectedStandardColor },
         lightDir: { value: new Vector3(0, 0, 1) },
 
         resolution: { value: new Vector2(1024, 768) },
@@ -90,31 +97,47 @@ export default class RaymarchingPass extends Pass {
       fragmentShader: RaymarchingFragmentShader
     });
 
-    this.fsQuad = new FullScreenQuad(this.materialRaymarching);
+    const shader = CopyShader;
+    this.materialCopy = new ShaderMaterial({
+      uniforms: UniformsUtils.clone(shader.uniforms),
+      vertexShader: shader.vertexShader,
+      fragmentShader: shader.fragmentShader,
+      depthTest: false,
+      depthWrite: false
+    });
+
+    this.fsQuad = new FullScreenQuad(undefined);
     this.oldClearColor = new Color();
   }
 
   public update (freps: NVFrep[]): void {
-    const visibles = freps.filter(n => n.visible);
-    const defines = this.materialRaymarching.defines;
-
+    const visibles = this.freps.filter(n => n.visible);
     const unselected = visibles.filter(n => !n.selected);
+    const selected = visibles.filter(n => n.selected);
+
+    this.freps = freps;
+    this.visibleFrepCount = visibles.length;
+    this.selectedFrepCount = selected.length;
+
+    const defines = this.materialRaymarching.defines;
     const existsScene = unselected.length > 0;
     defines.EXISTS_SCENE = existsScene ? 1 : 0;
     if (existsScene) {
       defines.SCENE_CODE = this.compile(unselected);
     }
 
-    const selected = visibles.filter(n => n.selected);
     const existsSelectedScene = selected.length > 0;
     defines.EXISTS_SELECTED_SCENE = existsSelectedScene ? 1 : 0;
     if (existsSelectedScene) {
       defines.SELECTED_SCENE_CODE = this.compile(selected);
     }
 
-    console.log('update', selected, unselected);
-
     this.materialRaymarching.needsUpdate = true;
+  }
+
+  private checkNeedsUpdate (): boolean {
+    const visibles = this.freps.filter(n => n.visible);
+    return (visibles.length !== this.visibleFrepCount || visibles.filter(n => n.selected).length !== this.selectedFrepCount);
   }
 
   private compile (freps: NVFrep[]): string {
@@ -137,6 +160,22 @@ export default class RaymarchingPass extends Pass {
   }
 
   public render (renderer: WebGLRenderer, writeBuffer: WebGLRenderTarget, readBuffer: WebGLRenderTarget) {
+    if (this.checkNeedsUpdate()) {
+      this.update(this.freps);
+    }
+
+    const defines = this.materialRaymarching.defines;
+    const exists: boolean = defines.EXISTS_SCENE || defines.EXISTS_SELECTED_SCENE;
+    if (!exists) {
+      // Through
+      this.fsQuad.material = this.materialCopy;
+      this.materialCopy.uniforms.tDiffuse.value = readBuffer.texture;
+      renderer.setRenderTarget(this.renderToScreen ? null : writeBuffer);
+      if (this.clear) { renderer.clear(); }
+      this.fsQuad.render(renderer);
+      return;
+    }
+
     // Render depth into texture
     this.scene.overrideMaterial = this.materialDepth;
 
@@ -184,6 +223,7 @@ export default class RaymarchingPass extends Pass {
     this.materialRaymarching.uniforms.tDiffuse.value = readBuffer.texture;
     this.materialRaymarching.uniforms.tDepth.value = this.renderTargetDepth.texture;
 
+    this.fsQuad.material = this.materialRaymarching;
     if (this.renderToScreen) {
       renderer.setRenderTarget(null);
       this.fsQuad.render(renderer);

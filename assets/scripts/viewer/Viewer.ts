@@ -25,7 +25,6 @@ import Point from '../core/nodes/vector/point/Point';
 import DataTree from '../core/data/DataTree';
 import NLineCurve from '../core/math/geometry/curve/NLineCurve';
 import NRectangleCurve from '../core/math/geometry/curve/NRectangleCurve';
-import FrepNodeBase from '../core/nodes/frep/FrepNodeBase';
 import FrepBase from '../core/math/frep/FrepBase';
 import IResolutionResponsible, { isResolutionResponsible } from './misc/IResolutionResponsible';
 import GradientCubeTexture from './misc/GradientCubeTexture';
@@ -44,6 +43,7 @@ import { CoordinateMode } from './misc/CoordinateMode';
 import NVPointTransformControls from './elements/NVPointTransformControls';
 import RaymarchingPass from './RaymarchingPass';
 import NVFrep from './elements/NVFrep';
+import { ambientColor } from './Colors';
 
 const minZoomScale = 1 / 2;
 const maxZoomScale = 25;
@@ -76,7 +76,7 @@ export default class Viewer implements IDisposable {
   private container: Group = new Group();
   private renderingMode: RenderingMode = RenderingMode.Standard;
   private cubeMap: GradientCubeTexture = new GradientCubeTexture();
-  private ambient: AmbientLight = new AmbientLight(new Color(0x808080));
+  private ambient: AmbientLight = new AmbientLight(ambientColor);
   private light: DirectionalLight = new DirectionalLight(0xFFFFFF, 0.8);
   public camera: OrthographicCamera;
   private cameraControls: OrbitControls;

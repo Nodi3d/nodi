@@ -15,6 +15,7 @@ uniform vec3 cameraDirection, cameraUp, cameraRight;
 uniform vec2 cameraOrthRect;
 
 uniform vec3 ambient, lightDir;
+uniform vec3 defaultColor, selectedColor;
 uniform bool isNormal;
 
 varying vec2 vUv;
@@ -189,9 +190,29 @@ vec3 opTx(const in vec3 p, const in mat4 m) {
   return q.xyz;
 }
 
-float scene(vec3 p) {
+float dScene(vec3 p) {
   #if EXISTS_SCENE == 1
   SCENE_CODE
+  #else
+  return sdSphere(p, 1.0);
+  #endif
+}
+
+float sScene(vec3 p) {
+  #if EXISTS_SELECTED_SCENE == 1
+  SELECTED_SCENE_CODE
+  #else
+  return sdSphere(p, 1.0);
+  #endif
+}
+
+float scene(vec3 p) {
+  #if EXISTS_SCENE == 1 && EXISTS_SELECTED_SCENE == 1
+  return min(dScene(p), sScene(p));
+  #elif EXISTS_SCENE == 1
+  return dScene(p);
+  #elif EXISTS_SELECTED_SCENE == 1
+  return sScene(p);
   #else
   return sdSphere(p, 1.0);
   #endif
@@ -215,12 +236,22 @@ vec4 lighting(in vec3 rayOrigin, in vec3 rayDirection) {
     return vec4(((normal + 1.0) * 0.5).xyz, 1);
   }
 
+  #if EXISTS_SCENE == 1 && EXISTS_SELECTED_SCENE == 1
+  float d0 = dScene(rayOrigin);
+  float d1 = sScene(rayOrigin);
+  vec3 color = (d0 < d1) ? defaultColor : selectedColor;
+  #elif EXISTS_SCENE == 1
+  vec3 color = defaultColor;
+  #else
+  vec3 color = selectedColor;
+  #endif
+
   vec3 worldNormal = inverseTransformDirection(normal, cameraViewMatrix);
   vec3 worldLightDir = inverseTransformDirection(lightDir, cameraViewMatrix);
   float diff = clamp(dot(worldLightDir, worldNormal), 0.0, 1.0);
   vec3 reflectVec = reflect(-rayDirection, worldNormal);
   vec4 env = textureCube(tEnv, normalize(reflectVec.xyz));
-  return vec4(clamp(env.xyz * 0.2 + ambient * 0.5, 0.0, 1.0) + vec3(diff), 1.0);
+  return vec4(clamp(env.xyz * 0.2 + ambient * 0.5, 0.0, 1.0) + diff * color, 1.0);
 }
 
 vec3 GetCameraForward()     { return - vec3(cameraViewMatrix[0][2], cameraViewMatrix[1][2], cameraViewMatrix[1][2]);    }

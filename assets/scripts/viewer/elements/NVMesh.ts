@@ -8,9 +8,7 @@ import TransparentFrag from '../shaders/mesh/Transparent.frag';
 import { IElementable } from '../../core/misc/IElementable';
 import IRenderingModeResponsible from '../misc/IRenderingModeResponsible';
 import IDisposable from '../../core/misc/IDisposable';
-
-const defaultStandardColor = new Color(0xC0C0C0);
-const selectedStandardColor = new Color(0x27DE60);
+import { defaultStandardColor, selectedStandardColor } from '../Colors';
 
 type MaterialDictionary<T extends string | symbol | number> = {
   [K in T]: Material;
