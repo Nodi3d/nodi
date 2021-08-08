@@ -95,7 +95,8 @@ export default class Viewer implements IDisposable {
 
   private elements: IElementable[] = [];
   private listeners: { listener: IDisposable; node: NodeBase; } [] = [];
-  private debouncedComputeBoundingBox: DebouncedFunc<() => Box3> = debounce(this.computeBoundingBox);
+  private debouncedComputeBoundingBox: DebouncedFunc<() => Box3> = debounce(this.computeBoundingBox, 100);
+  public debouncedUpdate: DebouncedFunc<(nodes: NodeBase[]) => void> = debounce(this.update, 50);
 
   constructor (root: HTMLElement) {
     this.el = root;
@@ -298,9 +299,14 @@ export default class Viewer implements IDisposable {
       const element = elements[i];
       const found = nodes.find(n => n.uuid === element.node);
       if (found === undefined || found.hasChanged()) {
+        elements.splice(i, 1);
         this.destroy(element);
       }
     }
+  }
+
+  private hasRefElement (node: NodeBase): boolean {
+    return this.elements.some(e => e.node === node.uuid);
   }
 
   private clearRefElements (node: NodeBase) {
@@ -308,6 +314,7 @@ export default class Viewer implements IDisposable {
     for (let i = elements.length - 1; i >= 0; i--) {
       const element = elements[i];
       if (element.node === node.uuid) {
+        elements.splice(i, 1);
         this.destroy(element);
       }
     }
@@ -326,11 +333,11 @@ export default class Viewer implements IDisposable {
 
   private clearRefListeners (node: NodeBase): void {
     // clear event listeners related to changed node
-    for (let j = this.listeners.length - 1; j >= 0; j--) {
-      const l = this.listeners[j];
+    for (let i = this.listeners.length - 1; i >= 0; i--) {
+      const l = this.listeners[i];
       if (l.node === node) {
         l.listener.dispose();
-        this.listeners.splice(j, 1);
+        this.listeners.splice(i, 1);
       }
     }
   }
@@ -355,18 +362,20 @@ export default class Viewer implements IDisposable {
 
       if (node.visible) {
         this.process(node);
+      } else {
+        const listener = node.onStateChanged.on((e) => {
+          const has = this.hasRefElement(e.node);
+          if (e.node.enabled && e.node.visible && !has) {
+            this.process(e.node);
+            this.clearRefListeners(e.node);
+            this.debouncedComputeBoundingBox();
+            listener.dispose();
+          }
+        });
+        this.listeners.push({
+          listener, node
+        });
       }
-      const listener = node.onStateChanged.on((e) => {
-        if (e.node.visible) {
-          this.process(node);
-        } else {
-          this.clearRefElements(node);
-        }
-        this.debouncedComputeBoundingBox();
-      });
-      this.listeners.push({
-        listener, node
-      });
 
       node.markUnchanged();
     }
