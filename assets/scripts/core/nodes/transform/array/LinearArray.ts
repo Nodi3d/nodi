@@ -1,5 +1,5 @@
 
-import { Vector3 } from 'three';
+import { Matrix4, Vector3 } from 'three';
 import { AccessTypes } from '../../../data/AccessTypes';
 import DataAccess from '../../../data/DataAccess';
 import DataTree from '../../../data/DataTree';
@@ -33,8 +33,10 @@ export default class LinearArray extends NodeBase {
     const result = [];
     for (let i = 0; i < count; i++) {
       const v = direction.clone().multiplyScalar(i);
+      const m = new Matrix4();
+      m.makeTranslation(v.x, v.y, v.z);
       if (isTransformable(geometry)) {
-        result.push(geometry.transform(p => p.add(v)));
+        result.push(geometry.applyMatrix(m));
       }
     }
     access.setDataList(0, result);
