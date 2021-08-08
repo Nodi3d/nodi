@@ -251,7 +251,7 @@ vec4 lighting(in vec3 rayOrigin, in vec3 rayDirection) {
   float diff = clamp(dot(worldLightDir, worldNormal), 0.0, 1.0);
   vec3 reflectVec = reflect(-rayDirection, worldNormal);
   vec4 env = textureCube(tEnv, normalize(reflectVec.xyz));
-  return vec4(clamp(env.xyz * 0.2 + ambient * 0.5, 0.0, 1.0) + diff * color, 1.0);
+  return vec4(clamp(env.xyz * 0.1 + ambient * 0.5 + diff * color, 0.0, 1.0), 1.0);
 }
 
 vec3 GetCameraForward()     { return - vec3(cameraViewMatrix[0][2], cameraViewMatrix[1][2], cameraViewMatrix[1][2]);    }

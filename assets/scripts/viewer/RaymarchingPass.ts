@@ -1,7 +1,7 @@
-import { Camera, Color, DoubleSide, MeshDepthMaterial, NearestFilter, NoBlending, OrthographicCamera, PerspectiveCamera, Quaternion, RenderTarget, RGBADepthPacking, Scene, Shader, ShaderMaterial, Texture, UniformsUtils, Vector2, Vector3, WebGLRenderer, WebGLRenderTarget } from 'three';
+import { Color, DoubleSide, MeshDepthMaterial, NearestFilter, NoBlending, OrthographicCamera, RGBADepthPacking, Scene, ShaderMaterial, Texture, UniformsUtils, Vector2, Vector3, WebGLRenderer, WebGLRenderTarget } from 'three';
 import { FullScreenQuad, Pass } from 'three/examples/jsm/postprocessing/Pass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
-import { defaultStandardColor, selectedStandardColor } from './Colors';
+import { ambientColor, defaultStandardColor, selectedStandardColor } from './Colors';
 import NVFrep from './elements/NVFrep';
 import { FrepRenderingQuality } from './misc/FrepRenderingQuality';
 
@@ -67,7 +67,7 @@ export default class RaymarchingPass extends Pass {
         tEnv: { value: envMap },
 
         isNormal: { value: false },
-        ambient: { value: new Color(0.2, 0.2, 0.2) },
+        ambient: { value: ambientColor },
         defaultColor: { value: defaultStandardColor },
         selectedColor: { value: selectedStandardColor },
         lightDir: { value: new Vector3(0, 0, 1) },
