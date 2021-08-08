@@ -6,10 +6,9 @@ import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
 import FrepBase from '../../../math/frep/FrepBase';
 import FrepSmoothUnionBlend from '../../../math/frep/FrepSmoothUnionBlend';
-import FrepUnionBlend from '../../../math/frep/FrepUnionBlend';
 import FrepNodeBase from '../FrepNodeBase';
 
-export default class FrepUnion extends FrepNodeBase {
+export default class FrepSmoothUnion extends FrepNodeBase {
   public get displayName (): string {
     return 'FSmoothUnion';
   }

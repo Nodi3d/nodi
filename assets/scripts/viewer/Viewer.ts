@@ -300,7 +300,8 @@ export default class Viewer implements IDisposable {
     const elements = this.elements;
     for (let i = elements.length - 1; i >= 0; i--) {
       const element = elements[i];
-      if (element.node === node.uuid) {
+      const found = nodes.find(n => n.uuid === element.node);
+      if (found === undefined || found.hasChanged()) {
         this.destroy(element);
       }
     }
