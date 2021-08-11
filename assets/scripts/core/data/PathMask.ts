@@ -1,17 +1,36 @@
-import DataPath from './DataPath';
-
 export default class PathMask {
-  pattern: string[];
+  private pattern: string[];
 
   constructor (patternStr: string = '0,2,...') {
     this.pattern = patternStr.split(',');
   }
 
-  match (path: string): boolean {
+  private equals (path: string, pattern: string): boolean {
+    if (path === pattern) { return true; }
+
+    const a0 = path.split(';');
+    const a1 = pattern.split(';');
+    if (a0.length !== a1.length) { return false; }
+
+    for (let i = 0; i < a0.length; i++) {
+      const p0 = a0[i];
+      const p1 = a1[i];
+      if (
+        p1 !== '*' && // wildcard
+        p0 !== p1
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  public match (path: string): boolean {
     const n = this.pattern.length;
     for (let i = 0; i < n; i++) {
       const pat = this.pattern[i];
-      if (pat === path) { return true; }
+      if (this.equals(path, pat)) { return true; }
     }
 
     const last = this.pattern[n - 1];
