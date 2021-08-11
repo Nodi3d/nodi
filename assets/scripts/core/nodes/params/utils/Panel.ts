@@ -54,6 +54,11 @@ export default class Panel extends NodeBase {
     manager.add('Output', '', DataTypes.ANY, AccessTypes.TREE);
   }
 
+  public clear (dispose: boolean = true): void {
+    super.clear(dispose);
+    this.onOperated.emit({ text: '' });
+  }
+
   public solve (access: DataAccess): void {
     const tree = access.getDataTree(0);
     access.setDataTree(0, tree);
