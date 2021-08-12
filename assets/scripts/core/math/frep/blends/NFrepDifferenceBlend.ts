@@ -1,4 +1,4 @@
-import NFrepBase from './NFrepBase';
+import NFrepBase from '../NFrepBase';
 import NFrepBlend from './NFrepBlend';
 
 export default class NFrepDifferenceBlend extends NFrepBlend {

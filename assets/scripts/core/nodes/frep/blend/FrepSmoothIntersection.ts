@@ -5,7 +5,7 @@ import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
 import NFrepBase from '../../../math/frep/NFrepBase';
-import NFrepSmoothIntersectionBlend from '../../../math/frep/NFrepSmoothIntersectionBlend';
+import NFrepSmoothIntersectionBlend from '../../../math/frep/blends/NFrepSmoothIntersectionBlend';
 import FrepNodeBase from '../FrepNodeBase';
 
 export default class FrepSmoothIntersection extends FrepNodeBase {

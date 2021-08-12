@@ -1,7 +1,7 @@
-import { NBoundingBox, NPlane } from '../geometry';
-import { NDomain } from '../primitive';
-import NFrep from './NFrep';
-import NFrepBase from './NFrepBase';
+import { NBoundingBox, NPlane } from '../../geometry';
+import { NDomain } from '../../primitive';
+import NFrep from '../NFrep';
+import NFrepBase from '../NFrepBase';
 
 export default class NFrepBlend extends NFrep {
   protected op: string;

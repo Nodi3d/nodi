@@ -5,7 +5,7 @@ import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
 import NFrepBase from '../../../math/frep/NFrepBase';
-import NFrepSmoothUnionBlend from '../../../math/frep/NFrepSmoothUnionBlend';
+import NFrepSmoothUnionBlend from '../../../math/frep/blends/NFrepSmoothUnionBlend';
 import FrepNodeBase from '../FrepNodeBase';
 
 export default class FrepSmoothUnion extends FrepNodeBase {

@@ -5,7 +5,7 @@ import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
 import NFrepBase from '../../../math/frep/NFrepBase';
-import NFrepSmoothDifferenceBlend from '../../../math/frep/NFrepSmoothDifferenceBlend';
+import NFrepSmoothDifferenceBlend from '../../../math/frep/blends/NFrepSmoothDifferenceBlend';
 import FrepNodeBase from '../FrepNodeBase';
 
 export default class FrepSmoothDifference extends FrepNodeBase {

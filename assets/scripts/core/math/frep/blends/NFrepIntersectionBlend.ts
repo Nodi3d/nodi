@@ -1,9 +1,9 @@
-import NFrepBase from './NFrepBase';
+import NFrepBase from '../NFrepBase';
 import NFrepBlend from './NFrepBlend';
 
-export default class NFrepSmoothIntersectionBlend extends NFrepBlend {
-  constructor (left: NFrepBase, right: NFrepBase, arg: string | undefined) {
-    super('opSmoothIntersection', left, right, arg);
+export default class NFrepIntersectionBlend extends NFrepBlend {
+  constructor (left: NFrepBase, right: NFrepBase) {
+    super('opIntersection', left, right);
 
     const minmax0 = this.left.boundingBox.getMinMax();
     const minmax1 = this.right.boundingBox.getMinMax();
