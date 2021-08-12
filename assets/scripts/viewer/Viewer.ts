@@ -25,7 +25,7 @@ import Point from '../core/nodes/vector/point/Point';
 import DataTree from '../core/data/DataTree';
 import NLineCurve from '../core/math/geometry/curve/NLineCurve';
 import NRectangleCurve from '../core/math/geometry/curve/NRectangleCurve';
-import FrepBase from '../core/math/frep/FrepBase';
+import NFrepBase from '../core/math/frep/NFrepBase';
 import IResolutionResponsible, { isResolutionResponsible } from './misc/IResolutionResponsible';
 import GradientCubeTexture from './misc/GradientCubeTexture';
 import { RenderingMode } from './misc/RenderingMode';
@@ -289,7 +289,7 @@ export default class Viewer implements IDisposable {
         elements.push(this.plane(value));
       } else if (value instanceof NBoundingBox) {
         elements.push(this.box(value));
-      } else if (value instanceof FrepBase) {
+      } else if (value instanceof NFrepBase) {
         elements.push(new NVFrep(value));
       }
     });

@@ -4,9 +4,9 @@ import DataTree from '../../../data/DataTree';
 import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
-import FrepBase from '../../../math/frep/FrepBase';
-import FrepDifferenceBlend from '../../../math/frep/FrepDifferenceBlend';
-import FrepFilter from '../../../math/frep/FrepFilter';
+import NFrepBase from '../../../math/frep/NFrepBase';
+import NFrepDifferenceBlend from '../../../math/frep/NFrepDifferenceBlend';
+import NFrepFilter from '../../../math/frep/NFrepFilter';
 import { NBoundingBox } from '../../../math/geometry';
 import { NDomain } from '../../../math/primitive';
 import FrepNodeBase from '../FrepNodeBase';
@@ -26,7 +26,7 @@ export default class FrepRound extends FrepNodeBase {
   }
 
   public solve (access: DataAccess): void {
-    const frep = access.getData(0) as FrepBase;
+    const frep = access.getData(0) as NFrepBase;
     const amount = access.getData(1) as number;
 
     const code = function (p: string): string {
@@ -46,7 +46,7 @@ export default class FrepRound extends FrepNodeBase {
       (ey > sy) ? new NDomain(sy, ey) : new NDomain(0, 0),
       (ez > sz) ? new NDomain(sz, ez) : new NDomain(0, 0)
     );
-    const result = new FrepFilter(code, frep, bb);
+    const result = new NFrepFilter(code, frep, bb);
     access.setData(0, result);
   }
 }

@@ -1,11 +1,11 @@
 import { Matrix4 } from 'three';
 import ITransformable, { TransformerType } from '../geometry/ITransformable';
-import FrepBase from './FrepBase';
-import FrepMatrix from './FrepMatrix';
+import NFrepBase from './NFrepBase';
+import NFrepMatrix from './NFrepMatrix';
 
-export default abstract class Frep extends FrepBase {
+export default abstract class NFrep extends NFrepBase {
   public applyMatrix (matrix: Matrix4): ITransformable {
-    return new FrepMatrix(this, matrix);
+    return new NFrepMatrix(this, matrix);
   }
 
   public transform (f: TransformerType): ITransformable {

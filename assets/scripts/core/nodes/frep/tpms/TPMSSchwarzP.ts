@@ -4,8 +4,8 @@ import DataTree from '../../../data/DataTree';
 import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
-import FrepBase from '../../../math/frep/FrepBase';
-import FrepFilter from '../../../math/frep/FrepFilter';
+import NFrepBase from '../../../math/frep/NFrepBase';
+import NFrepFilter from '../../../math/frep/NFrepFilter';
 import FrepNodeBase from '../FrepNodeBase';
 
 export default class TPMSSchwarzP extends FrepNodeBase {
@@ -25,7 +25,7 @@ export default class TPMSSchwarzP extends FrepNodeBase {
   }
 
   public solve (access: DataAccess): void {
-    const frep = access.getData(0) as FrepBase;
+    const frep = access.getData(0) as NFrepBase;
     const scale = access.getData(1) as number;
     const thickness = access.getData(2) as number;
     const bias = access.getData(3) as number;
@@ -35,7 +35,7 @@ export default class TPMSSchwarzP extends FrepNodeBase {
       const g2 = `opSchwarzP(${p}, ${scale.toFixed(4)}, ${thickness.toFixed(4)}, ${bias.toFixed(4)})`;
       return `opIntersection(${g1}, ${g2})`;
     };
-    const result = new FrepFilter(code, frep, frep.boundingBox);
+    const result = new NFrepFilter(code, frep, frep.boundingBox);
     access.setData(0, result);
   }
 }

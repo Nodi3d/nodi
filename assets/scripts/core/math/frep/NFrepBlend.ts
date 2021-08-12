@@ -1,15 +1,15 @@
 import { NBoundingBox, NPlane } from '../geometry';
 import { NDomain } from '../primitive';
-import Frep from './Frep';
-import FrepBase from './FrepBase';
+import NFrep from './NFrep';
+import NFrepBase from './NFrepBase';
 
-export default class FrepBlend extends Frep {
+export default class NFrepBlend extends NFrep {
   protected op: string;
-  protected left: FrepBase;
-  protected right: FrepBase;
+  protected left: NFrepBase;
+  protected right: NFrepBase;
   protected arg: string | undefined;
 
-  constructor (op: string, left: FrepBase, right: FrepBase, arg: string | undefined = undefined) {
+  constructor (op: string, left: NFrepBase, right: NFrepBase, arg: string | undefined = undefined) {
     super();
     this.op = op;
     this.left = left;

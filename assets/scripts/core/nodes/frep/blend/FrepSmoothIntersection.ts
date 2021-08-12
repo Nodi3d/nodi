@@ -4,8 +4,8 @@ import DataTree from '../../../data/DataTree';
 import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
-import FrepBase from '../../../math/frep/FrepBase';
-import FrepSmoothIntersectionBlend from '../../../math/frep/FrepSmoothIntersectionBlend';
+import NFrepBase from '../../../math/frep/NFrepBase';
+import NFrepSmoothIntersectionBlend from '../../../math/frep/NFrepSmoothIntersectionBlend';
 import FrepNodeBase from '../FrepNodeBase';
 
 export default class FrepSmoothIntersection extends FrepNodeBase {
@@ -24,8 +24,8 @@ export default class FrepSmoothIntersection extends FrepNodeBase {
   }
 
   public solve (access: DataAccess): void {
-    const a = access.getData(0) as FrepBase;
-    const b = access.getDataList(1) as FrepBase[];
+    const a = access.getData(0) as NFrepBase;
+    const b = access.getDataList(1) as NFrepBase[];
     const k = access.getData(2) as number;
 
     const n = b.length;
@@ -34,9 +34,9 @@ export default class FrepSmoothIntersection extends FrepNodeBase {
       return;
     }
 
-    let result = new FrepSmoothIntersectionBlend(a, b[0], k.toFixed(2));
+    let result = new NFrepSmoothIntersectionBlend(a, b[0], k.toFixed(2));
     for (let i = 1; i < n; i++) {
-      result = new FrepSmoothIntersectionBlend(result, b[i], k.toFixed(2));
+      result = new NFrepSmoothIntersectionBlend(result, b[i], k.toFixed(2));
     }
     access.setData(0, result);
   }

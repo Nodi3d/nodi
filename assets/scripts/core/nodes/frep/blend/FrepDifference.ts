@@ -3,8 +3,8 @@ import DataAccess from '../../../data/DataAccess';
 import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
-import FrepBase from '../../../math/frep/FrepBase';
-import FrepDifferenceBlend from '../../../math/frep/FrepDifferenceBlend';
+import NFrepBase from '../../../math/frep/NFrepBase';
+import NFrepDifferenceBlend from '../../../math/frep/NFrepDifferenceBlend';
 import FrepNodeBase from '../FrepNodeBase';
 
 export default class FrepDifference extends FrepNodeBase {
@@ -22,8 +22,8 @@ export default class FrepDifference extends FrepNodeBase {
   }
 
   public solve (access: DataAccess): void {
-    const a = access.getData(0) as FrepBase;
-    const b = access.getDataList(1) as FrepBase[];
+    const a = access.getData(0) as NFrepBase;
+    const b = access.getDataList(1) as NFrepBase[];
 
     const n = b.length;
     if (n <= 0) {
@@ -31,9 +31,9 @@ export default class FrepDifference extends FrepNodeBase {
       return;
     }
 
-    let result = new FrepDifferenceBlend(a, b[0]);
+    let result = new NFrepDifferenceBlend(a, b[0]);
     for (let i = 1; i < n; i++) {
-      result = new FrepDifferenceBlend(result, b[i]);
+      result = new NFrepDifferenceBlend(result, b[i]);
     }
     access.setData(0, result);
   }

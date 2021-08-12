@@ -3,8 +3,8 @@ import DataAccess from '../../../data/DataAccess';
 import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
-import FrepBase from '../../../math/frep/FrepBase';
-import FrepUnionBlend from '../../../math/frep/FrepUnionBlend';
+import NFrepBase from '../../../math/frep/NFrepBase';
+import NFrepUnionBlend from '../../../math/frep/NFrepUnionBlend';
 import FrepNodeBase from '../FrepNodeBase';
 
 export default class FrepUnion extends FrepNodeBase {
@@ -21,15 +21,15 @@ export default class FrepUnion extends FrepNodeBase {
   }
 
   public solve (access: DataAccess): void {
-    const freps = access.getDataList(0) as FrepBase[];
+    const freps = access.getDataList(0) as NFrepBase[];
     const n = freps.length;
 
     if (n === 1) {
       access.setData(0, freps[0]);
     } else if (n > 1) {
-      let result = new FrepUnionBlend(freps[0], freps[1]);
+      let result = new NFrepUnionBlend(freps[0], freps[1]);
       for (let i = 2; i < n; i++) {
-        result = new FrepUnionBlend(result, freps[i]);
+        result = new NFrepUnionBlend(result, freps[i]);
       }
       access.setData(0, result);
     }

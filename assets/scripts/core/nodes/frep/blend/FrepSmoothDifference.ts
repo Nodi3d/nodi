@@ -4,8 +4,8 @@ import DataTree from '../../../data/DataTree';
 import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
-import FrepBase from '../../../math/frep/FrepBase';
-import FrepSmoothDifferenceBlend from '../../../math/frep/FrepSmoothDifferenceBlend';
+import NFrepBase from '../../../math/frep/NFrepBase';
+import NFrepSmoothDifferenceBlend from '../../../math/frep/NFrepSmoothDifferenceBlend';
 import FrepNodeBase from '../FrepNodeBase';
 
 export default class FrepSmoothDifference extends FrepNodeBase {
@@ -24,8 +24,8 @@ export default class FrepSmoothDifference extends FrepNodeBase {
   }
 
   public solve (access: DataAccess): void {
-    const a = access.getData(0) as FrepBase;
-    const b = access.getDataList(1) as FrepBase[];
+    const a = access.getData(0) as NFrepBase;
+    const b = access.getDataList(1) as NFrepBase[];
     const k = access.getData(2) as number;
 
     const n = b.length;
@@ -34,9 +34,9 @@ export default class FrepSmoothDifference extends FrepNodeBase {
       return;
     }
 
-    let result = new FrepSmoothDifferenceBlend(a, b[0], k.toFixed(2));
+    let result = new NFrepSmoothDifferenceBlend(a, b[0], k.toFixed(2));
     for (let i = 1; i < n; i++) {
-      result = new FrepSmoothDifferenceBlend(result, b[i], k.toFixed(2));
+      result = new NFrepSmoothDifferenceBlend(result, b[i], k.toFixed(2));
     }
     access.setData(0, result);
   }

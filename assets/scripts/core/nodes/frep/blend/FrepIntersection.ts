@@ -3,8 +3,8 @@ import DataAccess from '../../../data/DataAccess';
 import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
-import FrepBase from '../../../math/frep/FrepBase';
-import FrepIntersectionBlend from '../../../math/frep/FrepIntersectionBlend';
+import NFrepBase from '../../../math/frep/NFrepBase';
+import NFrepIntersectionBlend from '../../../math/frep/NFrepIntersectionBlend';
 import FrepNodeBase from '../FrepNodeBase';
 
 export default class FrepIntersection extends FrepNodeBase {
@@ -22,8 +22,8 @@ export default class FrepIntersection extends FrepNodeBase {
   }
 
   public solve (access: DataAccess): void {
-    const a = access.getData(0) as FrepBase;
-    const b = access.getDataList(1) as FrepBase[];
+    const a = access.getData(0) as NFrepBase;
+    const b = access.getDataList(1) as NFrepBase[];
 
     const n = b.length;
     if (n <= 0) {
@@ -31,9 +31,9 @@ export default class FrepIntersection extends FrepNodeBase {
       return;
     }
 
-    let result = new FrepIntersectionBlend(a, b[0]);
+    let result = new NFrepIntersectionBlend(a, b[0]);
     for (let i = 1; i < n; i++) {
-      result = new FrepIntersectionBlend(result, b[i]);
+      result = new NFrepIntersectionBlend(result, b[i]);
     }
     access.setData(0, result);
   }

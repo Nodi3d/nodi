@@ -1,20 +1,20 @@
 import { Matrix4, Quaternion, Vector3 } from 'three';
 import ITransformable, { TransformerType } from '../geometry/ITransformable';
-import FrepBase from './FrepBase';
-import FrepFilter from './FrepFilter';
+import NFrepBase from './NFrepBase';
+import NFrepFilter from './NFrepFilter';
 
-export default class FrepMatrix extends FrepBase {
-  private frep: FrepBase;
+export default class NFrepMatrix extends NFrepBase {
+  private frep: NFrepBase;
   private matrix: Matrix4;
 
-  constructor (frep: FrepBase, matrix: Matrix4) {
+  constructor (frep: NFrepBase, matrix: Matrix4) {
     super();
     this.frep = frep;
     this.matrix = matrix;
     this.boundingBox = this.frep.boundingBox.applyMatrix(this.matrix);
   }
 
-  public static create (frep: FrepBase, position: Vector3 = new Vector3(0, 0, 0), rotation: Quaternion = new Quaternion(), scale: Vector3 = new Vector3(1, 1, 1)): FrepMatrix {
+  public static create (frep: NFrepBase, position: Vector3 = new Vector3(0, 0, 0), rotation: Quaternion = new Quaternion(), scale: Vector3 = new Vector3(1, 1, 1)): NFrepMatrix {
     const T = (new Matrix4()).makeTranslation(position.x, position.y, position.z);
     const R = (new Matrix4()).makeRotationFromQuaternion(rotation);
     const S = (new Matrix4()).makeScale(scale.x, scale.y, scale.z);
@@ -22,11 +22,11 @@ export default class FrepMatrix extends FrepBase {
     m.multiply(T);
     m.multiply(R);
     m.multiply(S);
-    return new FrepMatrix(frep, m);
+    return new NFrepMatrix(frep, m);
   }
 
   applyMatrix (matrix: Matrix4): ITransformable {
-    return new FrepMatrix(this, matrix);
+    return new NFrepMatrix(this, matrix);
   }
 
   transform (f: TransformerType): ITransformable {
@@ -52,11 +52,11 @@ export default class FrepMatrix extends FrepBase {
     }
 
     const factor = Math.min(scale.x, Math.min(scale.y, scale.z));
-    const code = function (this: FrepFilter, p: string) {
+    const code = function (this: NFrepFilter, p: string) {
       const distance = this.frep.compile(`${p} / vec3(${scale.x.toFixed(2)}, ${scale.y.toFixed(2)}, ${scale.z.toFixed(2)})`);
       return `${distance} * ${factor.toFixed(2)}`;
     };
-    const filter = new FrepFilter(code, this.frep, this.boundingBox);
+    const filter = new NFrepFilter(code, this.frep, this.boundingBox);
     const T = new Matrix4();
     T.makeTranslation(position.x, position.y, position.z);
     const R = new Matrix4();

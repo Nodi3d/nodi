@@ -1,12 +1,12 @@
 import { Matrix4 } from 'three';
 import { NBoundingBox } from '../geometry';
 import ITransformable, { TransformerType } from '../geometry/ITransformable';
-import FrepBase from './FrepBase';
-import FrepMatrix from './FrepMatrix';
+import NFrepBase from './NFrepBase';
+import NFrepMatrix from './NFrepMatrix';
 
-export default class FrepFilter extends FrepBase {
+export default class NFrepFilter extends NFrepBase {
   public applyMatrix (matrix: Matrix4): ITransformable {
-    return new FrepMatrix(this, matrix);
+    return new NFrepMatrix(this, matrix);
   }
 
   public transform (f: TransformerType): ITransformable {
@@ -14,9 +14,9 @@ export default class FrepFilter extends FrepBase {
   }
 
   protected code: (p: string) => string;
-  public frep: FrepBase;
+  public frep: NFrepBase;
 
-  constructor (code: (p: string) => string, frep: FrepBase, boundingBox: NBoundingBox) {
+  constructor (code: (p: string) => string, frep: NFrepBase, boundingBox: NBoundingBox) {
     super();
     this.code = code;
     this.frep = frep;

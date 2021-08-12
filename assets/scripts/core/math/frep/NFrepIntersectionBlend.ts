@@ -1,8 +1,8 @@
-import FrepBase from './FrepBase';
-import FrepBlend from './FrepBlend';
+import NFrepBase from './NFrepBase';
+import NFrepBlend from './NFrepBlend';
 
-export default class FrepIntersectionBlend extends FrepBlend {
-  constructor (left: FrepBase, right: FrepBase) {
+export default class NFrepIntersectionBlend extends NFrepBlend {
+  constructor (left: NFrepBase, right: NFrepBase) {
     super('opIntersection', left, right);
 
     const minmax0 = this.left.boundingBox.getMinMax();

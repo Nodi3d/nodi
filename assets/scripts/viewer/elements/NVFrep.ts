@@ -1,5 +1,5 @@
 import { Object3D } from 'three';
-import FrepBase from '../../core/math/frep/FrepBase';
+import NFrepBase from '../../core/math/frep/NFrepBase';
 import IDisposable from '../../core/misc/IDisposable';
 import { IElementable } from '../../core/misc/IElementable';
 import NodeBase from '../../core/nodes/NodeBase';
@@ -9,12 +9,12 @@ export default class NVFrep extends Object3D implements IElementable {
     return this.frep;
   }
 
-  private frep: FrepBase;
+  private frep: NFrepBase;
   node: string = '';
   selected: boolean = false;
   private _listener?: IDisposable;
 
-  constructor (frep: FrepBase) {
+  constructor (frep: NFrepBase) {
     super();
     this.frep = frep;
   }

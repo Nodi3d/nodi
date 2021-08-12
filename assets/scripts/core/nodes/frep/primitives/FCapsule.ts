@@ -5,7 +5,7 @@ import DataTree from '../../../data/DataTree';
 import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
-import FrepShape from '../../../math/frep/FrepShape';
+import NFrepShape from '../../../math/frep/NFrepShape';
 import { NBoundingBox, NPlane, NPoint } from '../../../math/geometry';
 import { NDomain } from '../../../math/primitive';
 import FrepNodeBase from '../FrepNodeBase';
@@ -50,7 +50,7 @@ export default class FCapsule extends FrepNodeBase {
       new NDomain(-ly - r, ly + r),
       new NDomain(-lz - r, lz + r)
     );
-    const frep = new FrepShape(f, bb);
+    const frep = new NFrepShape(f, bb);
     access.setData(0, frep);
   }
 }

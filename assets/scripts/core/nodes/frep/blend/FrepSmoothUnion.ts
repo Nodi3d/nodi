@@ -4,8 +4,8 @@ import DataTree from '../../../data/DataTree';
 import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
-import FrepBase from '../../../math/frep/FrepBase';
-import FrepSmoothUnionBlend from '../../../math/frep/FrepSmoothUnionBlend';
+import NFrepBase from '../../../math/frep/NFrepBase';
+import NFrepSmoothUnionBlend from '../../../math/frep/NFrepSmoothUnionBlend';
 import FrepNodeBase from '../FrepNodeBase';
 
 export default class FrepSmoothUnion extends FrepNodeBase {
@@ -23,16 +23,16 @@ export default class FrepSmoothUnion extends FrepNodeBase {
   }
 
   public solve (access: DataAccess): void {
-    const freps = access.getDataList(0) as FrepBase[];
+    const freps = access.getDataList(0) as NFrepBase[];
     const k = access.getData(1) as number;
     const n = freps.length;
 
     if (n === 1) {
       access.setData(0, freps[0]);
     } else if (n > 1) {
-      let result = new FrepSmoothUnionBlend(freps[0], freps[1], k.toFixed(2));
+      let result = new NFrepSmoothUnionBlend(freps[0], freps[1], k.toFixed(2));
       for (let i = 2; i < n; i++) {
-        result = new FrepSmoothUnionBlend(result, freps[i], k.toFixed(2));
+        result = new NFrepSmoothUnionBlend(result, freps[i], k.toFixed(2));
       }
       access.setData(0, result);
     }

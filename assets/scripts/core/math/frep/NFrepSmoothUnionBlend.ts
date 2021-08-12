@@ -1,9 +1,9 @@
-import FrepBase from './FrepBase';
-import FrepBlend from './FrepBlend';
+import NFrepBase from './NFrepBase';
+import NFrepBlend from './NFrepBlend';
 
-export default class FrepUnionBlend extends FrepBlend {
-  constructor (left: FrepBase, right: FrepBase) {
-    super('opUnion', left, right);
+export default class NFrepSmoothUnionBlend extends NFrepBlend {
+  constructor (left: NFrepBase, right: NFrepBase, arg: string | undefined) {
+    super('opSmoothUnion', left, right, arg);
 
     const minmax0 = this.left.boundingBox.getMinMax();
     const minmax1 = this.right.boundingBox.getMinMax();
