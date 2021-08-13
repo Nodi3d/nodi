@@ -1,3 +1,5 @@
+import path from 'path';
+import WasmPackPlugin from '@wasm-tool/wasm-pack-plugin';
 import firebase from './.firebase.env.js';
 
 export default {
@@ -68,12 +70,19 @@ export default {
         keep_fnames: true
       }
     },
+    plugins: [
+      new WasmPackPlugin({
+        crateDirectory: path.join(__dirname, './wasm/marching-cubes')
+      })
+    ],
     extend: (config, ctx) => {
       if (ctx.isClient) {
+        /*
         config.module.rules.push({
-          test: /\.worker\.js$/,
+          test: /\.worker\.ts$/,
           loader: 'worker-loader'
         });
+        */
         config.module.rules.push({
           test: /\.(glsl|vs|fs|vert|frag)$/,
           exclude: /node_modules/,

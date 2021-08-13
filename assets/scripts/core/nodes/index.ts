@@ -63,6 +63,7 @@ import TPMSGyroid from './frep/tpms/TPMSGyroid';
 import TPMSLidinoid from './frep/tpms/TPMSLidinoid';
 import TPMSSchwarzP from './frep/tpms/TPMSSchwarzP';
 import FrepRound from './frep/utils/FrepRound';
+import MarchingCubes from './frep/utils/MarchingCubes';
 import CurveImporter from './importer/CurveImporter';
 import MeshImporter from './importer/MeshImporter';
 import Contour from './intersects/math/Contour';
@@ -77,7 +78,6 @@ import MeshUnion from './intersects/shape/MeshUnion';
 import RegionDifference from './intersects/shape/RegionDifference';
 import RegionIntersection from './intersects/shape/RegionIntersection';
 import RegionUnion from './intersects/shape/RegionUnion';
-import Expression from './math/Expression';
 import Complex from './math/complex/Complex';
 import ComplexConjugate from './math/complex/ComplexConjugate';
 import ComplexModulus from './math/complex/ComplexModulus';
@@ -88,6 +88,7 @@ import DeconstructDomain from './math/domain/DeconstructDomain';
 import Domain from './math/domain/Domain';
 import Includes from './math/domain/Includes';
 import RemapNumbers from './math/domain/RemapNumbers';
+import Expression from './math/Expression';
 import PerlinNoise from './math/noise/PerlinNoise';
 import SimplexNoise from './math/noise/SimplexNoise';
 import Absolute from './math/operator/Absolute';
@@ -213,8 +214,8 @@ import Scale from './transform/euclidean/Scale';
 import MapToSurface from './transform/morph/MapToSurface';
 import Group from './utils/Group';
 import UnGroup from './utils/UnGroup';
-import HexagonSpiral from './vector/grid/HexagonSpiral';
 import HexagonalGrid from './vector/grid/HexagonalGrid';
+import HexagonSpiral from './vector/grid/HexagonSpiral';
 import Populate2D from './vector/grid/Populate2D';
 import PopulateGeometry from './vector/grid/PopulateGeometry';
 import RectangularGrid from './vector/grid/RectangularGrid';
@@ -315,6 +316,7 @@ const Nodes = {
   TPMSLidinoid,
   TPMSSchwarzP,
   FrepRound,
+  MarchingCubes,
   CurveImporter,
   MeshImporter,
   Contour,
@@ -329,7 +331,6 @@ const Nodes = {
   RegionDifference,
   RegionIntersection,
   RegionUnion,
-  Expression,
   Complex,
   ComplexConjugate,
   ComplexModulus,
@@ -340,6 +341,7 @@ const Nodes = {
   Domain,
   Includes,
   RemapNumbers,
+  Expression,
   PerlinNoise,
   SimplexNoise,
   Absolute,
@@ -465,8 +467,8 @@ const Nodes = {
   MapToSurface,
   Group,
   UnGroup,
-  HexagonSpiral,
   HexagonalGrid,
+  HexagonSpiral,
   Populate2D,
   PopulateGeometry,
   RectangularGrid,
@@ -569,6 +571,7 @@ const NodeDictionary: { [index: string]: { name:string; entity: NodeConstructorT
   'frep/tpms/TPMSLidinoid': { name: 'TPMSLidinoid', entity: TPMSLidinoid },
   'frep/tpms/TPMSSchwarzP': { name: 'TPMSSchwarzP', entity: TPMSSchwarzP },
   'frep/utils/FrepRound': { name: 'FrepRound', entity: FrepRound },
+  'frep/utils/MarchingCubes': { name: 'MarchingCubes', entity: MarchingCubes },
   'importer/CurveImporter': { name: 'CurveImporter', entity: CurveImporter },
   'importer/MeshImporter': { name: 'MeshImporter', entity: MeshImporter },
   'intersects/math/Contour': { name: 'Contour', entity: Contour },
@@ -583,7 +586,6 @@ const NodeDictionary: { [index: string]: { name:string; entity: NodeConstructorT
   'intersects/shape/RegionDifference': { name: 'RegionDifference', entity: RegionDifference },
   'intersects/shape/RegionIntersection': { name: 'RegionIntersection', entity: RegionIntersection },
   'intersects/shape/RegionUnion': { name: 'RegionUnion', entity: RegionUnion },
-  'math/Expression': { name: 'Expression', entity: Expression },
   'math/complex/Complex': { name: 'Complex', entity: Complex },
   'math/complex/ComplexConjugate': { name: 'ComplexConjugate', entity: ComplexConjugate },
   'math/complex/ComplexModulus': { name: 'ComplexModulus', entity: ComplexModulus },
@@ -594,6 +596,7 @@ const NodeDictionary: { [index: string]: { name:string; entity: NodeConstructorT
   'math/domain/Domain': { name: 'Domain', entity: Domain },
   'math/domain/Includes': { name: 'Includes', entity: Includes },
   'math/domain/RemapNumbers': { name: 'RemapNumbers', entity: RemapNumbers },
+  'math/Expression': { name: 'Expression', entity: Expression },
   'math/noise/PerlinNoise': { name: 'PerlinNoise', entity: PerlinNoise },
   'math/noise/SimplexNoise': { name: 'SimplexNoise', entity: SimplexNoise },
   'math/operator/Absolute': { name: 'Absolute', entity: Absolute },
@@ -719,8 +722,8 @@ const NodeDictionary: { [index: string]: { name:string; entity: NodeConstructorT
   'transform/morph/MapToSurface': { name: 'MapToSurface', entity: MapToSurface },
   'utils/Group': { name: 'Group', entity: Group },
   'utils/UnGroup': { name: 'UnGroup', entity: UnGroup },
-  'vector/grid/HexagonSpiral': { name: 'HexagonSpiral', entity: HexagonSpiral },
   'vector/grid/HexagonalGrid': { name: 'HexagonalGrid', entity: HexagonalGrid },
+  'vector/grid/HexagonSpiral': { name: 'HexagonSpiral', entity: HexagonSpiral },
   'vector/grid/Populate2D': { name: 'Populate2D', entity: Populate2D },
   'vector/grid/PopulateGeometry': { name: 'PopulateGeometry', entity: PopulateGeometry },
   'vector/grid/RectangularGrid': { name: 'RectangularGrid', entity: RectangularGrid },
