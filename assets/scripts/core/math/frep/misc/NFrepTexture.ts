@@ -11,12 +11,16 @@ export default class NFrepTexture {
     this.renderer = source !== undefined ? source : new WebGLRenderer();
   }
 
-  public render (frep: NFrepBase, boundingBox: { min: Vector3; max: Vector3; }, w: number, h: number, d: number): RenderTarget {
+  public render (frep: NFrepBase, padding: number, w: number, h: number, d: number): RenderTarget {
     const code = frep.compile('p');
-    const { min, max } = boundingBox;
+    const { min, max } = frep.boundingBox.getMinMax();
+    const pad = new Vector3(padding, padding, padding);
+    min.sub(pad);
+    max.add(pad);
 
     const tw = w * h;
     const th = d;
+
     const gpuCompute = new GPUComputationRenderer(tw, th, this.renderer);
     gpuCompute.setDataType(UnsignedByteType);
 
@@ -42,6 +46,8 @@ export default class NFrepTexture {
     variable.material.uniforms.iwidth = { value: 1 / w };
     variable.material.uniforms.iheight = { value: 1 / h };
     variable.material.uniforms.idepth = { value: 1 / d };
+    variable.material.uniforms.iU = { value: 1 / tw };
+    variable.material.uniforms.iV = { value: 1 / th };
     variable.material.defines.SCENE_CODE = code;
 
     gpuCompute.setVariableDependencies(variable, [variable]);
@@ -54,8 +60,8 @@ export default class NFrepTexture {
     return gpuCompute.getCurrentRenderTarget(variable);
   }
 
-  public build (frep: NFrepBase, boundingBox: { min: Vector3; max: Vector3; }, w: number, h: number, d: number): Uint8Array {
-    const target = this.render(frep, boundingBox, w, h, d) as WebGLRenderTarget;
+  public build (frep: NFrepBase, padding: number, w: number, h: number, d: number): Uint8Array {
+    const target = this.render(frep, padding, w, h, d) as WebGLRenderTarget;
 
     const { width, height } = target;
     const wh = width * height;

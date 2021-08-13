@@ -33,22 +33,16 @@ export default class MarchingCubes extends FrepNodeBase {
     const resolution = access.getData(1) as number;
     const padding = access.getData(2) as number;
 
-    const { min, max } = frep.boundingBox.getMinMax();
-    const pad = new Vector3(padding, padding, padding);
-    min.sub(pad)
-    max.add(pad)
-
     const texture = new NFrepTexture();
-    const buffer = texture.build(frep, { min, max }, resolution, resolution, resolution);
+    const buffer = texture.build(frep, padding, resolution, resolution, resolution);
     const mc = wasm.MarchingCubes.new();
+
     mc.set_volume(buffer, resolution, resolution, resolution);
     const triangles = mc.marching_cubes(0.5);
     const mesh = new NMesh();
     const n = triangles.length;
 
-    const inv = 1 / (resolution - 1);
-
-    // let min = 1, max = -1;
+    const inv = 1 / resolution;
 
     let f = 0;
     for (let i = 0; i < n; i += 9) {
@@ -61,29 +55,29 @@ export default class MarchingCubes extends FrepNodeBase {
       const cx = triangles[i + 6];
       const cy = triangles[i + 7];
       const cz = triangles[i + 8];
-      const a = new NPoint(ax, ay, az).multiplyScalar(inv).subScalar(0.5);
-      const b = new NPoint(bx, by, bz).multiplyScalar(inv).subScalar(0.5);
-      const c = new NPoint(cx, cy, cz).multiplyScalar(inv).subScalar(0.5);
+      const a = new NPoint(ax, ay, az).multiplyScalar(inv);
+      const b = new NPoint(bx, by, bz).multiplyScalar(inv);
+      const c = new NPoint(cx, cy, cz).multiplyScalar(inv);
       const n = Helper.normalFrom3Points(a, b, c);
       mesh.vertices.push(a, b, c);
       mesh.normals.push(n, n, n);
       mesh.faces.push(new NFace(f, f + 1, f + 2));
       f += 3;
-
-      // min = Math.min(...[min, a.y, b.y, c.y]);
-      // max = Math.max(...[max, a.y, b.y, c.y]);
     }
 
+    let { min, max } = frep.boundingBox.getMinMax();
+    const pad = new Vector3(padding, padding, padding).multiplyScalar(1);
+    min = min.sub(pad);
+    max = max.add(pad);
     const size = max.clone().sub(min);
-    size.multiplyScalar(1 / resolution);
     const T = new Matrix4().makeTranslation(min.x, min.y, min.z);
     const S = new Matrix4().makeScale(size.x, size.y, size.z);
     const m = new Matrix4();
-    m.multiplyMatrices(T, S);
-    mesh.applyMatrix(m);
+    m.multiply(T);
+    m.multiply(S);
 
     mc.free();
 
-    access.setData(0, mesh);
+    access.setData(0, mesh.applyMatrix(m));
   }
 }
