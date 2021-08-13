@@ -13,9 +13,6 @@ float scene(vec3 p) {
 void main() {
   vec2 uv = gl_FragCoord.xy / resolution.xy; // 0.0 ~ 1.0
 
-  // float u = uv.x * width * height;
-  // float nx = mod(u, width) * iwidth;
-  // float ny = floor(u * iwidth) * iheight;
   float nx = mod(uv.x, iwidth) * width;
   float ny = floor(uv.x * width) * iheight;
   float nz = uv.y; // 0.0 ~ 1.0
