@@ -384,8 +384,11 @@ export default class EditorPage extends Vue {
 
   private onKeyDownWindow (e: KeyboardEvent): void {
     if (e.key === KeyCodeStrings.TAB) {
-      const mouse = editor.prevMousePosition;
-      this.$refs.NodeSearchTooltip.show(new Vector2(mouse.x, mouse.y));
+      const path = e.composedPath();
+      if (path.length <= 0 || path[0] === document.body) {
+        const mouse = editor.prevMousePosition;
+        this.$refs.NodeSearchTooltip.show(new Vector2(mouse.x, mouse.y));
+      }
     } else if (e.ctrlKey && e.key === KeyCodeStrings.f) {
       this.$refs.GraphSearchTooltip.setup(editor.nodes);
       this.$refs.GraphSearchTooltip.show();
