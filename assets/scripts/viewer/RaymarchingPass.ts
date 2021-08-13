@@ -5,6 +5,7 @@ import { ambientColor, defaultStandardColor, selectedStandardColor } from './Col
 import NVFrep from './elements/NVFrep';
 import { FrepRenderingQuality } from './misc/FrepRenderingQuality';
 
+import FrepCommon from '../core/shaders/frep_common.glsl';
 import QuadVertexShader from './shaders/raymarching/quad.vert';
 import RaymarchingFragmentShader from './shaders/raymarching/raymarching.frag';
 
@@ -94,7 +95,10 @@ export default class RaymarchingPass extends Pass {
         threshold: { value: 1e-4 }
       },
       vertexShader: QuadVertexShader,
-      fragmentShader: RaymarchingFragmentShader
+      fragmentShader: RaymarchingFragmentShader.replace(
+        '#include <frep_common>',
+        FrepCommon
+      )
     });
 
     const shader = CopyShader;
@@ -159,6 +163,14 @@ export default class RaymarchingPass extends Pass {
     }
   }
 
+  private through (renderer: WebGLRenderer, writeBuffer: WebGLRenderTarget, texture: Texture): void {
+    this.fsQuad.material = this.materialCopy;
+    this.materialCopy.uniforms.tDiffuse.value = texture;
+    renderer.setRenderTarget(this.renderToScreen ? null : writeBuffer);
+    if (this.clear) { renderer.clear(); }
+    this.fsQuad.render(renderer);
+  }
+
   public render (renderer: WebGLRenderer, writeBuffer: WebGLRenderTarget, readBuffer: WebGLRenderTarget) {
     if (this.checkNeedsUpdate()) {
       this.update(this.freps);
@@ -167,12 +179,7 @@ export default class RaymarchingPass extends Pass {
     const defines = this.materialRaymarching.defines;
     const exists: boolean = defines.EXISTS_SCENE || defines.EXISTS_SELECTED_SCENE;
     if (!exists) {
-      // Through
-      this.fsQuad.material = this.materialCopy;
-      this.materialCopy.uniforms.tDiffuse.value = readBuffer.texture;
-      renderer.setRenderTarget(this.renderToScreen ? null : writeBuffer);
-      if (this.clear) { renderer.clear(); }
-      this.fsQuad.render(renderer);
+      this.through(renderer, writeBuffer, readBuffer.texture);
       return;
     }
 
