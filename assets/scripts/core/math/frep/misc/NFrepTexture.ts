@@ -1,4 +1,4 @@
-import { RGBAFormat, Texture, DataTexture, UnsignedByteType, WebGLRenderer, RenderTarget, WebGLRenderTarget } from 'three';
+import { RGBAFormat, Texture, DataTexture, UnsignedByteType, WebGLRenderer, RenderTarget, WebGLRenderTarget, Vector3 } from 'three';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer';
 import NFrepBase from '../NFrepBase';
 import FrepCommon from '../../../shaders/frep_common.glsl';
@@ -11,10 +11,9 @@ export default class NFrepTexture {
     this.renderer = source !== undefined ? source : new WebGLRenderer();
   }
 
-  public render (frep: NFrepBase, w: number, h: number, d: number): RenderTarget {
+  public render (frep: NFrepBase, boundingBox: { min: Vector3; max: Vector3; }, w: number, h: number, d: number): RenderTarget {
     const code = frep.compile('p');
-    const bb = frep.boundingBox;
-    const { min, max } = bb.getMinMax();
+    const { min, max } = boundingBox;
 
     const tw = w * h;
     const th = d;
@@ -52,21 +51,20 @@ export default class NFrepTexture {
     }
     gpuCompute.compute();
 
-    const target = gpuCompute.getCurrentRenderTarget(variable);
-    return target;
+    return gpuCompute.getCurrentRenderTarget(variable);
   }
 
-  public build (frep: NFrepBase, w: number, h: number, d: number): Uint8Array {
-    const target = this.render(frep, w, h, d) as WebGLRenderTarget;
+  public build (frep: NFrepBase, boundingBox: { min: Vector3; max: Vector3; }, w: number, h: number, d: number): Uint8Array {
+    const target = this.render(frep, boundingBox, w, h, d) as WebGLRenderTarget;
 
     const { width, height } = target;
-    const buffer = new Uint8Array(width * height * 4);
+    const wh = width * height;
+    const buffer = new Uint8Array(wh * 4);
 
     this.renderer.readRenderTargetPixels(target, 0, 0, width, height, buffer);
 
-    const l = width * height;
-    const dst = new Uint8Array(l);
-    for (let i = 0; i < l; i++) {
+    const dst = new Uint8Array(wh);
+    for (let i = 0; i < wh; i++) {
       dst[i] = buffer[i * 4];
     }
     return dst;

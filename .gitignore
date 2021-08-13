@@ -94,3 +94,6 @@ sw.*
 .firebaserc
 .firebase.env.js
 cors.json
+
+wasm/marching-cubes/target
+wasm/marching-cubes/pkg

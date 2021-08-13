@@ -17,16 +17,10 @@ void main() {
   float ny = floor(u * iwidth) * iheight;
   float nz = uv.y; // 0.0 ~ 1.0
   vec3 p = vec3(nx, ny, nz) * bsize + bmin;
+
   float d = scene(p);
 
-  /*
-  if(abs(d) > 0.075) {
-    discard;
-    return;
-  }
-  */
-
-  const float eps = 1e-1;
+  const float eps = 1e-2;
   if (
     nx <= eps || 1.0 - eps <= nx ||
     ny <= eps || 1.0 - eps <= ny ||
