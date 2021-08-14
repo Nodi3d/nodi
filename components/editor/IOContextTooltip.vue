@@ -8,6 +8,12 @@
   >
     <div class="">
       <ul class="">
+        <li>
+          <select class="form-select input-block rounded-0 color-text-link" style="text-align-last: center;">
+            <option>Default</option>
+            <option>Hidden</option>
+          </select>
+        </li>
         <li v-if="connections.length > 0" class="border-bottom">
           <button class="btn btn-outline btn-block rounded-0 border-0" @click.prevent.stop="disconnectAll" @mouseover.prevent.stop="highlightAll" @mouseout.prevent.stop="unhighlightAll">
             Disconnect All

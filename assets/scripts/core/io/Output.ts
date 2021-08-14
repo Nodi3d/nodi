@@ -26,14 +26,14 @@ export default class Output extends IO {
 
     this.data.dispose();
     this.data = new DataTree();
-    this.triggerDataChanged();
+    this.notifyDataChanged();
   }
 
   public getData (): DataTree | undefined {
     return this.data;
   }
 
-  public triggerDataChanged (): void {
+  public notifyDataChanged (): void {
     this.onDataChanged.emit({ io: this });
   }
 

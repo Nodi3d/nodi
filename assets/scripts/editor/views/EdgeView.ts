@@ -24,7 +24,8 @@ export default class EdgeView extends EdgeViewBase {
     });
 
     const io = output.getIO() as Output;
-
+    io.onStateChanged.on(() => {
+    });
     io.onDataChanged.on(() => {
       if (io.isEmpty()) {
         this.path.classList.add('empty');

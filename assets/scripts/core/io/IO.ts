@@ -41,6 +41,7 @@ export default abstract class IO implements ISerializable {
   protected dataType: DataTypes;
   protected accessType: AccessTypes = AccessTypes.ITEM;
   protected connections: WeakRef<IO>[] = [];
+  protected _visible: boolean = true;
 
   public onStateChanged: IOEvent = new IOEvent();
 
@@ -80,12 +81,12 @@ export default abstract class IO implements ISerializable {
 
   public select (): void {
     this.selected = true;
-    this.onStateChanged.emit({ io: this });
+    this.notifyStateChanged();
   }
 
   public unselect (): void {
     this.selected = false;
-    this.onStateChanged.emit({ io: this });
+    this.notifyStateChanged();
   }
 
   public getConnections (): IO[] {
@@ -122,6 +123,15 @@ export default abstract class IO implements ISerializable {
   }
 
   public unhighlight () {
+  }
+
+  public setVisibility (visible: boolean): void {
+    this._visible = visible;
+    this.notifyStateChanged();
+  }
+
+  protected notifyStateChanged() {
+    this.onStateChanged.emit({ io: this });
   }
 
   public dispose (): void {
