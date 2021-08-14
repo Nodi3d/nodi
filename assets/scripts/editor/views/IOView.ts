@@ -2,26 +2,40 @@
 import { Vector2 } from 'three';
 import { Colors, DataTypes, getTypeNames } from '../../core/data/DataTypes';
 import Input from '../../core/io/Input';
-import IO from '../../core/io/IO';
+import IO, { IODisplayTypes } from '../../core/io/IO';
 import Output from '../../core/io/Output';
+import { HALF_PI, Rad2Deg } from '../../core/math/Constant';
 import View from './View';
 
-const ioSize = 10;
+export const ioSize = 10;
 const halfIoSize = ioSize * 0.5;
 
 export default class IOView extends View {
   protected entity: WeakRef<IO>;
   svg: SVGSVGElement;
+  private indicator: SVGPathElement;
 
   constructor (io: IO) {
-    super((io instanceof Input) ? 'input' : 'output');
+    const isInput = (io instanceof Input);
+    super(isInput ? 'input' : 'output');
 
     this.entity = new WeakRef(io);
     this.svg = this.setupType(io.getDataType());
+    this.indicator = this.createIndicator(!isInput, ioSize);
+    this.svg.appendChild(this.indicator);
+
+    const n = io.getParent();
+    const listener = () => {
+      const type = io.displayType;
+      const connected = io.hasConnection();
+      this.visibility(connected && !n.selected && type === IODisplayTypes.Hidden);
+    };
+
+    n.onStateChanged.on(listener);
     io.onStateChanged.on((e) => {
       this.synchronize(e.io);
+      listener();
     });
-
     this.onMouseOver.on(() => {
       // const io = this.entity.deref();
       // console.log(io?.getConnectionCount());
@@ -49,6 +63,10 @@ export default class IOView extends View {
 
   protected synchronize (io: IO): void {
     if (io.selected) { this.select(); } else { this.unselect(); }
+  }
+
+  private visibility (visible: boolean): void {
+    this.indicator.style.visibility = visible ? 'visible' : 'hidden';
   }
 
   protected select (): void {
@@ -152,6 +170,31 @@ export default class IOView extends View {
     path.style.stroke = color;
 
     svg.appendChild(path);
+
+    return path;
+  }
+
+  private createIndicator (left: boolean, r: number): SVGPathElement {
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('fill', 'none');
+    path.classList.add('indicator');
+
+    // M x1 y1 a rx ry start f1 f2 dx,dy
+    const hpi = HALF_PI;
+    const offset = hpi * 0.4;
+    const sign = left ? 1 : -1;
+    const angle = (hpi - offset);
+    const c1 = Math.cos(-angle) * r * sign;
+    const s1 = Math.sin(-angle) * r;
+    const p = new Vector2(r * 0.5, 0);
+    const x1 = p.x + c1;
+    const y1 = p.y + s1;
+    const c2 = Math.cos(angle) * r * sign;
+    const s2 = Math.sin(angle) * r;
+    const x2 = p.x + c2;
+    const y2 = p.y + s2;
+    const deg = Rad2Deg * (-angle);
+    path.setAttribute('d', `M ${x1} ${y1} a ${r} ${r} ${deg} 0 ${left ? 1 : 0} ${x2 - x1} ${y2 - y1}`);
 
     return path;
   }

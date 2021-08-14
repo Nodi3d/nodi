@@ -9,9 +9,10 @@
     <div class="">
       <ul class="">
         <li>
-          <select class="form-select input-block rounded-0 color-text-link" style="text-align-last: center;">
-            <option>Default</option>
-            <option>Hidden</option>
+          <select v-model="displayType" class="form-select input-block rounded-0 color-text-link" style="text-align-last: center;">
+            <option v-for="type in displayTypes" :key="type" :value="type">
+              {{ type }}
+            </option>
           </select>
         </li>
         <li v-if="connections.length > 0" class="border-bottom">
@@ -36,13 +37,13 @@
 
 <script lang='ts'>
 
-import { Component } from 'nuxt-property-decorator';
+import { Component, Watch } from 'nuxt-property-decorator';
 import { Vector2 } from 'three';
 
 import Tooltip from './Tooltip.vue';
 import IOView from '~/assets/scripts/editor/views/IOView';
 import EdgeView from '~/assets/scripts/editor/views/EdgeView';
-import IO from '~/assets/scripts/core/io/IO';
+import IO, { IODisplayTypes } from '~/assets/scripts/core/io/IO';
 
 export type DisconnectionType = {
   from: IO;
@@ -58,6 +59,8 @@ export default class IOContextTooltip extends Tooltip {
     root: HTMLDivElement;
   };
 
+  displayTypes: typeof IODisplayTypes = IODisplayTypes;
+  displayType: string = IODisplayTypes.Default;
   connections: string[] = [];
 
   show (position: Vector2): void {
@@ -69,8 +72,9 @@ export default class IOContextTooltip extends Tooltip {
   setup (io: IOView, e: EdgeView[]): void {
     target = io;
     edges = e;
-
-    this.connections = io.getIO().getConnections().map((i) => {
+    const entity = io.getIO();
+    this.displayType = entity.displayType;
+    this.connections = entity.getConnections().map((i) => {
       return i.getParent().displayName;
     });
   }
@@ -136,6 +140,14 @@ export default class IOContextTooltip extends Tooltip {
 
   relay (): void {
     this.$emit('relay', target);
+  }
+
+  @Watch('displayType')
+  onDisplayTypeChanged (type: keyof typeof IODisplayTypes) {
+    const io = target.getIO();
+    if (io.displayType !== type) {
+      io.setDisplayType(type);
+    }
   }
 }
 

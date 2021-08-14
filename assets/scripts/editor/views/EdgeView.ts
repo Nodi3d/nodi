@@ -1,7 +1,8 @@
 
 import NodeBase from '../../core/nodes/NodeBase';
 import Output from '../../core/io/Output';
-import IO from '../../core/io/IO';
+import IO, { IODisplayTypes } from '../../core/io/IO';
+import Input from '../../core/io/Input';
 import IOView from './IOView';
 import NodeView from './NodeView';
 import EdgeViewBase from './EdgeViewBase';
@@ -23,11 +24,22 @@ export default class EdgeView extends EdgeViewBase {
       this.dispose();
     });
 
-    const io = output.getIO() as Output;
-    io.onStateChanged.on(() => {
-    });
-    io.onDataChanged.on(() => {
-      if (io.isEmpty()) {
+    const i = input.getIO() as Input;
+    const o = output.getIO() as Output;
+    const ni = i.getParent();
+    const no = o.getParent();
+    const listener = () => {
+      const left = o.displayType;
+      const right = i.displayType;
+      this.visibility(ni.selected || no.selected || (left === IODisplayTypes.Default && right === IODisplayTypes.Default));
+    };
+    ni.onStateChanged.on(listener);
+    no.onStateChanged.on(listener);
+    i.onStateChanged.on(listener);
+    o.onStateChanged.on(listener);
+
+    o.onDataChanged.on(() => {
+      if (o.isEmpty()) {
         this.path.classList.add('empty');
       } else {
         this.path.classList.remove('empty');
@@ -88,5 +100,9 @@ export default class EdgeView extends EdgeViewBase {
 
   public hasIOView (view: IOView): boolean {
     return this.input.deref() === view || this.output.deref() === view;
+  }
+
+  private visibility (visible: boolean): void {
+    this.path.style.visibility = visible ? 'visible' : 'hidden';
   }
 }
