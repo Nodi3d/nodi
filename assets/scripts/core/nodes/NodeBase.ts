@@ -276,7 +276,7 @@ export default abstract class NodeBase extends ElementBase implements ISerializa
     this._executionTime = Math.floor((t1 - t0) * units) / units;
 
     this.processing = false;
-    this.outputManager.outputs.forEach(o => o.triggerDataChanged());
+    this.outputManager.outputs.forEach(o => o.notifyDataChanged());
 
     return Promise.resolve();
   }

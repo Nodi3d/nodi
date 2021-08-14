@@ -51,8 +51,7 @@ export default class BoundingBoxLineSegments extends LineSegments implements IRe
       return;
     }
 
-    const min = box.min;
-    const max = box.max;
+    const { min, max } = box;
     const p0 = new Vector3(min.x, min.y, min.z);
     const p1 = new Vector3(max.x, min.y, min.z);
     const p2 = new Vector3(max.x, min.y, max.z);
@@ -95,7 +94,7 @@ export default class BoundingBoxLineSegments extends LineSegments implements IRe
 
     const color = '#1182ee';
 
-    const sx = max.x - min.y;
+    const sx = max.x - min.x;
     const sy = max.y - min.y;
     const sz = max.z - min.z;
     this.displaySize.set(this.truncate(sx), this.truncate(sy), this.truncate(sz));

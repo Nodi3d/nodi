@@ -203,7 +203,7 @@ export default class Viewer implements IDisposable {
       this.pass.materialRaymarching.uniforms.lightDir.value = this.light.position.clone().normalize();
 
       this.setResolutions();
-      this.triggerViewChange();
+      this.notifyViewChanged();
     });
     cameraControls.panSpeed = 1.25;
     cameraControls.rotateSpeed = 1.0;
@@ -602,7 +602,7 @@ export default class Viewer implements IDisposable {
     }
 
     this.cameraControls.reset();
-    this.triggerViewChange();
+    this.notifyViewChanged();
   }
 
   public setCameraDirection (direction: Vector3): void {
@@ -638,7 +638,7 @@ export default class Viewer implements IDisposable {
         this.camera.position.copy(current);
         this.camera.lookAt(origin);
 
-        this.triggerViewChange();
+        this.notifyViewChanged();
       })
       .onComplete(() => {
         this.cameraControls.target.copy(origin);
@@ -649,7 +649,7 @@ export default class Viewer implements IDisposable {
         this.cameraControls.reset();
         this.cameraControls.enabled = true;
 
-        this.triggerViewChange();
+        this.notifyViewChanged();
       })
       .start();
 
@@ -789,7 +789,7 @@ export default class Viewer implements IDisposable {
     }
 
     this.cameraControls.reset();
-    this.triggerViewChange();
+    this.notifyViewChanged();
 
     this.cameraControls.enabled = true;
   }
@@ -824,7 +824,7 @@ export default class Viewer implements IDisposable {
     };
   }
 
-  private triggerViewChange (): void {
+  private notifyViewChanged (): void {
     this.onViewChanged.emit(this.camera);
   }
 
