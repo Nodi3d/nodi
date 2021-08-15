@@ -77,12 +77,10 @@ export default {
     ],
     extend: (config, ctx) => {
       if (ctx.isClient) {
-        /*
         config.module.rules.push({
           test: /\.worker\.ts$/,
           loader: 'worker-loader'
         });
-        */
         config.module.rules.push({
           test: /\.(glsl|vs|fs|vert|frag)$/,
           exclude: /node_modules/,

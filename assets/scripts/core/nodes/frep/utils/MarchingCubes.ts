@@ -1,4 +1,3 @@
-import * as wasm from '@/wasm/marching-cubes/pkg';
 import { Matrix4, Vector3 } from 'three';
 import { AccessTypes } from '../../../data/AccessTypes';
 import DataAccess from '../../../data/DataAccess';
@@ -11,9 +10,12 @@ import NFrep from '../../../math/frep/NFrep';
 import { NPoint } from '../../../math/geometry';
 import { NFace, NMesh } from '../../../math/geometry/mesh';
 import Helper from '../../../math/Helper';
-import FrepNodeBase from '../FrepNodeBase';
 
-export default class MarchingCubes extends FrepNodeBase {
+import AsyncNodeBase from '../../AsyncNodeBase';
+// import MarchingCubesWorker from 'worker-loader!~/assets/scripts/core/workers/MarchingCubes.worker';
+import MarchingCubesWorker from '../../../workers/MarchingCubes.worker';
+
+export default class MarchingCubes extends AsyncNodeBase {
   public get displayName (): string {
     return 'MC';
   }
@@ -28,17 +30,29 @@ export default class MarchingCubes extends FrepNodeBase {
     manager.add('m', 'Resulting mesh', DataTypes.MESH, AccessTypes.ITEM);
   }
 
-  public solve (access: DataAccess): void {
+  public async solve (access: DataAccess) {
     const frep = access.getData(0) as NFrep;
     const resolution = access.getData(1) as number;
     const padding = access.getData(2) as number;
 
     const texture = new NFrepTexture();
     const buffer = texture.build(frep, padding, resolution, resolution, resolution);
-    const mc = wasm.MarchingCubes.new();
+    const promise = new Promise((resolve) => {
+      const worker = new MarchingCubesWorker();
+      worker.addEventListener('message', (e: any) => {
+        resolve(e.data);
+      });
+      worker.postMessage({
+        buffer, resolution
+      });
+    });
+    const result = await promise;
+    const { triangles } = result as { triangles: Float32Array; };
 
-    mc.set_volume(buffer, resolution, resolution, resolution);
-    const triangles = mc.marching_cubes(0.5);
+    // const mc = wasm.MarchingCubes.new();
+    // mc.set_volume(buffer, resolution, resolution, resolution);
+    // const triangles = mc.marching_cubes(0.5);
+
     const mesh = new NMesh();
     const n = triangles.length;
 
@@ -76,7 +90,7 @@ export default class MarchingCubes extends FrepNodeBase {
     m.multiply(T);
     m.multiply(S);
 
-    mc.free();
+    // mc.free();
 
     access.setData(0, mesh.applyMatrix(m));
   }

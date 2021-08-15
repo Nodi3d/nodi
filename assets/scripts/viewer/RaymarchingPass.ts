@@ -1,11 +1,11 @@
 import { Color, DoubleSide, MeshDepthMaterial, NearestFilter, NoBlending, OrthographicCamera, RGBADepthPacking, Scene, ShaderMaterial, Texture, UniformsUtils, Vector2, Vector3, WebGLRenderer, WebGLRenderTarget } from 'three';
 import { FullScreenQuad, Pass } from 'three/examples/jsm/postprocessing/Pass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
+import FrepCommon from '../core/shaders/frep_common.glsl';
 import { ambientColor, defaultStandardColor, selectedStandardColor } from './Colors';
 import NVFrep from './elements/NVFrep';
 import { FrepRenderingQuality } from './misc/FrepRenderingQuality';
 
-import FrepCommon from '../core/shaders/frep_common.glsl';
 import QuadVertexShader from './shaders/raymarching/quad.vert';
 import RaymarchingFragmentShader from './shaders/raymarching/raymarching.frag';
 
