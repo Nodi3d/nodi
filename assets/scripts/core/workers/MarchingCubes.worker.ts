@@ -1,6 +1,3 @@
-import WebpackWorker from 'worker-loader!*';
-
-// import wasm from '@/wasm/marching-cubes/pkg';
 const wasm = import('@/wasm/marching-cubes/pkg');
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
