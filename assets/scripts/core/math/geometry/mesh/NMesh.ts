@@ -167,14 +167,15 @@ export default class NMesh implements ITransformable, IBoundable, IDisposable {
       geometry.setAttribute('normal', new BufferAttribute(normal, 3));
     }
 
-    const index = new Uint16Array(this.faces.length * 3);
+    const len = this.faces.length * 3;
+    const index = this.vertices.length < 65535 ? new Uint16Array(len) : new Uint32Array(len);
     this.faces.forEach((f, idx) => {
       const i = idx * 3;
       index[i] = f.a;
       index[i + 1] = f.b;
       index[i + 2] = f.c;
     });
-    geometry.index = new BufferAttribute(index, 1);
+    geometry.setIndex(new BufferAttribute(index, 1));
 
     return geometry;
   }
