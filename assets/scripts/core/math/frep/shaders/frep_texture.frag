@@ -22,6 +22,8 @@ void main() {
 
   float d = scene(p);
   float nd = d + 0.5;
+
+  /*
   const float eps = 1e-2;
   if (
     nx <= eps || 1.0 - eps <= nx ||
@@ -31,9 +33,11 @@ void main() {
     // TODO: generate inverted value for boundary
     // float nd = mix(-d + 0.5, d + 0.5, step(d, 0.0));
     if (d < 0.0) {
-      // nd = -d + 0.5;
+      nd = -d + 0.5;
     }
   }
+  */
+
   nd = clamp(nd, 0.0, 1.0);
   gl_FragColor = vec4(nd, nd, nd, nd);
   // gl_FragColor = vec4(p.x, p.y, p.z, 1);

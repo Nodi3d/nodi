@@ -137,7 +137,7 @@ export default class MarchingCubes extends AsyncNodeBase {
         const idx = mesh.vertices.length;
         mesh.vertices.push(a, b, c);
         mesh.normals.push(n, n, n);
-        mesh.faces.push(new NFace(idx, idx + 1, idx + 2));
+        mesh.faces.push(new NFace(idx, idx + 2, idx + 1));
       }
     });
 
