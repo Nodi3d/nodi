@@ -133,7 +133,7 @@ export default class MarchingCubes extends AsyncNodeBase {
         const a = new NPoint(ax, ay, az).applyMatrix4(m);
         const b = new NPoint(bx, by, bz).applyMatrix4(m);
         const c = new NPoint(cx, cy, cz).applyMatrix4(m);
-        const n = Helper.normalFrom3Points(a, b, c);
+        const n = Helper.normalFrom3Points(a, c, b);
         const idx = mesh.vertices.length;
         mesh.vertices.push(a, b, c);
         mesh.normals.push(n, n, n);
