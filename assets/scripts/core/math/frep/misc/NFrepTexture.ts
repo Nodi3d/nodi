@@ -4,6 +4,15 @@ import NFrepBase from '../NFrepBase';
 import FrepCommon from '../../../shaders/frep_common.glsl';
 import FrepTextureFragment from '../shaders/frep_texture.frag';
 
+export type FrepRenderProps = {
+  frep: NFrepBase;
+  min: Vector3;
+  max: Vector3;
+  width: number;
+  height: number;
+  depth: number;
+};
+
 export default class NFrepTexture {
   private renderer: WebGLRenderer;
 
@@ -11,16 +20,12 @@ export default class NFrepTexture {
     this.renderer = source !== undefined ? source : new WebGLRenderer();
   }
 
-  public render (frep: NFrepBase, padding: number, w: number, h: number, d: number): RenderTarget {
+  public render (props: FrepRenderProps): RenderTarget {
+    const { frep, min, max, width, height, depth } = props;
     const code = frep.compile('p');
-    const { min, max } = frep.boundingBox.getMinMax();
-    const pad = new Vector3(padding, padding, padding);
-    min.sub(pad);
-    max.add(pad);
 
-    const tw = w * h;
-    const th = d;
-
+    const tw = width * height;
+    const th = depth;
     const gpuCompute = new GPUComputationRenderer(tw, th, this.renderer);
     gpuCompute.setDataType(UnsignedByteType);
 
@@ -40,12 +45,12 @@ export default class NFrepTexture {
     variable.material.uniforms.bmin = { value: min };
     variable.material.uniforms.bmax = { value: max };
     variable.material.uniforms.bsize = { value: max.clone().sub(min) };
-    variable.material.uniforms.width = { value: w };
-    variable.material.uniforms.height = { value: h };
-    variable.material.uniforms.depth = { value: d };
-    variable.material.uniforms.iwidth = { value: 1 / w };
-    variable.material.uniforms.iheight = { value: 1 / h };
-    variable.material.uniforms.idepth = { value: 1 / d };
+    variable.material.uniforms.width = { value: width };
+    variable.material.uniforms.height = { value: height };
+    variable.material.uniforms.depth = { value: depth };
+    variable.material.uniforms.iwidth = { value: 1 / width };
+    variable.material.uniforms.iheight = { value: 1 / height };
+    variable.material.uniforms.idepth = { value: 1 / depth };
     variable.material.uniforms.iU = { value: 1 / tw };
     variable.material.uniforms.iV = { value: 1 / th };
     variable.material.defines.SCENE_CODE = code;
@@ -60,8 +65,8 @@ export default class NFrepTexture {
     return gpuCompute.getCurrentRenderTarget(variable);
   }
 
-  public build (frep: NFrepBase, padding: number, w: number, h: number, d: number): Uint8Array {
-    const target = this.render(frep, padding, w, h, d) as WebGLRenderTarget;
+  public build (props: FrepRenderProps): Uint8Array {
+    const target = this.render(props) as WebGLRenderTarget;
 
     const { width, height } = target;
     const wh = width * height;
