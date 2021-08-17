@@ -17,7 +17,14 @@ export type IOJSONType = {
   dataType: DataTypes;
   accessType?: AccessTypes;
   connections: ConnectionJSONType[];
+  displayType?: IODisplayType;
 };
+
+export const IODisplayTypes = {
+  Default: 'Default',
+  Hidden: 'Hidden'
+} as const;
+export type IODisplayType = typeof IODisplayTypes[keyof typeof IODisplayTypes];
 
 export default abstract class IO implements ISerializable {
   public getParent (): NodeBase {
@@ -34,6 +41,10 @@ export default abstract class IO implements ISerializable {
     this.accessType = type;
   }
 
+  public get displayType (): IODisplayType {
+    return this._displayType;
+  }
+
   parent: WeakRef<NodeBase>;
   selected: boolean = false;
   protected name: string;
@@ -41,6 +52,7 @@ export default abstract class IO implements ISerializable {
   protected dataType: DataTypes;
   protected accessType: AccessTypes = AccessTypes.ITEM;
   protected connections: WeakRef<IO>[] = [];
+  protected _displayType: IODisplayType = IODisplayTypes.Default;
 
   public onStateChanged: IOEvent = new IOEvent();
 
@@ -80,12 +92,16 @@ export default abstract class IO implements ISerializable {
 
   public select (): void {
     this.selected = true;
-    this.onStateChanged.emit({ io: this });
+    this.notifyStateChanged();
   }
 
   public unselect (): void {
     this.selected = false;
-    this.onStateChanged.emit({ io: this });
+    this.notifyStateChanged();
+  }
+
+  public hasConnection (): boolean {
+    return this.connections.length > 0;
   }
 
   public getConnections (): IO[] {
@@ -124,6 +140,15 @@ export default abstract class IO implements ISerializable {
   public unhighlight () {
   }
 
+  public setDisplayType (type: IODisplayType): void {
+    this._displayType = type;
+    this.notifyStateChanged();
+  }
+
+  protected notifyStateChanged () {
+    this.onStateChanged.emit({ io: this });
+  }
+
   public dispose (): void {
     this.onBeforeDispose();
     this.onStateChanged.dispose();
@@ -139,7 +164,8 @@ export default abstract class IO implements ISerializable {
       comment: this.description,
       dataType: this.dataType,
       accessType: this.accessType,
-      connections: this.getConnectionJSON()
+      connections: this.getConnectionJSON(),
+      displayType: this.displayType
     };
   }
 
@@ -148,5 +174,6 @@ export default abstract class IO implements ISerializable {
     this.description = json.comment ?? this.description;
     this.dataType = json.dataType;
     this.accessType = json.accessType ?? this.accessType;
+    this._displayType = json.displayType ?? IODisplayTypes.Default;
   }
 }

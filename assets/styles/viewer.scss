@@ -25,7 +25,7 @@
   &.fullscreen { 
     display: block;
     position: absolute;
-    z-index: 10002;
+    z-index: 10002 !important;
     width: 100% !important;
     top: 0px;
     left: 0px;

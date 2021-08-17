@@ -10,7 +10,7 @@ const InputUtils = {
     return prev;
   },
   getMouseWhich (e: MouseEvent | TouchEvent) {
-    if (e instanceof TouchEvent) {
+    if (window.TouchEvent && e instanceof TouchEvent) {
       const len = e.touches.length;
       return len;
     }

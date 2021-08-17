@@ -65,45 +65,6 @@
     pointer-events: none;
     z-index: 101;
   }
-
-  .resizer {
-    width: 2px;
-    background-color: #ccc;
-
-    .handle {
-      z-index: 1;
-      width: 6px;
-      transform: translate(-3px);
-      cursor: col-resize;
-    }
-  }
-
-  .switcher {
-    $switcher-width: 24px;
-    width: $switcher-width;
-    background-color: #eee;
-    overflow: visible;
-
-    .handle {
-      width: $switcher-width;
-      height: 100%;
-
-      display: flex;
-      align-items: center;
-      align-content: center;
-
-      svg {
-        width: $switcher-width;
-      }
-
-      &:not(.editor) {
-        svg {
-          transform: rotate(180deg);
-        }
-      }
-
-    }
-  }
 }
 
 .nodi-editor {
@@ -283,6 +244,10 @@
         path, circle {
           fill: none;
           stroke-width: 2px;
+
+          &.indicator {
+            opacity: 0.75;
+          }
         }
       }
 

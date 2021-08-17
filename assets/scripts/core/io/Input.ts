@@ -26,7 +26,7 @@ export default class Input extends IO {
   }
 
   public hasSource (): boolean {
-    return this.connections.length > 0;
+    return this.hasConnection();
   }
 
   public get source (): Output | undefined {

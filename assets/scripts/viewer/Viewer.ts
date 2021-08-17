@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { Easing, Tween, Group as TweenGroup } from '@tweenjs/tween.js';
+import { debounce, DebouncedFunc } from 'lodash';
 import IDisposable from '../core/misc/IDisposable';
 
 import NodeBase from '../core/nodes/NodeBase';
@@ -94,6 +95,8 @@ export default class Viewer implements IDisposable {
 
   private elements: IElementable[] = [];
   private listeners: { listener: IDisposable; node: NodeBase; } [] = [];
+  private debouncedComputeBoundingBox: DebouncedFunc<() => Box3> = debounce(this.computeBoundingBox, 100);
+  public debouncedUpdate: DebouncedFunc<(nodes: NodeBase[]) => void> = debounce(this.update, 50);
 
   constructor (root: HTMLElement) {
     this.el = root;
@@ -198,7 +201,7 @@ export default class Viewer implements IDisposable {
       this.light.position.copy(this.camera.position);
 
       this.setResolutions();
-      this.triggerViewChange();
+      this.notifyViewChanged();
     });
     cameraControls.panSpeed = 1.25;
     cameraControls.rotateSpeed = 1.0;
@@ -229,22 +232,27 @@ export default class Viewer implements IDisposable {
   }
 
   private curve (curve: NCurve): IElementable {
-    let points = [];
+    let points: NPoint[] = [];
 
-    if (curve instanceof NPolylineCurve) {
-      points = curve.points.map(p => p.clone());
-      if (curve.closed && points.length > 0) {
-        points.push(points[0].clone());
+    try {
+      if (curve instanceof NPolylineCurve) {
+        points = curve.points.map(p => p.clone());
+        if (curve.closed && points.length > 0) {
+          points.push(points[0].clone());
+        }
+      } else if (curve instanceof NLineCurve) {
+        points = [curve.a, curve.b];
+      } else if (curve instanceof NNurbsCurve) {
+        points = curve.tessellate();
+      } else if (curve instanceof NRectangleCurve) {
+        points = curve.getCornerPoints();
+        points.push(points[0]);
+      } else {
+        points = curve.getPoints(30);
       }
-    } else if (curve instanceof NLineCurve) {
-      points = [curve.a, curve.b];
-    } else if (curve instanceof NNurbsCurve) {
-      points = curve.tessellate();
-    } else if (curve instanceof NRectangleCurve) {
-      points = curve.getCornerPoints();
-      points.push(points[0]);
-    } else {
-      points = curve.getPoints(30);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn(e);
     }
 
     return new NVLine(points);
@@ -285,13 +293,51 @@ export default class Viewer implements IDisposable {
     return elements;
   }
 
-  private clearChanged (nodes: NodeBase[]): void {
+  private clearUnrefChangedElements (nodes: NodeBase[]): void {
     const elements = this.elements;
     for (let i = elements.length - 1; i >= 0; i--) {
       const element = elements[i];
       const found = nodes.find(n => n.uuid === element.node);
       if (found === undefined || found.hasChanged()) {
+        elements.splice(i, 1);
         this.destroy(element);
+      }
+    }
+  }
+
+  private hasRefElement (node: NodeBase): boolean {
+    return this.elements.some(e => e.node === node.uuid);
+  }
+
+  private clearRefElements (node: NodeBase) {
+    const elements = this.elements;
+    for (let i = elements.length - 1; i >= 0; i--) {
+      const element = elements[i];
+      if (element.node === node.uuid) {
+        elements.splice(i, 1);
+        this.destroy(element);
+      }
+    }
+  }
+
+  private clearUnrefListeners (nodes: NodeBase[]): void {
+    // clear event listeners
+    for (let i = this.listeners.length - 1; i >= 0; i--) {
+      const l = this.listeners[i];
+      if (!nodes.includes(l.node)) {
+        l.listener.dispose();
+        this.listeners.splice(i, 1);
+      }
+    }
+  }
+
+  private clearRefListeners (node: NodeBase): void {
+    // clear event listeners related to changed node
+    for (let i = this.listeners.length - 1; i >= 0; i--) {
+      const l = this.listeners[i];
+      if (l.node === node) {
+        l.listener.dispose();
+        this.listeners.splice(i, 1);
       }
     }
   }
@@ -304,28 +350,25 @@ export default class Viewer implements IDisposable {
   public update (nodes: NodeBase[]): void {
     const enabled = nodes.filter(n => n.enabled && n.previewable);
 
-    this.clearChanged(enabled);
+    this.clearUnrefChangedElements(enabled);
+    this.clearUnrefListeners(enabled);
 
     for (let i = 0, n = enabled.length; i < n; i++) {
       const node = enabled[i];
 
       if (!node.hasChanged()) { continue; }
 
-      // clear event listeners related to changed node
-      for (let j = this.listeners.length - 1; j >= 0; j--) {
-        const l = this.listeners[j];
-        if (l.node === node) {
-          l.listener.dispose();
-          this.listeners.splice(j, 1);
-        }
-      }
+      this.clearRefListeners(node);
 
       if (node.visible) {
         this.process(node);
       } else {
         const listener = node.onStateChanged.on((e) => {
-          if (e.node.visible) {
-            this.process(node);
+          const has = this.hasRefElement(e.node);
+          if (e.node.enabled && e.node.visible && !has) {
+            this.process(e.node);
+            this.clearRefListeners(e.node);
+            this.debouncedComputeBoundingBox();
             listener.dispose();
           }
         });
@@ -337,7 +380,7 @@ export default class Viewer implements IDisposable {
       node.markUnchanged();
     }
 
-    this.computeBoundingBox();
+    this.debouncedComputeBoundingBox();
   }
 
   private process (node: NodeBase): void {
@@ -538,7 +581,7 @@ export default class Viewer implements IDisposable {
     }
 
     this.cameraControls.reset();
-    this.triggerViewChange();
+    this.notifyViewChanged();
   }
 
   public setCameraDirection (direction: Vector3): void {
@@ -574,7 +617,7 @@ export default class Viewer implements IDisposable {
         this.camera.position.copy(current);
         this.camera.lookAt(origin);
 
-        this.triggerViewChange();
+        this.notifyViewChanged();
       })
       .onComplete(() => {
         this.cameraControls.target.copy(origin);
@@ -585,7 +628,7 @@ export default class Viewer implements IDisposable {
         this.cameraControls.reset();
         this.cameraControls.enabled = true;
 
-        this.triggerViewChange();
+        this.notifyViewChanged();
       })
       .start();
 
@@ -730,7 +773,7 @@ export default class Viewer implements IDisposable {
     }
 
     this.cameraControls.reset();
-    this.triggerViewChange();
+    this.notifyViewChanged();
 
     this.cameraControls.enabled = true;
   }
@@ -765,7 +808,7 @@ export default class Viewer implements IDisposable {
     };
   }
 
-  private triggerViewChange (): void {
+  private notifyViewChanged (): void {
     this.onViewChanged.emit(this.camera);
   }
 
