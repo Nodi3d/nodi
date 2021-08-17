@@ -43,7 +43,7 @@ export default class MarchingCubes extends AsyncNodeBase {
     const padding = access.getData(2) as number;
 
     const mc = new NFrepMarchingCubes();
-    const mesh = mc.execute(frep, resolution, padding);
+    const mesh = await mc.execute(frep, resolution, padding);
     access.setData(0, mesh);
   }
 }

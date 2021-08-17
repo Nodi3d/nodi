@@ -13,9 +13,6 @@ type MCResult = {
 };
 
 export default class NFrepMarchingCubes {
-  constructor () {
-  }
-
   public async execute (frep: NFrep, resolution: number, padding: number = 0) {
     const { min, max } = frep.boundingBox.getMinMax();
     const pad = new Vector3(padding, padding, padding);

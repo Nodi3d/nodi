@@ -199,9 +199,8 @@ export default class FrepMeshExporter extends ExporterNodeBase {
     const resolutionTree = this.inputManager.getIO(1).getData() as DataTree;
     const paddingTree = this.inputManager.getIO(2).getData() as DataTree;
 
-    const resolution = resolutionTree.getItemsByIndex(0)[0] as number;
-    const padding = paddingTree.getItemsByIndex(0)[0] as number;
-    console.log(resolution, padding);
+    const resolution = (resolutionTree.getItemsByIndex(0)[0] as number) || 64;
+    const padding = (paddingTree.getItemsByIndex(0)[0] as number) || 0;
 
     const freps: NFrep[] = [];
     frepTree.traverse((frep: NFrep) => {
@@ -241,7 +240,7 @@ export default class FrepMeshExporter extends ExporterNodeBase {
     }));
   }
 
-  private async parse (format: SupportedFormat, container: Object3D): Promise<any> {
+  private parse (format: SupportedFormat, container: Object3D): Promise<any> {
     return new Promise((resolve) => {
       switch (format) {
         case SupportedFormats.stl:
@@ -250,11 +249,13 @@ export default class FrepMeshExporter extends ExporterNodeBase {
             binary: false
           });
           resolve(result);
+          break;
         }
         case SupportedFormats.obj:
         {
           const result = new OBJExporter().parse(container);
           resolve(result);
+          break;
         }
         case SupportedFormats.gltf:
         {
@@ -263,6 +264,7 @@ export default class FrepMeshExporter extends ExporterNodeBase {
           }, {
             binary: true
           });
+          break;
         }
         case SupportedFormats.ply:
         {
@@ -270,6 +272,7 @@ export default class FrepMeshExporter extends ExporterNodeBase {
             binary: false
           });
           resolve(result);
+          break;
         }
       }
     });
