@@ -7,7 +7,7 @@ export default class GltfExporter extends MeshExporterNodeBase {
   protected fileName: string = 'default.glb';
 
   protected get binary (): boolean {
-    return false;
+    return true;
   }
 
   protected get format (): string {
