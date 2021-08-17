@@ -41,10 +41,12 @@ export default abstract class NodeBase extends ElementBase implements ISerializa
   selected: boolean = false;
   enabled: boolean = true;
   visible: boolean = true;
+
   private _hasChanged: boolean = false;
   protected _previewable: boolean = false;
   private _executionTime: number = 0;
   private _processing: boolean = false;
+  private _processed: boolean = false;
 
   errorMessage: string | null = null;
 
@@ -85,6 +87,10 @@ export default abstract class NodeBase extends ElementBase implements ISerializa
 
   public get processing (): boolean {
     return this._processing;
+  }
+
+  public get processed (): boolean {
+    return this._processed;
   }
 
   public set processing (v: boolean) {
@@ -276,6 +282,7 @@ export default abstract class NodeBase extends ElementBase implements ISerializa
     this._executionTime = Math.floor((t1 - t0) * units) / units;
 
     this.processing = false;
+    this._processed = true;
     this.outputManager.outputs.forEach(o => o.notifyDataChanged());
 
     return Promise.resolve();
@@ -321,6 +328,7 @@ export default abstract class NodeBase extends ElementBase implements ISerializa
     this.outputManager.clear();
     this._executionTime = 0;
     this._processing = false;
+    this._processed = false;
     this.notifyStateChanged();
   }
 
