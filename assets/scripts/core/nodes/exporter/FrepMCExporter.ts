@@ -1,4 +1,4 @@
-import { Color, DoubleSide, Mesh, MeshStandardMaterial, Object3D } from 'three';
+import { Object3D } from 'three';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
 import { OBJExporter } from 'three/examples/jsm/exporters/OBJExporter';
 import { PLYExporter } from 'three/examples/jsm/exporters/PLYExporter';
@@ -228,8 +228,6 @@ export default class FrepMCExporter extends ExporterNodeBase {
       freps.push(frep);
     });
 
-    console.log('export');
-
     const mc = new NFrepMarchingCubes();
     const threshold = 128;
     if (resolution <= threshold) {
@@ -260,8 +258,6 @@ export default class FrepMCExporter extends ExporterNodeBase {
         }
       }
     }
-
-    console.log('export end');
   }
 
   private extractFileName (name: string): string {

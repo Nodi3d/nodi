@@ -1,26 +1,13 @@
-import { Matrix4, Vector3 } from 'three';
 import { AccessTypes } from '../../../data/AccessTypes';
 import DataAccess from '../../../data/DataAccess';
 import DataTree from '../../../data/DataTree';
 import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
-import NFrepTexture, { FrepRenderProps } from '../../../math/frep/misc/NFrepTexture';
 import NFrep from '../../../math/frep/NFrep';
-import { NPoint } from '../../../math/geometry';
-import { NFace, NMesh } from '../../../math/geometry/mesh';
-import Helper from '../../../math/Helper';
 
 import AsyncNodeBase from '../../AsyncNodeBase';
-// import MarchingCubesWorker from 'worker-loader!~/assets/scripts/core/workers/MarchingCubes.worker';
-import MarchingCubesWorker, { MarchingCubesProps } from '../../../workers/MarchingCubes.worker';
 import NFrepMarchingCubes from '../../../math/frep/misc/NFrepMarchingCubes';
-
-type MCResult = {
-  triangles: Float32Array;
-  min: Vector3;
-  max: Vector3;
-};
 
 export default class MarchingCubes extends AsyncNodeBase {
   public get displayName (): string {

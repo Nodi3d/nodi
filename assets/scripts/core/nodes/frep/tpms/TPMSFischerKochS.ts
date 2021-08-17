@@ -8,9 +8,9 @@ import NFrepBase from '../../../math/frep/NFrepBase';
 import NFrepFilter from '../../../math/frep/NFrepFilter';
 import FrepNodeBase from '../FrepNodeBase';
 
-export default class TPMSFischerKoch extends FrepNodeBase {
+export default class TPMSFischerKochS extends FrepNodeBase {
   public get displayName (): string {
-    return 'Fischer Koch';
+    return 'Fischer Koch S';
   }
 
   public registerInputs (manager: InputManager): void {

@@ -59,7 +59,7 @@ import FCone from './frep/primitives/FCone';
 import FCylinder from './frep/primitives/FCylinder';
 import FSphere from './frep/primitives/FSphere';
 import TPMSDiamond from './frep/tpms/TPMSDiamond';
-import TPMSFischerKoch from './frep/tpms/TPMSFischerKoch';
+import TPMSFischerKochS from './frep/tpms/TPMSFischerKochS';
 import TPMSGyroid from './frep/tpms/TPMSGyroid';
 import TPMSLidinoid from './frep/tpms/TPMSLidinoid';
 import TPMSSchwarzP from './frep/tpms/TPMSSchwarzP';
@@ -313,7 +313,7 @@ const Nodes = {
   FCylinder,
   FSphere,
   TPMSDiamond,
-  TPMSFischerKoch,
+  TPMSFischerKochS,
   TPMSGyroid,
   TPMSLidinoid,
   TPMSSchwarzP,
@@ -569,7 +569,7 @@ const NodeDictionary: { [index: string]: { name:string; entity: NodeConstructorT
   'frep/primitives/FCylinder': { name: 'FCylinder', entity: FCylinder },
   'frep/primitives/FSphere': { name: 'FSphere', entity: FSphere },
   'frep/tpms/TPMSDiamond': { name: 'TPMSDiamond', entity: TPMSDiamond },
-  'frep/tpms/TPMSFischerKoch': { name: 'TPMSFischerKoch', entity: TPMSFischerKoch },
+  'frep/tpms/TPMSFischerKochS': { name: 'TPMSFischerKochS', entity: TPMSFischerKochS },
   'frep/tpms/TPMSGyroid': { name: 'TPMSGyroid', entity: TPMSGyroid },
   'frep/tpms/TPMSLidinoid': { name: 'TPMSLidinoid', entity: TPMSLidinoid },
   'frep/tpms/TPMSSchwarzP': { name: 'TPMSSchwarzP', entity: TPMSSchwarzP },
