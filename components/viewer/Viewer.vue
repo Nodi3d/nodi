@@ -163,7 +163,7 @@ export default class ViewerComponent extends Vue {
     // viewer.debouncedUpdate(nodes.filter(node => !(node instanceof UINodeBase)));
 
     this.clearListeners();
-    const UIs: UINodeBase[] = nodes.filter(node => (node instanceof UINodeBase) && node.enabled) as UINodeBase[];
+    const UIs: UINodeBase[] = nodes.filter(node => (node instanceof UINodeBase) && node.enabled && node.processed) as UINodeBase[];
 
     // eslint-disable-next-line prefer-const
     let prev = UIs.map(ui => ui.visible);
