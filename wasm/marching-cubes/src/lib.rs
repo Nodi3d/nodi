@@ -298,7 +298,8 @@ static EDGE_VERTICES: [[usize; 2]; 12] = [
 ];
 
 fn lerp_verts(va: &[u32; 3], vb: &[u32; 3], fa: f32, fb: f32, isoval: f32, v: &mut [f32; 3]) {
-    let t = if f32::abs(fa - fb) < 0.0001 {
+    let eps = 1e-8;
+    let t = if f32::abs(fa - fb) < eps {
         0.0
     } else {
         (isoval - fa) / (fb - fa)
@@ -313,7 +314,8 @@ fn lerp_verts(va: &[u32; 3], vb: &[u32; 3], fa: f32, fb: f32, isoval: f32, v: &m
 pub struct MarchingCubes {
     dims: [u32; 3],
     // The input volume, stored on the WASM side
-    volume: Vec<u8>,
+    // volume: Vec<u8>,
+    volume: Vec<f32>,
     // The computed triangles, stored on the WASM side
     triangles: Vec<f32>,
 }
@@ -326,7 +328,8 @@ impl MarchingCubes {
             // due to how the indices are labeled in the paper.
             let voxel =
                 ((cell_k + v[2]) * self.dims[1] + cell_j + v[1]) * self.dims[0] + cell_i + v[0];
-            values[i] = self.volume[voxel as usize] as f32 / 255.0;
+            // values[i] = self.volume[voxel as usize] as f32 / 255.0;
+            values[i] = self.volume[voxel as usize];
         }
     }
 }
@@ -341,7 +344,7 @@ impl MarchingCubes {
         }
     }
 
-    pub fn set_volume(&mut self, volume: Vec<u8>, dims_x: u32, dims_y: u32, dims_z: u32) {
+    pub fn set_volume(&mut self, volume: Vec<f32>, dims_x: u32, dims_y: u32, dims_z: u32) {
         self.volume = volume;
         self.dims[0] = dims_x;
         self.dims[1] = dims_y;

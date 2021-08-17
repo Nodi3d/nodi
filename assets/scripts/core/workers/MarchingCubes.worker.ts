@@ -1,7 +1,7 @@
 const wasm = import('@/wasm/marching-cubes/pkg');
 
 export type MarchingCubesProps = {
-  buffer: Uint8Array;
+  buffer: Float32Array;
   width: number;
   height: number;
   depth: number;

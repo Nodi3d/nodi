@@ -59,7 +59,7 @@ export default class NFrepMarchingCubes {
     };
   }
 
-  private marchingCubes (buffer: Uint8Array, props: FrepRenderProps): Promise<MCResult> {
+  private marchingCubes (buffer: Float32Array, props: FrepRenderProps): Promise<MCResult> {
     // const texture = new NFrepTexture();
     // const buffer = texture.build(props);
     const { min, max, width, height, depth } = props;

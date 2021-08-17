@@ -1,4 +1,4 @@
-import { RGBAFormat, Texture, DataTexture, UnsignedByteType, WebGLRenderer, RenderTarget, WebGLRenderTarget, Vector3 } from 'three';
+import { RGBAFormat, Texture, DataTexture, UnsignedByteType, WebGLRenderer, RenderTarget, WebGLRenderTarget, Vector3, FloatType } from 'three';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer';
 import NFrepBase from '../NFrepBase';
 import FrepCommon from '../../../shaders/frep_common.glsl';
@@ -27,12 +27,13 @@ export default class NFrepTexture {
     const tw = width * height;
     const th = depth;
     const gpuCompute = new GPUComputationRenderer(tw, th, this.renderer);
-    gpuCompute.setDataType(UnsignedByteType);
+    // gpuCompute.setDataType(UnsignedByteType);
+    gpuCompute.setDataType(FloatType);
 
     // const initialValueTexture = new DataTexture(new Uint8Array(tw * th * 4), tw, th, RGBAFormat, UnsignedByteType);
     const initialValueTexture = new Texture();
     initialValueTexture.format = RGBAFormat;
-    initialValueTexture.type = UnsignedByteType;
+    initialValueTexture.type = FloatType;
 
     const variable = gpuCompute.addVariable(
       'textureFrep',
@@ -66,16 +67,19 @@ export default class NFrepTexture {
     return gpuCompute.getCurrentRenderTarget(variable);
   }
 
-  public build (props: FrepRenderProps): Uint8Array {
+  // public build (props: FrepRenderProps): Uint8Array {
+  public build (props: FrepRenderProps): Float32Array {
     const target = this.render(props) as WebGLRenderTarget;
 
     const { width, height } = target;
     const wh = width * height;
-    const buffer = new Uint8Array(wh * 4);
+    // const buffer = new Uint8Array(wh * 4);
+    const buffer = new Float32Array(wh * 4);
 
     this.renderer.readRenderTargetPixels(target, 0, 0, width, height, buffer);
 
-    const dst = new Uint8Array(wh);
+    // const dst = new Uint8Array(wh);
+    const dst = new Float32Array(wh);
     for (let i = 0; i < wh; i++) {
       dst[i] = buffer[i * 4];
     }
