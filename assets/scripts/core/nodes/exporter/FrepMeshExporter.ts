@@ -13,6 +13,7 @@ import { Deg2Rad } from '../../math/Constant';
 import NFrepMarchingCubes from '../../math/frep/misc/NFrepMarchingCubes';
 import NFrep from '../../math/frep/NFrep';
 import ExporterNodeBase, { ExporterNodeJSONType } from './ExporterNodeBase';
+import IndicatorElement from '~/assets/scripts/core/dom/IndicatorElement';
 
 export type FrepMeshExporterNodeJSONType = ExporterNodeJSONType & {
   format?: SupportedFormat;
@@ -112,11 +113,14 @@ export default class FrepMeshExporter extends ExporterNodeBase {
     cSelect.value = this.coordinate;
 
     const button = container.getElementsByClassName(buttonId)[0] as HTMLButtonElement;
-    button.addEventListener('click', (e) => {
+    button.disabled = this.processing;
+    button.addEventListener('click', async (e) => {
       e.preventDefault();
       e.stopPropagation();
 
-      this.download(input.value, this.format, this.coordinate);
+      button.disabled = true;
+      await this.download(input.value, this.format, this.coordinate);
+      button.disabled = false;
     });
   }
 
@@ -124,13 +128,16 @@ export default class FrepMeshExporter extends ExporterNodeBase {
     const span = this.createGUILabelSpan();
     container.appendChild(span);
 
+    const buttonWrapperId = 'button-wrapper';
     const buttonId = 'frep-exporter-button';
     const formatSelectBoxId = 'frep-exporter-format';
     const coordinateSelectBoxId = 'frep-exporter-coordinate';
 
     const html = `
       <div class='d-flex flex-column'>
-        <button class='btn ${buttonId} mb-1' id='${buttonId}'></button>
+        <div class='${buttonWrapperId}'>
+          <button class='btn ${buttonId} mb-1' id='${buttonId}'></button>
+        </div>
         <select style='width: 120px;' name='${formatSelectBoxId}' id='${formatSelectBoxId}' class='mb-1 ${formatSelectBoxId}'>
           ${
             Object.keys(SupportedFormats).map((type) => {
@@ -151,6 +158,11 @@ export default class FrepMeshExporter extends ExporterNodeBase {
     template.innerHTML = html;
     container.appendChild(template.content);
 
+    const wrapper = container.getElementsByClassName(buttonWrapperId)[0] as HTMLDivElement;
+    const indicator = new IndicatorElement();
+    indicator.hide();
+    wrapper.appendChild(indicator.dom);
+
     const fSelect = container.getElementsByClassName(formatSelectBoxId)[0] as HTMLSelectElement;
     fSelect.addEventListener('change', () => {
       this.format = fSelect.value as SupportedFormat;
@@ -162,20 +174,29 @@ export default class FrepMeshExporter extends ExporterNodeBase {
     });
 
     const button = container.getElementsByClassName(buttonId)[0] as HTMLButtonElement;
-    button.addEventListener('click', (e) => {
+    button.addEventListener('click', async (e) => {
       e.preventDefault();
       e.stopPropagation();
-      this.download(this.fileName, this.format, this.coordinate);
+
+      button.disabled = true;
+      indicator.show();
+      await this.download(this.fileName, this.format, this.coordinate);
+      button.disabled = false;
+      indicator.hide();
     });
     this.onStateChanged.on(() => {
-      button.textContent = this.fileName;
       fSelect.value = this.format;
       cSelect.value = this.coordinate;
+      button.textContent = this.getButtonTitle();
     });
 
     fSelect.value = this.format;
     cSelect.value = this.coordinate;
-    button.textContent = this.fileName;
+    button.textContent = this.getButtonTitle();
+  }
+
+  private getButtonTitle (): string {
+    return this.fileName.includes(`.${this.format}`) ? this.fileName : `${this.fileName}.${this.format}`;
   }
 
   public get displayName (): string {
@@ -279,6 +300,8 @@ export default class FrepMeshExporter extends ExporterNodeBase {
   }
 
   private async download (name: string, format: SupportedFormat, coordinate: string): Promise<void> {
+    this.processing = true;
+
     const blob = await this.export(format, coordinate);
 
     const a = document.createElement('a');
@@ -290,6 +313,8 @@ export default class FrepMeshExporter extends ExporterNodeBase {
 
     e.initEvent('click', true, true);
     a.dispatchEvent(e);
+
+    this.processing = false;
   }
 
   public toJSON (): FrepMeshExporterNodeJSONType {

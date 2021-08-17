@@ -5,10 +5,10 @@ import NodeBase from '../../core/nodes/NodeBase';
 import InputUtils from '../misc/InputUtils';
 import { NodeIOViewEvent, NodeViewEvent } from '../misc/Events';
 import IO from '../../core/io/IO';
+import IndicatorElement from '../../core/dom/IndicatorElement';
 import View from './View';
 import IOView from './IOView';
 import ConnectingEdgeView from './ConnectingEdgeView';
-import IndicatorElement from './IndicatorElement';
 
 export default class NodeView extends View {
   protected entity: WeakRef<NodeBase>;

@@ -58,6 +58,7 @@ export default class NFrepTexture {
     gpuCompute.setVariableDependencies(variable, [variable]);
     const error = gpuCompute.init();
     if (error !== null) {
+      // eslint-disable-next-line no-console
       console.error(error);
     }
     gpuCompute.compute();
