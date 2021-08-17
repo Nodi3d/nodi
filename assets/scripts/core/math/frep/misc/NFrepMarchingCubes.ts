@@ -1,4 +1,4 @@
-import { Matrix4, Vector3 } from 'three';
+import { BufferAttribute, BufferGeometry, EdgesGeometry, Matrix4, Mesh, MeshStandardMaterial, Vector3 } from 'three';
 import MarchingCubesWorker, { MarchingCubesProps } from '../../../workers/MarchingCubes.worker';
 import { NPoint } from '../../geometry';
 import { NFace, NMesh } from '../../geometry/mesh';
@@ -13,7 +13,10 @@ type MCResult = {
 };
 
 export default class NFrepMarchingCubes {
-  public async execute (frep: NFrep, resolution: number, padding: number = 0) {
+  public async execute (frep: NFrep, resolution: number, padding: number = 0): Promise<{
+    result: MCResult[];
+    dw: number;
+  }> {
     const { min, max } = frep.boundingBox.getMinMax();
     const pad = new Vector3(padding, padding, padding);
     min.sub(pad);
@@ -51,7 +54,9 @@ export default class NFrepMarchingCubes {
       return this.marchingCubes(buffer, props);
     });
     const result = await Promise.all(promises);
-    return this.build(result, dw, resolution);
+    return {
+      result, dw
+    };
   }
 
   private marchingCubes (buffer: Uint8Array, props: FrepRenderProps): Promise<MCResult> {
@@ -74,7 +79,26 @@ export default class NFrepMarchingCubes {
     });
   }
 
-  private build (result: MCResult[], dw: number, resolution: number): NMesh {
+  public mesh (result: MCResult[], dw: number, resolution: number): Mesh[] {
+    const iW = 1 / dw;
+    const iR = 1 / resolution;
+
+    return result.map((r) => {
+      const { triangles, min, max } = r;
+      const size = max.clone().sub(min);
+      const T = new Matrix4().makeTranslation(min.x, min.y, min.z);
+      const S = new Matrix4().makeScale(size.x * iW, size.y * iR, size.z * iR);
+      const m = new Matrix4();
+      m.multiply(T);
+      m.multiply(S);
+      const geometry = new BufferGeometry();
+      geometry.setAttribute('position', new BufferAttribute(triangles, 3));
+      geometry.applyMatrix4(m);
+      return new Mesh(geometry, new MeshStandardMaterial({}));
+    });
+  }
+
+  public build (result: MCResult[], dw: number, resolution: number): NMesh {
     const mesh = new NMesh();
     const iW = 1 / dw;
     const iR = 1 / resolution;

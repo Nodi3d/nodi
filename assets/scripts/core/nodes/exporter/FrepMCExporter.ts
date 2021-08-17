@@ -36,7 +36,7 @@ const Coordinates = {
 } as const;
 type Coordinate = typeof Coordinates[keyof typeof Coordinates];
 
-export default class FrepMeshExporter extends ExporterNodeBase {
+export default class FrepMCExporter extends ExporterNodeBase {
   protected fileName: string = 'frep';
   protected format: SupportedFormat = SupportedFormats.stl;
   private coordinate: Coordinate = Coordinates.left;
@@ -200,7 +200,7 @@ export default class FrepMeshExporter extends ExporterNodeBase {
   }
 
   public get displayName (): string {
-    return 'Frep Exporter';
+    return 'Frep MC Exporter';
   }
 
   public registerInputs (manager: InputManager): void {
@@ -215,7 +215,7 @@ export default class FrepMeshExporter extends ExporterNodeBase {
   public solve (access: DataAccess): void {
   }
 
-  private async export (format: SupportedFormat, coordinate: string = 'right'): Promise<Blob> {
+  private async export (name: string, format: SupportedFormat, coordinate: Coordinate = 'right'): Promise<void> {
     const frepTree = this.inputManager.getIO(0).getData() as DataTree;
     const resolutionTree = this.inputManager.getIO(1).getData() as DataTree;
     const paddingTree = this.inputManager.getIO(2).getData() as DataTree;
@@ -228,24 +228,47 @@ export default class FrepMeshExporter extends ExporterNodeBase {
       freps.push(frep);
     });
 
+    console.log('export');
+
     const mc = new NFrepMarchingCubes();
-    const promises = freps.map((frep) => {
-      return mc.execute(frep, resolution, padding);
-    });
-    const result = await Promise.all(promises);
+    const threshold = 128;
+    if (resolution <= threshold) {
+      const promises = freps.map((frep) => {
+        return mc.execute(frep, resolution, padding);
+      });
+      const result = await Promise.all(promises);
+      const container = new Object3D();
+      result.forEach((r) => {
+        mc.mesh(r.result, r.dw, resolution).forEach((m) => {
+          container.add(m);
+        });
+      });
+      const data = await this.parse(format, coordinate, container);
+      this.downloadBlob(data, name, format);
+    } else {
+      for (let i = 0; i < freps.length; i++) {
+        const frep = freps[i];
+        const r = await mc.execute(frep, resolution, padding);
+        const len = r.result.length;
+        for (let j = 0; j < len; j++) {
+          const item = r.result[j];
+          const single = mc.mesh([item], r.dw, resolution)[0];
+          const data = await this.parse(format, coordinate, single);
+          const title = this.extractFileName(name);
+          this.downloadBlob(data, `${title}-${i}-${len}-${j}`, format);
+          single.geometry.dispose();
+        }
+      }
+    }
 
-    const container = new Object3D();
-    result.forEach((mesh) => {
-      const geometry = mesh.build();
-      const m = new Mesh(geometry, new MeshStandardMaterial({
-        color: new Color(0xC0C0C0),
-        side: DoubleSide,
-        roughness: 0.47,
-        metalness: 0
-      }));
-      container.add(m);
-    });
+    console.log('export end');
+  }
 
+  private extractFileName (name: string): string {
+    return name.includes('.') ? name.split('.')[0] : name;
+  }
+
+  private parse (format: SupportedFormat, coordinate: Coordinate, container: Object3D): Promise<any> {
     switch (coordinate) {
       case Coordinates.right: {
         container.rotation.x = 90 * Deg2Rad;
@@ -254,14 +277,6 @@ export default class FrepMeshExporter extends ExporterNodeBase {
       }
     }
 
-    const binary = format === SupportedFormats.gltf;
-    const data = await this.parse(format, container);
-    return Promise.resolve(new Blob([data], {
-      type: binary ? 'application/octet-binary' : 'text/plain'
-    }));
-  }
-
-  private parse (format: SupportedFormat, container: Object3D): Promise<any> {
     return new Promise((resolve) => {
       switch (format) {
         case SupportedFormats.stl:
@@ -299,22 +314,24 @@ export default class FrepMeshExporter extends ExporterNodeBase {
     });
   }
 
-  private async download (name: string, format: SupportedFormat, coordinate: string): Promise<void> {
+  private async download (name: string, format: SupportedFormat, coordinate: Coordinate): Promise<void> {
     this.processing = true;
+    await this.export(name, format, coordinate);
+    this.processing = false;
+  }
 
-    const blob = await this.export(format, coordinate);
-
+  private downloadBlob (data: any, name: string, format: SupportedFormat): void {
+    const binary = format === SupportedFormats.gltf;
+    const blob = new Blob([data], {
+      type: binary ? 'application/octet-binary' : 'text/plain'
+    });
     const a = document.createElement('a');
     const e = document.createEvent('MouseEvent');
     const url = window.URL.createObjectURL(blob);
-
     a.download = name.includes(`.${this.format}`) ? name : `${name}.${this.format}`;
     a.href = url;
-
     e.initEvent('click', true, true);
     a.dispatchEvent(e);
-
-    this.processing = false;
   }
 
   public toJSON (): FrepMeshExporterNodeJSONType {
