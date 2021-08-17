@@ -229,7 +229,7 @@ export default class FrepMCExporter extends ExporterNodeBase {
     });
 
     const mc = new NFrepMarchingCubes();
-    const threshold = 128;
+    const threshold = 256;
     if (resolution <= threshold) {
       const promises = freps.map((frep) => {
         return mc.execute(frep, resolution, padding);
