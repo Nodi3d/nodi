@@ -14,7 +14,9 @@ export default class MultipleSelectNodeState extends StateBase {
   }
 
   public mouseMove (context: Editor, input: EditorMouseInput): StateBase {
-    if (context.panning) this.rect.dispose()
+    if (context.panning) {
+      this.rect.dispose();
+    }
     const sp = context.getWorld(context.startMousePosition.x - input.rect.x, context.startMousePosition.y - input.rect.y);
     this.rect.update(sp.x, sp.y, input.world.x, input.world.y);
     return this;
