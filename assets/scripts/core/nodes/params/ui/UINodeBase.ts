@@ -18,6 +18,7 @@ export default abstract class UINodeBase extends NodeBase {
     const span = this.createLabelSpan();
     span.style.position = 'absolute';
     span.style.fontSize = '0.7rem';
+    span.style.whiteSpace = 'nowrap';
     span.style.top = '-16px';
     span.style.left = '0px';
     container.appendChild(span);
@@ -45,7 +46,7 @@ export default abstract class UINodeBase extends NodeBase {
   protected createGUILabelSpan (): HTMLSpanElement {
     const span = this.createLabelSpan();
     span.style.width = '100px';
-    span.style.wordBreak = 'break-all';
+    // span.style.wordBreak = 'break-all';
     span.style.userSelect = 'none';
     span.style.marginRight = 'auto';
     span.style.paddingRight = '4px';
