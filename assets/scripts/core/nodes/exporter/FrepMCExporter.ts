@@ -50,13 +50,13 @@ export default class FrepMCExporter extends ExporterNodeBase {
     const html = `
       <ul>
         <li>
-          <div class="">
+          <div>
             <label for='${inputTextId}'>File name</label>
             <input type='text' name='${inputTextId}' id='${inputTextId}' class='form-control input-block ${inputTextId}' />
           </div>
         </li>
         <li>
-          <div class="">
+          <div>
             <label for='${formatSelectBoxId}'>Format</label>
             <select name='${formatSelectBoxId}' id='${formatSelectBoxId}' class='form-select input-block ${formatSelectBoxId}'>
               ${
@@ -68,7 +68,7 @@ export default class FrepMCExporter extends ExporterNodeBase {
           </div>
         </li>
         <li>
-          <div class="">
+          <div>
             <label for='${coordinateSelectBoxId}'>Coordinate system</label>
             <select name='${coordinateSelectBoxId}' id='${coordinateSelectBoxId}' class='form-select input-block ${coordinateSelectBoxId}'>
               ${
@@ -207,6 +207,7 @@ export default class FrepMCExporter extends ExporterNodeBase {
     manager.add('m', 'FRep to export as mesh', DataTypes.FREP, AccessTypes.ITEM);
     manager.add('r', 'Meshing resolution', DataTypes.NUMBER, AccessTypes.ITEM).setDefault(new DataTree().add([64]));
     manager.add('p', 'Meshing padding', DataTypes.NUMBER, AccessTypes.ITEM).setDefault(new DataTree().add([0]));
+    manager.add('d', 'Force division', DataTypes.BOOLEAN, AccessTypes.ITEM).setDefault(new DataTree().add([false]));
   }
 
   public registerOutputs (manager: OutputManager): void {
@@ -219,9 +220,11 @@ export default class FrepMCExporter extends ExporterNodeBase {
     const frepTree = this.inputManager.getIO(0).getData() as DataTree;
     const resolutionTree = this.inputManager.getIO(1).getData() as DataTree;
     const paddingTree = this.inputManager.getIO(2).getData() as DataTree;
+    const divisionTree = this.inputManager.getIO(3).getData() as DataTree;
 
-    const resolution = (resolutionTree.getItemsByIndex(0)[0] as number) || 64;
-    const padding = (paddingTree.getItemsByIndex(0)[0] as number) || 0;
+    const resolution = (resolutionTree.getItemsByIndex(0)[0] as number) ?? 64;
+    const padding = (paddingTree.getItemsByIndex(0)[0] as number) ?? 0;
+    const forceDivision = (divisionTree.getItemsByIndex(0)[0] as boolean) ?? false;
 
     const freps: NFrep[] = [];
     frepTree.traverse((frep: NFrep) => {
@@ -230,7 +233,7 @@ export default class FrepMCExporter extends ExporterNodeBase {
 
     const mc = new NFrepMarchingCubes();
     const threshold = 256;
-    if (resolution <= threshold) {
+    if (!forceDivision && resolution < threshold) {
       const promises = freps.map((frep) => {
         return mc.execute(frep, resolution, padding);
       });
@@ -342,8 +345,8 @@ export default class FrepMCExporter extends ExporterNodeBase {
   }
 
   public fromJSON (json: FrepMeshExporterNodeJSONType): void {
-    this.coordinate = json.coordinate ?? Coordinates.left;
     this.format = json.format ?? SupportedFormats.stl;
+    this.coordinate = json.coordinate ?? Coordinates.left;
     this.notifyValueChanged();
     super.fromJSON(json);
   }
