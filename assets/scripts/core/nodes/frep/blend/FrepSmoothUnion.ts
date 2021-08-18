@@ -24,7 +24,7 @@ export default class FrepSmoothUnion extends FrepNodeBase {
 
   public solve (access: DataAccess): void {
     const freps = access.getDataList(0) as NFrepBase[];
-    const k = access.getData(1) as number;
+    const k = Math.max(1e-5, access.getData(1) as number);
     const n = freps.length;
 
     if (n === 1) {

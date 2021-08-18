@@ -26,7 +26,7 @@ export default class FrepSmoothIntersection extends FrepNodeBase {
   public solve (access: DataAccess): void {
     const a = access.getData(0) as NFrepBase;
     const b = access.getDataList(1) as NFrepBase[];
-    const k = access.getData(2) as number;
+    const k = Math.max(1e-5, access.getData(2) as number);
 
     const n = b.length;
     if (n <= 0) {
