@@ -1,3 +1,4 @@
+import { Matrix4, Quaternion, Vector3 } from 'three';
 import { AccessTypes } from '../../../data/AccessTypes';
 import DataAccess from '../../../data/DataAccess';
 import DataTree from '../../../data/DataTree';
@@ -16,7 +17,7 @@ export default class FCone extends FrepNodeBase {
   }
 
   public registerInputs (manager: InputManager): void {
-    manager.add('p', 'Base position', DataTypes.POINT, AccessTypes.ITEM).setDefault(new DataTree().add([new NPoint()]));
+    manager.add('p', 'Base position', DataTypes.POINT | DataTypes.PLANE, AccessTypes.ITEM).setDefault(new DataTree().add([new NPoint()]));
     manager.add('h', 'Height', DataTypes.NUMBER, AccessTypes.ITEM).setDefault(new DataTree().add([1]));
     manager.add('tr', 'Top radius', DataTypes.NUMBER, AccessTypes.ITEM).setDefault(new DataTree().add([0.2]));
     manager.add('br', 'Bottom radius', DataTypes.NUMBER, AccessTypes.ITEM).setDefault(new DataTree().add([0.5]));
@@ -27,7 +28,7 @@ export default class FCone extends FrepNodeBase {
   }
 
   public solve (access: DataAccess): void {
-    const v = access.getData(0) as NPoint;
+    const base = access.getData(0) as NPoint;
     let h = access.getData(1) as number;
     let tr = access.getData(2) as number;
     let br = access.getData(3) as number;
@@ -46,8 +47,17 @@ export default class FCone extends FrepNodeBase {
       new NDomain(-s, s),
       new NDomain(-h * 0.5, h * 0.5)
     );
+    const matrix = new Matrix4();
+    if (base instanceof NPoint) {
+      matrix.makeTranslation(base.x, base.y, base.z);
+    } else {
+      const pl = base as NPlane;
+      const q = new Quaternion();
+      q.setFromEuler(pl.rotation());
+      matrix.compose(pl.origin, q, new Vector3(1, 1, 1));
+    }
     const shape = new NFrepShape(f, bb);
-    const frep = NFrepMatrix.create(shape, v);
-    access.setData(0, frep);
+    const result = new NFrepMatrix(shape, matrix);
+    access.setData(0, result);
   }
 }

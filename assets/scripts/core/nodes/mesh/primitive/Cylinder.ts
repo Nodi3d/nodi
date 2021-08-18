@@ -28,19 +28,18 @@ export default class Cylinder extends NodeBase {
   }
 
   public solve (access: DataAccess): void {
-    const base = access.getData(0);
+    const base = access.getData(0) as (NPoint | NPlane);
     const r = Math.max(Number.EPSILON, access.getData(1) as number);
     const h = Math.max(Number.EPSILON, access.getData(2) as number);
     const segments = access.getData(3) as number;
 
     const geometry = new CylinderGeometry(r, r, h, Math.max(3, Math.floor(segments)), 1, false);
+    const matrix = new Matrix4();
     if (base instanceof NPoint) {
-      const matrix = new Matrix4();
       matrix.makeTranslation(base.x, base.y, base.z);
       geometry.applyMatrix4(matrix);
     } else {
       const pl = base as NPlane;
-      const matrix = new Matrix4();
       const q = new Quaternion();
       q.setFromEuler(pl.rotation());
       matrix.compose(pl.origin, q, new Vector3(1, 1, 1));
