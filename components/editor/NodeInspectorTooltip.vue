@@ -222,7 +222,9 @@ export default class NodeInspectorTooltip extends Tooltip {
         constructor = Vue.extend(DomainInput);
         break;
       }
-      case DataTypes.VECTOR: {
+      case DataTypes.VECTOR:
+      case DataTypes.POINT:
+      {
         constructor = Vue.extend(Vector3Input);
         break;
       }

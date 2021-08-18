@@ -24,6 +24,7 @@
 
 import { Vector3 } from 'three';
 import { Vue, Prop, Component } from 'nuxt-property-decorator';
+import { NPoint } from '~/assets/scripts/core/math/geometry';
 
 @Component({})
 export default class Vector3Input extends Vue {
@@ -31,7 +32,7 @@ export default class Vector3Input extends Vue {
   label!: string;
 
   @Prop({ type: Object, required: true })
-  value!: Vector3;
+  value!: Vector3 | NPoint;
 
   get x (): string {
     return this.value.x.toString();
