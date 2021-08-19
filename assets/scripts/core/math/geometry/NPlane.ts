@@ -57,10 +57,17 @@ export default class NPlane implements ITransformable, ICopyable {
 
   public project (point: Vector3): Vector2 {
     const projected = point.clone().projectOnPlane(this.normal);
+    // const o = this.origin.clone().projectOnPlane(this.normal);
     return new Vector2(
       this.xAxis.dot(projected) - this.xAxis.dot(this.origin),
       this.yAxis.dot(projected) - this.yAxis.dot(this.origin)
     );
+  }
+
+  public unproject (point: Vector2): NPoint {
+    const dx = this.xAxis.clone().multiplyScalar(point.x);
+    const dy = this.yAxis.clone().multiplyScalar(point.y);
+    return this.origin.clone().add(dx).add(dy);
   }
 
   public projectPoint (point: Vector3): Vector3 {

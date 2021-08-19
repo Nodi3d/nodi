@@ -1,4 +1,5 @@
 
+import { Vector3 } from 'three';
 import { AccessTypes } from '../../../data/AccessTypes';
 import DataAccess from '../../../data/DataAccess';
 import DataTree from '../../../data/DataTree';
@@ -30,7 +31,8 @@ export default class Vector2Pt extends NodeBase {
     const u = access.getData(2) as boolean;
     const sub = t.clone().sub(b);
     const length = sub.length();
-    access.setData(0, u ? sub.normalize() : sub);
+    const result = u ? sub.normalize() : sub;
+    access.setData(0, new Vector3().copy(result));
     access.setData(1, length);
   }
 }

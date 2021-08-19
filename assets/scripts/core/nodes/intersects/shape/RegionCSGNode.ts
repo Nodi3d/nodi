@@ -1,9 +1,11 @@
 import clipper from 'clipper-lib';
+import { Vector2 } from 'three';
 import NCurve from '../../../math/geometry/curve/NCurve';
 import NodeBase from '../../NodeBase';
 
 import NPolylineCurve from '../../../math/geometry/curve/NPolylineCurve';
 import NPlane from '../../../math/geometry/NPlane';
+import { NRectangleCurve } from '../../../math/geometry/curve';
 
 const precision = 1e10;
 
@@ -52,6 +54,9 @@ export default abstract class RegionCSGNode extends NodeBase {
           projected.push(projected[0].clone());
         }
         return projected;
+      } else if (curve instanceof NRectangleCurve) {
+        const points = curve.getCornerPoints();
+        return points.map(p => plane.project(p));
       } else {
         return curve.getPoints(resolution).map((p) => {
           return plane.project(p);
@@ -76,9 +81,7 @@ export default abstract class RegionCSGNode extends NodeBase {
       const projected = path.map((ip) => {
         const x = ip.X / precision;
         const y = ip.Y / precision;
-        const dx = plane.xAxis.clone().multiplyScalar(x);
-        const dy = plane.yAxis.clone().multiplyScalar(y);
-        return plane.origin.clone().add(dx).add(dy);
+        return plane.unproject(new Vector2(x, y));
       });
 
       if (projected.length > 0) {

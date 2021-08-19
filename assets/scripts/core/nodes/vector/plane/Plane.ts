@@ -18,7 +18,7 @@ export default class Plane extends NodeBase {
   public registerInputs (manager: InputManager): void {
     manager.add('o', 'Origin of plane', DataTypes.POINT, AccessTypes.ITEM).setDefault(new DataTree().add([new NPoint()]));
     manager.add('x', 'X-Axis direction of plane', DataTypes.VECTOR, AccessTypes.ITEM).setDefault(new DataTree().add([new Vector3(1, 0, 0)]));
-    manager.add('Y', 'Y-Axis direction of plane', DataTypes.VECTOR, AccessTypes.ITEM).setDefault(new DataTree().add([new Vector3(0, 1, 0)]));
+    manager.add('y', 'Y-Axis direction of plane', DataTypes.VECTOR, AccessTypes.ITEM).setDefault(new DataTree().add([new Vector3(0, 1, 0)]));
   }
 
   public registerOutputs (manager: OutputManager): void {
@@ -30,6 +30,9 @@ export default class Plane extends NodeBase {
     const x = access.getData(1) as Vector3;
     const y = access.getData(2) as Vector3;
     const normal = new Vector3().crossVectors(x, y);
-    access.setData(0, new NPlane(o, x, y, normal));
+
+    // Force linear independent vectors
+    const ny = x.clone().cross(normal).normalize();
+    access.setData(0, new NPlane(o, x, ny, normal));
   }
 }

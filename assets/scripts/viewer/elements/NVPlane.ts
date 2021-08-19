@@ -5,21 +5,6 @@ import IDisposable from '../../core/misc/IDisposable';
 import { IElementable } from '../../core/misc/IElementable';
 import NodeBase from '../../core/nodes/NodeBase';
 
-const points: Vector3[] = [];
-const lt = new Vector3(-0.5, -0.5, 0);
-const rt = new Vector3(0.5, -0.5, 0);
-const rb = new Vector3(0.5, 0.5, 0);
-const lb = new Vector3(-0.5, 0.5, 0);
-points.push(lt); points.push(rt);
-points.push(rt); points.push(rb);
-points.push(rb); points.push(lb);
-points.push(lb); points.push(lt);
-points.push(lt); points.push(rb);
-points.push(rt); points.push(lb);
-
-const geometry = new BufferGeometry();
-geometry.setFromPoints(points);
-
 export default class NVPlane extends LineSegments implements IElementable {
   private _listener?: IDisposable;
 
@@ -28,11 +13,26 @@ export default class NVPlane extends LineSegments implements IElementable {
       color: new Color(0xFFFF00),
       toneMapped: false
     });
+
+    const dx0 = plane.xAxis.clone().multiplyScalar(-0.5);
+    const dx1 = plane.xAxis.clone().multiplyScalar(0.5);
+    const dy0 = plane.yAxis.clone().multiplyScalar(-0.5);
+    const dy1 = plane.yAxis.clone().multiplyScalar(0.5);
+    const lt = dx0.clone().add(dy0);
+    const rt = dx1.clone().add(dy0);
+    const rb = dx1.clone().add(dy1);
+    const lb = dx0.clone().add(dy1);
+    const geometry = new BufferGeometry();
+    geometry.setFromPoints([
+      lt, rt, rt, rb,
+      rb, lb, lb, lt,
+      lt, rb, rt, lb
+    ]);
+
     super(geometry, material);
 
     this.node = '';
     this.position.copy(plane.origin);
-    this.rotation.copy(plane.rotation());
   }
 
   node: string;
