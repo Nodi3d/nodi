@@ -17,10 +17,10 @@
         <li class="mr-3">
           <div class="step-indicator d-flex flex-items-center" :class="{ animated: isProcessing }" v-html="svg.logoWhiteIconOnlyMask" />
         </li>
-        <li class="">
-          <Title :project="project" />
+        <li>
+          <Title :project="project" :is-mobile="isMobile" />
         </li>
-        <li class="">
+        <li v-show="!isMobile">
           <FileMenu
             :project="project"
             :dark="true"
@@ -32,16 +32,16 @@
             @filedownload="onFileDownload"
           />
         </li>
-        <li>
+        <li v-show="!isMobile">
           <EditMenu ref="EditMenu" :dark="true" />
         </li>
-        <li>
+        <li v-show="!isMobile">
           <ViewMenu ref="ViewMenu" :dark="true" />
         </li>
-        <li>
+        <li v-show="!isMobile">
           <HelpMenu :dark="true" />
         </li>
-        <li class="d-flex flex-items-center dark-theme-hover" style="height: 100%;">
+        <li v-if="!isMobile" class="d-flex flex-items-center dark-theme-hover" style="height: 100%;">
           <a class="button no-underline px-3 color-text-white" href="https://nodi3d.github.io/docs/user/examples" target="blank">
             Examples
           </a>
@@ -71,14 +71,11 @@
           :class="{ mobile: isMobile }"
           :style="{ width: editorWidth }"
         >
-          <a v-if="hierarchy > 1" class="pop-graph" @click.prevent.stop="onPopGraph" v-html="svg.backArrowWhite" />
           <span v-show="isMobile && isEditor" class="message-on-mobile">Not editable on mobile</span>
           <span class="message-on-mobile">{{ state }}</span>
         </div>
         <template v-if="!isMobile">
-          <div
-            class="resizer overflow-hidden"
-          >
+          <div class="resizer overflow-hidden">
             <div
               class="handle position-absolute"
               :style="{ height: editorHeight + 'px' }"
@@ -88,7 +85,7 @@
         </template>
         <template v-else>
           <div class="switcher">
-            <a class="handle" :class="{ editor: isEditor }" @click.prevent="" @click.prevent.stop="onToggleDisplay" v-html="svg.next" />
+            <a class="handle" @click.prevent="" @click.prevent.stop="toggleDisplay" v-html="isEditor ? svg.chevronLeft : svg.chevronRight" />
           </div>
         </template>
         <ViewerComponent
@@ -165,6 +162,7 @@ import { Vector2 } from 'three';
 
 import axios from 'axios';
 import octicons from '@primer/octicons';
+import isMobile from 'ismobilejs';
 import SvgLogoWhiteIconOnlyMask from '@/assets/images/logo/logo-white-icon-only-mask.svg?raw';
 
 import { v4 } from 'uuid';
@@ -248,10 +246,18 @@ export default class EditorPage extends Vue {
       fill: '#fff',
       stroke: '#fff'
     }),
+    chevronRight: octicons['chevron-right'].toSVG({
+      stroke: '#000'
+    }),
+    chevronLeft: octicons['chevron-left'].toSVG({
+      stroke: '#000'
+    }),
     logoWhiteIconOnlyMask: SvgLogoWhiteIconOnlyMask
   };
 
   isMobile: boolean = false;
+  isEditor: boolean = true; // editor or viewer flag in mobile mode
+
   isLoading: boolean = true;
   isDisable: boolean = false;
   isDragging: boolean = false;
@@ -259,14 +265,12 @@ export default class EditorPage extends Vue {
   isProcessing: boolean = false;
   state: string = '';
   position: Vector2 = new Vector2();
-  hierarchy: number = 0;
   menuHeight: number = 30;
   footerHeight: number = 30;
   editorHeight: number = window.innerHeight - 60;
   offset: number = 0;
   editorWidth: string = `${defaultEditorWidth}%`;
   viewerWidth: string = `${100 - defaultEditorWidth}%`;
-  isEditor: boolean = true;
   draggingTooltip: Tooltip | null = null;
 
   project: Project = new Project();
@@ -289,6 +293,11 @@ export default class EditorPage extends Vue {
     // disable zoom in mobile environment
     document.addEventListener('gesturestart', this.onGesture);
     document.documentElement.style.overflow = document.body.style.overflow = 'hidden';
+
+    this.isMobile = isMobile(window.navigator).phone || isMobile(window.navigator).tablet;
+    if (this.isMobile) {
+      this.toggleDisplay();
+    }
   }
 
   beforeDestroy (): void {
@@ -439,6 +448,17 @@ export default class EditorPage extends Vue {
     this.isResizing = true;
     this.position.x = e.screenX;
     this.position.y = e.screenY;
+  }
+
+  toggleDisplay () {
+    this.isEditor = !this.isEditor;
+    if (this.isEditor) {
+      this.editorWidth = '100%';
+      this.viewerWidth = '0%';
+    } else {
+      this.editorWidth = '0%';
+      this.viewerWidth = '100%';
+    }
   }
 
   onMouseMove (e: MouseEvent) {
@@ -860,6 +880,7 @@ export default class EditorPage extends Vue {
 }
 
 .switcher {
+  z-index: 1;
   $switcher-width: 24px;
   width: $switcher-width;
   background-color: #eee;
@@ -868,20 +889,10 @@ export default class EditorPage extends Vue {
   .handle {
     width: $switcher-width;
     height: 100%;
-
     display: flex;
     align-items: center;
     align-content: center;
-
-    svg {
-      width: $switcher-width;
-    }
-
-    &:not(.editor) {
-      svg {
-        transform: rotate(180deg);
-      }
-    }
+    justify-content: center;
   }
 }
 
