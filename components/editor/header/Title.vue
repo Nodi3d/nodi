@@ -12,7 +12,7 @@
       >
     </template>
     <template v-else>
-      <a class="disabled mobile">{{ title }}</a>
+      <span class="px-1">{{ title }}</span>
     </template>
   </div>
 </template>
