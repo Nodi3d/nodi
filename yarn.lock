@@ -1902,10 +1902,10 @@
   dependencies:
     "@primer/primitives" "^4.3.5"
 
-"@primer/octicons@^14.2.2":
-  version "14.2.2"
-  resolved "https://registry.yarnpkg.com/@primer/octicons/-/octicons-14.2.2.tgz#cfe2b59b47fdd5354f7ea1aae8f6bd472fc96f1d"
-  integrity sha512-EjNTkyrg165PDWJXFtFW/757cnT2wVNJTLQC38FI90S2xazMEs3kKMjlG8vtD3CuF8VR0oQUitwZRUHJbgbc6w==
+"@primer/octicons@^15.0.1":
+  version "15.0.1"
+  resolved "https://registry.yarnpkg.com/@primer/octicons/-/octicons-15.0.1.tgz#52e362b723c4566e0c55729240aa14d9c1b57f53"
+  integrity sha512-mp1OkOq0tAknXPLGAUPxiMac3HCj4LPPbAfmj847AWb2Tej33YFjUfGA1S2wXmiyP0MARoIdWtrsXt7UCBdVeQ==
   dependencies:
     object-assign "^4.1.1"
 
