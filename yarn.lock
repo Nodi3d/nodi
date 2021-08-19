@@ -2217,10 +2217,10 @@
   resolved "https://registry.yarnpkg.com/@types/less/-/less-3.0.2.tgz#2761d477678c8374cb9897666871662eb1d1115e"
   integrity sha512-62vfe65cMSzYaWmpmhqCMMNl0khen89w57mByPi1OseGfcV/LV03fO8YVrNj7rFQsRWNJo650WWyh6m7p8vZmA==
 
-"@types/lodash@^4.14.171":
-  version "4.14.171"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.171.tgz#f01b3a5fe3499e34b622c362a46a609fdb23573b"
-  integrity sha512-7eQ2xYLLI/LsicL2nejW9Wyko3lcpN6O/z0ZLHrEQsg280zIdCv1t/0m6UtBjUHokCGBQ3gYTbHzDkZ1xOBwwg==
+"@types/lodash@^4.14.172":
+  version "4.14.172"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.172.tgz#aad774c28e7bfd7a67de25408e03ee5a8c3d028a"
+  integrity sha512-/BHF5HAx3em7/KkzVKm3LrsD6HZAXuXO1AJZQ3cRRBZj4oHZDviWPYu0aEplAqDFNHZPW6d3G7KN+ONcCCC7pw==
 
 "@types/long@^4.0.1":
   version "4.0.1"
@@ -4808,10 +4808,10 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dxf-writer@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/dxf-writer/-/dxf-writer-1.9.0.tgz#7dfc94ed221dc7cee1bedbe27ef06476c4380bd0"
-  integrity sha512-xncYovu6g1rf5wlvJyhuW0uqIkhDQh7B6vGXdyrPIasUhwHkKyD6Arw0g3XavES4GHs7smZWG3AnLcsZ3odrqw==
+dxf-writer@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/dxf-writer/-/dxf-writer-1.10.0.tgz#9c7be38cfe2f05511a235dd5efc3d54accfa71fa"
+  integrity sha512-YN5jdzeUCrhzMcbnm2wkv9KQPSUhPZfaBH8VGwgM/RrqC8Tx5OKqnJB+hS3dtsM/2oj1ETmfG01D/15NDazAag==
 
 dxf@^4.6.1:
   version "4.6.1"
