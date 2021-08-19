@@ -1,3 +1,5 @@
+// Based on @_wusher implementation: https://github.com/Twinklebear/webgl-marching-cubes
+
 extern crate js_sys;
 extern crate wasm_bindgen;
 
@@ -314,7 +316,6 @@ fn lerp_verts(va: &[u32; 3], vb: &[u32; 3], fa: f32, fb: f32, isoval: f32, v: &m
 pub struct MarchingCubes {
     dims: [u32; 3],
     // The input volume, stored on the WASM side
-    // volume: Vec<u8>,
     volume: Vec<f32>,
     // The computed triangles, stored on the WASM side
     triangles: Vec<f32>,
