@@ -1,15 +1,19 @@
-import IDisposable from '../../core/misc/IDisposable';
+import IDisposable from '../misc/IDisposable';
 
 export default class IndicatorElement implements IDisposable {
+  public get dom (): HTMLSpanElement {
+    return this._dom;
+  }
+
   private interval: number;
   private glyphs: string[] = ['⠋', '⠙', '⠚', '⠞', '⠖', '⠦', '⠴', '⠲', '⠳'];
   private current: number = 0;
-  private intervalId?: NodeJS.Timeout;
-  public dom: HTMLSpanElement;
+  private intervalId?: number;
+  private _dom: HTMLSpanElement;
 
   constructor (interval: number = 105) {
     this.interval = interval;
-    this.dom = this.createElement();
+    this._dom = this.createElement();
     this.start();
   }
 
@@ -21,9 +25,9 @@ export default class IndicatorElement implements IDisposable {
   }
 
   public start () {
-    this.intervalId = setInterval(() => {
+    this.intervalId = window.setInterval(() => {
       this.current = (this.current + 1) % this.glyphs.length;
-      this.dom.textContent = this.glyphs[this.current];
+      this._dom.textContent = this.glyphs[this.current];
     }, this.interval);
   }
 
@@ -32,11 +36,11 @@ export default class IndicatorElement implements IDisposable {
   }
 
   public show () {
-    this.dom.style.visibility = 'visible';
+    this._dom.style.visibility = 'visible';
   }
 
   public hide () {
-    this.dom.style.visibility = 'hidden';
+    this._dom.style.visibility = 'hidden';
   }
 
   dispose () {

@@ -16,11 +16,11 @@ export enum DataTypes {
   MESH = 1 << 13,
   GROUP = 1 << 15,
   COMPLEX = 1 << 16,
-  // FREP = 1 << 17,
+  FREP = 1 << 17,
   ANY = ~0
 }
 
-const GeometryDataTypes: DataTypes = DataTypes.POINT | DataTypes.PLANE | DataTypes.CURVE | DataTypes.SURFACE | DataTypes.BOX | DataTypes.MESH; // | DataTypes.FREP;
+const GeometryDataTypes: DataTypes = DataTypes.POINT | DataTypes.PLANE | DataTypes.CURVE | DataTypes.SURFACE | DataTypes.BOX | DataTypes.MESH | DataTypes.FREP;
 
 const Colors: { [index: string]: string } = Object.freeze({
   STRING: 'rgb(228, 87, 86)',
@@ -36,7 +36,7 @@ const Colors: { [index: string]: string } = Object.freeze({
   BOX: 'rgb(178, 121, 162)',
   MESH: 'rgb(255, 157, 166)',
   FACE: 'rgb(255, 157, 166)',
-  // FREP: 'rgb(252, 205, 229)',
+  FREP: 'rgb(252, 205, 229)',
   GROUP: 'rgb(204, 204, 204)',
   ANY: 'rgb(204, 204, 204)'
 });

@@ -36,13 +36,12 @@ export default class Box extends NodeBase {
     const d = access.getData(4) as number;
 
     const geometry = new BoxGeometry(size, size, size, w, h, d);
+    const matrix = new Matrix4();
     if (base instanceof NPoint) {
-      const matrix = new Matrix4();
       matrix.makeTranslation(base.x, base.y, base.z);
       geometry.applyMatrix4(matrix);
     } else {
       const pl = base as NPlane;
-      const matrix = new Matrix4();
       const q = new Quaternion();
       q.setFromEuler(pl.rotation());
       matrix.compose(pl.origin, q, new Vector3(1, 1, 1));

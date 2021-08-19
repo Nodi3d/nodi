@@ -1,5 +1,5 @@
 
-import { Box3, Vector2, Vector3 } from 'three';
+import { Box3, BufferGeometry, LineBasicMaterial, LineSegments, Vector2, Vector3 } from 'three';
 import { LineSegments2 } from 'three/examples/jsm/lines/LineSegments2';
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial';
 import { LineSegmentsGeometry } from 'three/examples/jsm/lines/LineSegmentsGeometry';
@@ -8,18 +8,22 @@ import IResolutionResponsible from '../misc/IResolutionResponsible';
 import TextLabel from './TextLabel';
 const opacity = 0.85;
 
-export default class BoundingBoxLineSegments extends LineSegments2 implements IResolutionResponsible {
+export default class BoundingBoxLineSegments extends LineSegments implements IResolutionResponsible {
   box: Box3;
   displaySize: Vector3;
   labels: TextLabel[];
 
   constructor (color: number = 0x1185DD) {
-    const geom = new LineSegmentsGeometry();
-    const material = new LineMaterial({
+    const geom = new BufferGeometry();
+    // const geom = new LineSegmentsGeometry();
+    // const material = new LineMaterial({
+    const material = new LineBasicMaterial({
       color,
       linewidth: 1.25,
-      transparent: true,
-      resolution: new Vector2(1024, 768)
+      opacity,
+      // depthWrite: false,
+      transparent: true
+      // resolution: new Vector2(1024, 768)
     });
 
     super(geom, material);
@@ -41,7 +45,8 @@ export default class BoundingBoxLineSegments extends LineSegments2 implements IR
     this.displaySize.set(0, 0, 0);
 
     const empty = box.isEmpty();
-    this.material.uniforms.opacity.value = empty ? 0 : opacity;
+    const m = this.material as LineBasicMaterial;
+    m.opacity = empty ? 0 : opacity;
     if (empty) {
       return;
     }
@@ -74,11 +79,18 @@ export default class BoundingBoxLineSegments extends LineSegments2 implements IR
       p6, p7,
       p7, p4
     ];
+
+    /*
     const positions: number[] = [];
     points.forEach((el) => {
       positions.push(el.x, el.y, el.z);
     });
     this.geometry.setPositions(positions);
+    this.geometry.computeBoundingBox();
+    */
+
+    this.geometry.setFromPoints(points);
+    this.computeLineDistances();
 
     const color = '#1182ee';
 
@@ -122,8 +134,8 @@ export default class BoundingBoxLineSegments extends LineSegments2 implements IR
   }
 
   public setResolution (w: number, h: number, zoom: number): void {
-    this.material.uniforms.resolution.value.x = w;
-    this.material.uniforms.resolution.value.y = h;
+    // this.material.uniforms.resolution.value.x = w;
+    // this.material.uniforms.resolution.value.y = h;
     this.labels.forEach(lb => lb.setResolution(w, h, zoom));
   }
 }

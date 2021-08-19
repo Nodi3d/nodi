@@ -42,10 +42,29 @@ import TexcoordDisplay from './display/mesh/TexcoordDisplay';
 import PointDisplay from './display/vector/PointDisplay';
 import VectorDisplay from './display/vector/VectorDisplay';
 import DxfExporter from './exporter/DxfExporter';
+import FrepMCExporter from './exporter/FrepMCExporter';
 import GltfExporter from './exporter/GltfExporter';
 import ObjExporter from './exporter/ObjExporter';
 import PlyExporter from './exporter/PlyExporter';
 import StlExporter from './exporter/StlExporter';
+import FrepDifference from './frep/blend/FrepDifference';
+import FrepIntersection from './frep/blend/FrepIntersection';
+import FrepSmoothDifference from './frep/blend/FrepSmoothDifference';
+import FrepSmoothIntersection from './frep/blend/FrepSmoothIntersection';
+import FrepSmoothUnion from './frep/blend/FrepSmoothUnion';
+import FrepUnion from './frep/blend/FrepUnion';
+import FBox from './frep/primitives/FBox';
+import FCapsule from './frep/primitives/FCapsule';
+import FCone from './frep/primitives/FCone';
+import FCylinder from './frep/primitives/FCylinder';
+import FSphere from './frep/primitives/FSphere';
+import TPMSDiamond from './frep/tpms/TPMSDiamond';
+import TPMSFischerKochS from './frep/tpms/TPMSFischerKochS';
+import TPMSGyroid from './frep/tpms/TPMSGyroid';
+import TPMSLidinoid from './frep/tpms/TPMSLidinoid';
+import TPMSSchwarzP from './frep/tpms/TPMSSchwarzP';
+import FrepRound from './frep/utils/FrepRound';
+import MarchingCubes from './frep/utils/MarchingCubes';
 import CurveImporter from './importer/CurveImporter';
 import MeshImporter from './importer/MeshImporter';
 import Contour from './intersects/math/Contour';
@@ -277,10 +296,29 @@ const Nodes = {
   PointDisplay,
   VectorDisplay,
   DxfExporter,
+  FrepMCExporter,
   GltfExporter,
   ObjExporter,
   PlyExporter,
   StlExporter,
+  FrepDifference,
+  FrepIntersection,
+  FrepSmoothDifference,
+  FrepSmoothIntersection,
+  FrepSmoothUnion,
+  FrepUnion,
+  FBox,
+  FCapsule,
+  FCone,
+  FCylinder,
+  FSphere,
+  TPMSDiamond,
+  TPMSFischerKochS,
+  TPMSGyroid,
+  TPMSLidinoid,
+  TPMSSchwarzP,
+  FrepRound,
+  MarchingCubes,
   CurveImporter,
   MeshImporter,
   Contour,
@@ -514,10 +552,29 @@ const NodeDictionary: { [index: string]: { name:string; entity: NodeConstructorT
   'display/vector/PointDisplay': { name: 'PointDisplay', entity: PointDisplay },
   'display/vector/VectorDisplay': { name: 'VectorDisplay', entity: VectorDisplay },
   'exporter/DxfExporter': { name: 'DxfExporter', entity: DxfExporter },
+  'exporter/FrepMCExporter': { name: 'FrepMCExporter', entity: FrepMCExporter },
   'exporter/GltfExporter': { name: 'GltfExporter', entity: GltfExporter },
   'exporter/ObjExporter': { name: 'ObjExporter', entity: ObjExporter },
   'exporter/PlyExporter': { name: 'PlyExporter', entity: PlyExporter },
   'exporter/StlExporter': { name: 'StlExporter', entity: StlExporter },
+  'frep/blend/FrepDifference': { name: 'FrepDifference', entity: FrepDifference },
+  'frep/blend/FrepIntersection': { name: 'FrepIntersection', entity: FrepIntersection },
+  'frep/blend/FrepSmoothDifference': { name: 'FrepSmoothDifference', entity: FrepSmoothDifference },
+  'frep/blend/FrepSmoothIntersection': { name: 'FrepSmoothIntersection', entity: FrepSmoothIntersection },
+  'frep/blend/FrepSmoothUnion': { name: 'FrepSmoothUnion', entity: FrepSmoothUnion },
+  'frep/blend/FrepUnion': { name: 'FrepUnion', entity: FrepUnion },
+  'frep/primitives/FBox': { name: 'FBox', entity: FBox },
+  'frep/primitives/FCapsule': { name: 'FCapsule', entity: FCapsule },
+  'frep/primitives/FCone': { name: 'FCone', entity: FCone },
+  'frep/primitives/FCylinder': { name: 'FCylinder', entity: FCylinder },
+  'frep/primitives/FSphere': { name: 'FSphere', entity: FSphere },
+  'frep/tpms/TPMSDiamond': { name: 'TPMSDiamond', entity: TPMSDiamond },
+  'frep/tpms/TPMSFischerKochS': { name: 'TPMSFischerKochS', entity: TPMSFischerKochS },
+  'frep/tpms/TPMSGyroid': { name: 'TPMSGyroid', entity: TPMSGyroid },
+  'frep/tpms/TPMSLidinoid': { name: 'TPMSLidinoid', entity: TPMSLidinoid },
+  'frep/tpms/TPMSSchwarzP': { name: 'TPMSSchwarzP', entity: TPMSSchwarzP },
+  'frep/utils/FrepRound': { name: 'FrepRound', entity: FrepRound },
+  'frep/utils/MarchingCubes': { name: 'MarchingCubes', entity: MarchingCubes },
   'importer/CurveImporter': { name: 'CurveImporter', entity: CurveImporter },
   'importer/MeshImporter': { name: 'MeshImporter', entity: MeshImporter },
   'intersects/math/Contour': { name: 'Contour', entity: Contour },
