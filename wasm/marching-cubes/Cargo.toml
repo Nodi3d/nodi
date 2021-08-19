@@ -3,6 +3,8 @@ name = "marching-cubes"
 version = "0.1.0"
 authors = ["mattatz <masatatsu.nakamura@gmail.com>"]
 edition = "2018"
+description = ""
+repository = ""
 
 [lib]
 crate-type = ["cdylib", "rlib"]

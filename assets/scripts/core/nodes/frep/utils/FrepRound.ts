@@ -5,7 +5,6 @@ import { DataTypes } from '../../../data/DataTypes';
 import InputManager from '../../../io/InputManager';
 import OutputManager from '../../../io/OutputManager';
 import NFrepBase from '../../../math/frep/NFrepBase';
-import NFrepDifferenceBlend from '../../../math/frep/blends/NFrepDifferenceBlend';
 import NFrepFilter from '../../../math/frep/NFrepFilter';
 import { NBoundingBox } from '../../../math/geometry';
 import { NDomain } from '../../../math/primitive';

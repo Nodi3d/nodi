@@ -5,15 +5,11 @@ extern crate wasm_bindgen;
 
 use std::f32;
 use wasm_bindgen::prelude::*;
+use web_sys::console::log_1;
 
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_namespace = console)]
-    fn log(a: &str);
-}
-
-macro_rules! console_log {
-	($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
+#[allow(dead_code)]
+fn log(s: &String) {
+    log_1(&JsValue::from(s));
 }
 
 static TRI_TABLE: [[i32; 16]; 256] = [
