@@ -1,13 +1,13 @@
 import { Color, DoubleSide, MeshDepthMaterial, NearestFilter, NoBlending, OrthographicCamera, RGBADepthPacking, Scene, ShaderMaterial, Texture, UniformsUtils, Vector2, Vector3, WebGLRenderer, WebGLRenderTarget } from 'three';
 import { FullScreenQuad, Pass } from 'three/examples/jsm/postprocessing/Pass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
-import FrepCommon from '../core/shaders/frep_common.glsl';
+import FrepCommon from '../core/shaders/FrepCommon.glsl';
 import { ambientColor, defaultStandardColor, selectedStandardColor } from './Colors';
 import NVFrep from './elements/NVFrep';
 import { FrepRenderingQuality } from './misc/FrepRenderingQuality';
 
-import QuadVertexShader from './shaders/raymarching/quad.vert';
-import RaymarchingFragmentShader from './shaders/raymarching/raymarching.frag';
+import QuadVertexShader from './shaders/raymarching/Quad.vert';
+import RaymarchingFragmentShader from './shaders/raymarching/Raymarching.frag';
 
 export default class RaymarchingPass extends Pass {
   private scene: Scene;

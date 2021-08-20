@@ -1,8 +1,8 @@
 import { RGBAFormat, Texture, DataTexture, UnsignedByteType, WebGLRenderer, RenderTarget, WebGLRenderTarget, Vector3, FloatType } from 'three';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer';
 import NFrepBase from '../NFrepBase';
-import FrepCommon from '../../../shaders/frep_common.glsl';
-import FrepTextureFragment from '../shaders/frep_texture.frag';
+import FrepCommon from '../../../shaders/FrepCommon.glsl';
+import FrepTextureFragment from '../shaders/FrepTexture.frag';
 
 export type FrepRenderProps = {
   frep: NFrepBase;
