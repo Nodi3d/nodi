@@ -1895,10 +1895,10 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.15.tgz#6a9d143f7f4f49db2d782f9e1c8839a29b43ae23"
   integrity sha512-15spi3V28QdevleWBNXE4pIls3nFZmBbUGrW9IVPwiQczuSb9n76TCB4bsk8TSel+I1OkHEdPhu5QKMfY6rQHA==
 
-"@primer/css@^17.3.0":
-  version "17.3.0"
-  resolved "https://registry.yarnpkg.com/@primer/css/-/css-17.3.0.tgz#992d6724db287bb4c5947b798007d6f46bce0ad7"
-  integrity sha512-fKxMh6CixHxRI/0zQmEkQ2eP0960TeIsHsc2oKFvGVDwaIi7Dm1BOC10lrC9aEMxsvRG3rfCW2HXgsaua+iGKA==
+"@primer/css@^17.6.0":
+  version "17.6.0"
+  resolved "https://registry.yarnpkg.com/@primer/css/-/css-17.6.0.tgz#9466cb318623afd598ce307a985da3e1b5962481"
+  integrity sha512-LHXyJBvdsNnS8SXkkpiOHQD0n1rnZorgIQa0zrXRJZpC3jYAJK0AP1W3OGp65+3Uzjcozn2Nf0h8N9+uiE2iyg==
   dependencies:
     "@primer/primitives" "^4.3.5"
 
@@ -3916,10 +3916,10 @@ coa@^2.0.2:
     chalk "^2.4.1"
     q "^1.1.2"
 
-codemirror@^5.62.2:
-  version "5.62.2"
-  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.62.2.tgz#bce6d19c9829e6e788f83886d48ecf5c1e106e65"
-  integrity sha512-tVFMUa4J3Q8JUd1KL9yQzQB0/BJt7ZYZujZmTPgo/54Lpuq3ez4C8x/ATUY/wv7b7X3AUq8o3Xd+2C5ZrCGWHw==
+codemirror@^5.62.3:
+  version "5.62.3"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.62.3.tgz#5cfdee6931c8b2d1b39ae773aaaaec2cc6b5558e"
+  integrity sha512-zZAyOfN8TU67ngqrxhOgtkSAGV9jSpN1snbl8elPtnh9Z5A11daR405+dhLzLnuXrwX0WCShWlybxPN3QC/9Pg==
 
 collect-v8-coverage@^1.0.0:
   version "1.0.1"
