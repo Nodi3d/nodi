@@ -15,13 +15,11 @@ import ExporterNodeBase, { ExporterNodeJSONType } from './ExporterNodeBase';
 
 export type DxfExporterJSONType = ExporterNodeJSONType & {
   dxfUnits?: string;
-  dxfResolution?: number;
 };
 
 export default class DxfExporter extends ExporterNodeBase {
   protected fileName: string = 'default.dxf';
   private dxfUnits: string = 'Millimeters';
-  private dxfResolution: number = 64;
 
   get format (): string {
     return 'dxf';
@@ -34,7 +32,6 @@ export default class DxfExporter extends ExporterNodeBase {
   public setupInspectorElement (container: HTMLDivElement): void {
     const fileNameId = 'dxf-exporter-label';
     const selectBoxId = 'dxf-exporter-coordinate';
-    const resolutionId = 'dxf-exporter-resolution';
     const buttonId = 'dxf-exporter-button';
 
     const html = `
@@ -57,12 +54,6 @@ export default class DxfExporter extends ExporterNodeBase {
               <option value='Feet'>Feet</option>
               <option value='Miles'>Miles</option>
             </select>
-          </div>
-        </li>
-        <li>
-          <div class="">
-            <label for='${resolutionId}'>Resolution (for parametric curve division)</label>
-            <input type='number' name='${resolutionId}' id='${resolutionId}' class='form-control input-block ${resolutionId}' min='4' max='4096' value='64' />
           </div>
         </li>
         <li class='px-0'>
@@ -89,18 +80,12 @@ export default class DxfExporter extends ExporterNodeBase {
     });
     select.value = this.dxfUnits;
 
-    const resolution = container.getElementsByClassName(resolutionId)[0] as HTMLInputElement;
-    resolution.addEventListener('change', () => {
-      this.dxfResolution = Number(resolution.value);
-    });
-    resolution.value = this.dxfResolution.toString();
-
     const button = container.getElementsByClassName(buttonId)[0] as HTMLButtonElement;
     button.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
 
-      this.download(input.value, select.value as Unit, Number(resolution.value));
+      this.download(input.value, select.value as Unit);
     });
   }
 
@@ -121,7 +106,7 @@ export default class DxfExporter extends ExporterNodeBase {
       e.preventDefault();
       e.stopPropagation();
 
-      this.download(this.fileName, this.dxfUnits as Unit, this.dxfResolution);
+      this.download(this.fileName, this.dxfUnits as Unit);
     });
     button.textContent = this.fileName;
   }
@@ -129,6 +114,8 @@ export default class DxfExporter extends ExporterNodeBase {
   public registerInputs (manager: InputManager): void {
     manager.add('c', 'Curves to export as dxf', DataTypes.CURVE, AccessTypes.LIST);
     manager.add('p', 'Plane to project curves', DataTypes.PLANE, AccessTypes.ITEM).setDefault(new DataTree().add([new NPlane()]));
+    manager.add('r', 'Polyline resolution', DataTypes.NUMBER, AccessTypes.ITEM).setDefault(new DataTree().add([128]));
+    manager.add('w', 'Curve width in dxf', DataTypes.NUMBER, AccessTypes.ITEM).setDefault(new DataTree().add([0.5]));
   }
 
   public registerOutputs (_manager: OutputManager): void {
@@ -137,27 +124,27 @@ export default class DxfExporter extends ExporterNodeBase {
   public solve (access: DataAccess): void {
   }
 
-  private export (unit: Unit = 'Millimeters', resolution: number = 64): Promise<Blob> {
+  private export (unit: Unit = 'Millimeters'): Promise<Blob> {
     const drawing = new Drawing();
     drawing.setUnits(unit);
 
-    let layer = 0;
     const colors = Object.keys(Drawing.ACI) as ACIKey[];
 
-    const input = this.inputManager.getIO(0);
-    const tree = input.getData() as DataTree;
-
+    const curveTree = this.inputManager.getIO(0).getData() as DataTree;
     const planeTree = this.inputManager.getIO(1).getData() as DataTree;
-    const plane = planeTree.getItemsByIndex(0)[0] as NPlane;
+    const resolutionTree = this.inputManager.getIO(2).getData() as DataTree;
+    const widthTree = this.inputManager.getIO(3).getData() as DataTree;
 
-    tree.traverse((curve: NCurve) => {
+    const plane = planeTree.getItemsByIndex(0)[0] as NPlane;
+    const resolution = resolutionTree.getItemsByIndex(0)[0] as number;
+    const width = widthTree.getItemsByIndex(0)[0] as number;
+
+    let index = 0;
+    curveTree.traverse((curve: NCurve) => {
       let points: Vector3[] = [];
 
       if (curve instanceof NPolylineCurve) {
         points = curve.points;
-        if (curve.closed && points.length > 0) {
-          points.push(points[0]);
-        }
       } else {
         points = curve.getPoints(resolution);
       }
@@ -168,13 +155,13 @@ export default class DxfExporter extends ExporterNodeBase {
       });
 
       if (projected.length > 0) {
-        const key = `l_${layer++}`;
-        const aci = colors[layer % colors.length];
+        const key = `l_${index++}`;
+        const aci = colors[index % colors.length];
         const color = Drawing.ACI[aci];
 
         // line types: CONTINUOUS, DASHED, DOTTED
-        drawing.addLayer(key, color, 'DOTTED').setActiveLayer(key);
-        drawing.drawPolyline(projected);
+        const layer = drawing.addLayer(key, color, 'CONTINUOUS').setActiveLayer(key);
+        layer.drawPolyline(projected, curve.closed, width, width);
       }
     });
 
@@ -184,8 +171,8 @@ export default class DxfExporter extends ExporterNodeBase {
     }));
   }
 
-  private async download (name: string, unit: Unit, resolution: number): Promise<void> {
-    const blob = await this.export(unit, resolution);
+  private async download (name: string, unit: Unit): Promise<void> {
+    const blob = await this.export(unit);
 
     const a = document.createElement('a');
     const e = document.createEvent('MouseEvent');
@@ -203,15 +190,13 @@ export default class DxfExporter extends ExporterNodeBase {
     return {
       ...json,
       ...{
-        dxfUnits: this.dxfUnits,
-        dxfResolution: this.dxfResolution
+        dxfUnits: this.dxfUnits
       }
     };
   }
 
   public fromJSON (json: DxfExporterJSONType): void {
     this.dxfUnits = json.dxfUnits ?? this.dxfUnits;
-    this.dxfResolution = json.dxfResolution ?? this.dxfResolution;
     this.notifyValueChanged();
     super.fromJSON(json);
   }
