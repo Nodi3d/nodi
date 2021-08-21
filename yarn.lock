@@ -3916,10 +3916,10 @@ coa@^2.0.2:
     chalk "^2.4.1"
     q "^1.1.2"
 
-codemirror@^5.62.2:
-  version "5.62.2"
-  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.62.2.tgz#bce6d19c9829e6e788f83886d48ecf5c1e106e65"
-  integrity sha512-tVFMUa4J3Q8JUd1KL9yQzQB0/BJt7ZYZujZmTPgo/54Lpuq3ez4C8x/ATUY/wv7b7X3AUq8o3Xd+2C5ZrCGWHw==
+codemirror@^5.62.3:
+  version "5.62.3"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.62.3.tgz#5cfdee6931c8b2d1b39ae773aaaaec2cc6b5558e"
+  integrity sha512-zZAyOfN8TU67ngqrxhOgtkSAGV9jSpN1snbl8elPtnh9Z5A11daR405+dhLzLnuXrwX0WCShWlybxPN3QC/9Pg==
 
 collect-v8-coverage@^1.0.0:
   version "1.0.1"
@@ -4808,10 +4808,10 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dxf-writer@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/dxf-writer/-/dxf-writer-1.9.0.tgz#7dfc94ed221dc7cee1bedbe27ef06476c4380bd0"
-  integrity sha512-xncYovu6g1rf5wlvJyhuW0uqIkhDQh7B6vGXdyrPIasUhwHkKyD6Arw0g3XavES4GHs7smZWG3AnLcsZ3odrqw==
+dxf-writer@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/dxf-writer/-/dxf-writer-1.10.0.tgz#9c7be38cfe2f05511a235dd5efc3d54accfa71fa"
+  integrity sha512-YN5jdzeUCrhzMcbnm2wkv9KQPSUhPZfaBH8VGwgM/RrqC8Tx5OKqnJB+hS3dtsM/2oj1ETmfG01D/15NDazAag==
 
 dxf@^4.6.1:
   version "4.6.1"
