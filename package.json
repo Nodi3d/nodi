@@ -31,7 +31,7 @@
     "core-js": "^3.16.2",
     "d3-delaunay": "^6.0.2",
     "dxf": "^4.6.1",
-    "dxf-writer": "^1.9.0",
+    "dxf-writer": "^1.10.0",
     "firebase": "^8.7.1",
     "ismobilejs": "^1.1.1",
     "jest-raw-loader": "^1.0.1",
