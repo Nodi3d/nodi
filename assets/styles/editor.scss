@@ -577,18 +577,16 @@
   }
 
   .edge {
-
+    pointer-events: none;
     path.selected {
       stroke-width: 2px;
       stroke-dasharray: 10 4;
       stroke: rgba(230, 240, 255, 0.9);
     }
-
     path.empty {
       stroke-width: 2px;
       stroke: rgb(233, 46, 46) !important;
     }
-
   }
 
   .polyline, .rect {
@@ -604,18 +602,6 @@
 
     path {
       stroke: #ddd;
-
-      &.clickable {
-        pointer-events: all;
-        stroke-width: 10px;
-        opacity: 0.0;
-      }
-
-      &:not(.clickable) {
-        // pointer-events: none;
-        stroke-width: 1px;
-        pointer-events: all;
-      }
     }
 
     &.hover {

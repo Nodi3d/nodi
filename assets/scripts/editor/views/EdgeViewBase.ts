@@ -26,13 +26,9 @@ export default abstract class EdgeViewBase extends View {
     return svg;
   }
 
-  protected createPath (clickable: boolean = true): SVGPathElement {
+  protected createPath (): SVGPathElement {
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     path.setAttribute('fill', 'none');
-    if (clickable) {
-      path.addEventListener('click', (e) => {
-      });
-    }
     return path;
   }
 

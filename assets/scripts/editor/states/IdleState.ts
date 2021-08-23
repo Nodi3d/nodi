@@ -23,7 +23,7 @@ export default class IdleState extends StateBase {
         if (input.event.ctrlKey || input.event.metaKey) {
           return new DisconnectIOState(context);
         } else {
-          return new MultipleSelectNodeState(context);
+          return new MultipleSelectNodeState(context, input);
         }
       }
     }

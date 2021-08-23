@@ -1,3 +1,4 @@
+import { Vector2 } from 'three';
 import Editor, { EditorMouseInput } from '../Editor';
 import RectFigure from '../figures/RectFigure';
 import NodeView from '../views/NodeView';
@@ -6,19 +7,20 @@ import SelectKeepNodeState from './SelectKeepNodeState';
 import StateBase from './StateBase';
 
 export default class MultipleSelectNodeState extends StateBase {
+  private start: Vector2;
   private rect: RectFigure = new RectFigure();
 
-  constructor (context: Editor) {
+  constructor (context: Editor, input: EditorMouseInput) {
     super(context);
     context.appendElement(this.rect.el);
+    this.start = input.world;
   }
 
   public mouseMove (context: Editor, input: EditorMouseInput): StateBase {
     if (context.panning) {
       this.rect.dispose();
     }
-    const sp = context.getWorld(context.startMousePosition.x - input.rect.x, context.startMousePosition.y - input.rect.y);
-    this.rect.update(sp.x, sp.y, input.world.x, input.world.y);
+    this.rect.update(this.start.x, this.start.y, input.world.x, input.world.y);
     return this;
   }
 
