@@ -82,7 +82,6 @@ export default class Editor implements IDisposable {
 
   position: Vector2 = new Vector2(0, 0);
   scale: number = 1;
-  startMousePosition: Vector2 = new Vector2(0, 0);
   prevMousePosition: Vector2 = new Vector2(0, 0);
 
   history: Operation[] = [];
@@ -952,7 +951,6 @@ export default class Editor implements IDisposable {
   };
 
   public prepareMousePosition (p: Vector2): void {
-    this.startMousePosition.copy(p);
     this.prevMousePosition.copy(p);
   }
 
