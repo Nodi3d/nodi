@@ -29,7 +29,7 @@ export default class Plane extends NodeBase {
     const o = access.getData(0) as NPoint;
     const x = access.getData(1) as Vector3;
     const y = access.getData(2) as Vector3;
-    const normal = new Vector3().crossVectors(x, y);
+    const normal = new Vector3().crossVectors(x, y).normalize();
 
     // Force linear independent vectors
     const ny = x.clone().cross(normal).normalize();
