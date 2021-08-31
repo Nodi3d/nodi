@@ -150,7 +150,7 @@
         @select="onFocus"
       />
     </div>
-    <LogoFooter />
+    <LogoFooter :is-processing="isProcessing" />
   </div>
 </template>
 

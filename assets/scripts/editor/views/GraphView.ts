@@ -81,8 +81,6 @@ export default class GraphView extends View {
     graph.onDisconnectNode.on((e: NodeConnectEventArg) => {
       this.removeEdgeViewWithConnection(e);
     });
-    graph.onFinishProcess.on(() => {
-    });
   }
 
   protected addNodeView (node: NodeBase): NodeView {

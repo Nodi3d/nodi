@@ -8,6 +8,7 @@
         ref="Viewer"
         :width="'100%'"
         :editor="false"
+        @boundingboxchanged="onBoundingBoxChanged"
       />
     </div>
     <div v-if="isLoading" class="modal loading d-flex flex-items-center flex-justify-center" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.2);">
@@ -15,7 +16,7 @@
         :interval="140"
       />
     </div>
-    <LogoFooter />
+    <LogoFooter :is-processing="isProcessing" />
   </div>
 </template>
 
@@ -24,6 +25,7 @@
 import { Vue, Component } from 'nuxt-property-decorator';
 
 import axios from 'axios';
+import { Box3 } from 'three';
 import SvgLogoWhiteIconOnlyMask from '@/assets/images/logo/logo-white-icon-only-mask.svg?raw';
 
 import Spinner from '~/components/misc/Spinner.vue';
@@ -53,7 +55,9 @@ export default class ViewerPage extends Vue {
 
   isMobile: boolean = false;
   isLoading: boolean = true;
+  isProcessing: boolean = true;
   isDisable: boolean = false;
+  isEmpty: boolean = true;
   height: number = window.innerHeight - 30;
   footerHeight: number = 30;
 
@@ -96,6 +100,12 @@ export default class ViewerPage extends Vue {
   async loadProject (project: Project, doc: any): Promise<void> {
     if (project.canView(this.user.uid ?? '')) {
       const graph = new Graph();
+      graph.onStartProcess.on(() => {
+        this.isProcessing = true;
+      });
+      graph.onFinishProcess.on(() => {
+        this.isProcessing = false;
+      });
       graph.onConstructed.on((e) => {
         this.$refs.Viewer.update(e.nodes);
       });
@@ -115,6 +125,14 @@ export default class ViewerPage extends Vue {
 
   onResizeWindow (): void {
     this.height = (window.innerHeight - this.footerHeight);
+  }
+
+  onBoundingBoxChanged (box: Box3): void {
+    const isEmpty = box.isEmpty();
+    if (this.isEmpty !== isEmpty) {
+      this.isEmpty = isEmpty;
+      this.$refs.Viewer.resetViewerCamera();
+    }
   }
 }
 
