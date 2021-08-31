@@ -155,7 +155,7 @@ export default class CustomPreview extends NodeBase implements IDisplayNode, IIm
     });
 
     const metalnessHandler = (e: Event) => {
-      this.roughness = Number((e.target as HTMLInputElement).value);
+      this.metalness = Number((e.target as HTMLInputElement).value);
       this.onStateChanged.emit({ node: this });
     };
     const metalnessInput = container.getElementsByClassName(metalnessId)[0] as HTMLInputElement;
@@ -203,7 +203,8 @@ export default class CustomPreview extends NodeBase implements IDisplayNode, IIm
           roughness: this.roughness,
           metalness: this.metalness,
           depthTest: true,
-          depthWrite: true
+          depthWrite: true,
+          envMapIntensity: 0.1
         });
         if (this.albedoMap !== undefined) { material.map = this.albedoMap; }
         if (this.normalMap !== undefined) { material.normalMap = this.normalMap; }
