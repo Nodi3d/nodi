@@ -495,8 +495,8 @@ export default class Editor implements IDisposable {
 
   private setupGraphEvent (graph: Graph): void {
     graph.onStartProcess.on(this.onStartProcess.emit.bind(this));
-    graph.onFinishProcess.on(this.onFinishProcess.emit.bind(this));
     graph.onConstructed.on(this.onConstructed.emit.bind(this));
+    graph.onFinishProcess.on(this.onFinishProcess.emit.bind(this));
   }
 
   public loadGraph (json: GraphJSONType): void {

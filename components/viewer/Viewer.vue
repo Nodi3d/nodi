@@ -128,8 +128,9 @@ export default class ViewerComponent extends Vue {
     viewer.onViewChanged.on((camera) => {
       this.$refs.Axis.update(camera);
     });
-    viewer.onBoundingBoxChanged.on((size) => {
+    viewer.onBoundingBoxChanged.on(({ size, box }) => {
       this.boundingBox.copy(size);
+      this.$emit('boundingboxchanged', box);
     });
     viewer.onFrepChanged.on((hasFrep) => {
       this.hasFrep = hasFrep;

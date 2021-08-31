@@ -56,7 +56,7 @@ type ControlPivot = {
 
 export default class Viewer implements IDisposable {
   public onViewChanged: TypedEvent<OrthographicCamera> = new TypedEvent();
-  public onBoundingBoxChanged: TypedEvent<Vector3> = new TypedEvent();
+  public onBoundingBoxChanged: TypedEvent<{ size: Vector3, box: Box3 }> = new TypedEvent();
   public onFrepChanged: TypedEvent<boolean> = new TypedEvent();
 
   private el: HTMLElement;
@@ -694,7 +694,7 @@ export default class Viewer implements IDisposable {
     this.boundingBox.update(box);
     this.setResolution(this.boundingBox);
 
-    this.onBoundingBoxChanged.emit(this.boundingBox.displaySize);
+    this.onBoundingBoxChanged.emit({ size: this.boundingBox.displaySize, box: this.boundingBox.box });
 
     box.getSize(size);
     if (size.length() > 0) {
