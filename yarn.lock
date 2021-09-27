@@ -2368,10 +2368,10 @@
     "@types/webpack" "^4"
     terser "^4.6.13"
 
-"@types/three@^0.130.0":
-  version "0.130.0"
-  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.130.0.tgz#f048f1fb73e789a2c0dfcc66a45ffcbf259a75f6"
-  integrity sha512-7MKKxlEjHoAGTBRxEcDOjO4OvOrvUM6xtyjPiubNcU6bRPNmjNaV/PI9tiaXkk8cauZ9FuRbdCV4g0rQod+FkQ==
+"@types/three@^0.132.1":
+  version "0.132.1"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.132.1.tgz#16e0889fdbd41259c2fdf18ff2444baa0afc8e57"
+  integrity sha512-d+eB9/zaK7Bo690EmWCrMwutNWiMYGnW+G5cRO4jvRHvKhI/fe2B2d6xHf1MW0yl+nQ0ij+ctezYGePWtVhAAA==
 
 "@types/uglify-js@*":
   version "3.13.1"
