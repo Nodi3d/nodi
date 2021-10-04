@@ -3,6 +3,11 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/" # Location of package manifests
+    directory: "/core"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "npm"
+    directory: "/web"
     schedule:
       interval: "daily"
