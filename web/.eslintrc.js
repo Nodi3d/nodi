@@ -15,9 +15,10 @@ module.exports = {
   plugins: [
   ],
   ignorePatterns: [
+    '**/*.js',
     '*.worker.js',
     '*.d.ts',
-    'test/*'
+    'test/*',
   ],
   rules: {
     semi: ['off'],
