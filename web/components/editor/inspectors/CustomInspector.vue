@@ -75,10 +75,13 @@ import CodeMirror from 'codemirror';
 import 'codemirror/mode/javascript/javascript.js';
 
 import { Vue, Prop, Component } from 'nuxt-property-decorator';
-import { AccessTypes, DataTypes, CustomPayloadType } from '@nodi/core';
+import { AccessTypes, DataTypes, CustomPayloadType, AccessType } from '@nodi/core';
 
 const keys = Object.keys(DataTypes).filter(k => typeof DataTypes[k as any] === 'number');
 const values = keys.map(k => DataTypes[k as any] as unknown) as number[];
+
+console.log(AccessTypes);
+console.log(DataTypes);
 
 @Component({})
 export default class CustomInspector extends Vue {
@@ -93,23 +96,28 @@ export default class CustomInspector extends Vue {
   inDataTypes!: number[];
 
   @Prop({ type: Array, required: true })
-  inAccessTypes!: number[];
+  inAccessTypes!: AccessType[];
 
   @Prop({ type: Array, required: true })
   outDataTypes!: number[];
 
   @Prop({ type: Array, required: true })
-  outAccessTypes!: number[];
+  outAccessTypes!: AccessType[];
 
   @Prop({ type: String, required: true })
   customProgram!: string;
 
   DataTypes: any = DataTypes;
-  DataTypeKeys: string[] = keys;
-  DataTypeValues: number[] = values;
-  AccessTypes: { [index: number]: string } = { [AccessTypes.ITEM]: 'ITEM', [AccessTypes.LIST]: 'LIST' };
+  DataTypeKeys: string[] = [];
+  DataTypeValues: number[] = [];
+  AccessTypes: { [index: number]: string } = {};
 
   mounted () {
+    this.DataTypeKeys  = keys;
+    this.DataTypeValues  = values;
+    console.log(AccessTypes);
+    this.AccessTypes = { [AccessTypes.ITEM]: 'ITEM', [AccessTypes.LIST]: 'LIST' };
+
     this.$nextTick(() => {
       const editor = CodeMirror.fromTextArea(this.$refs.CodeEditor, {
         lineNumbers: true,
@@ -164,7 +172,7 @@ export default class CustomInspector extends Vue {
 
   onChangeInputAccess ($e: Event, index: number) {
     const value = ($e.target as HTMLSelectElement).value;
-    this.inAccessTypes[index] = Number(value);
+    this.inAccessTypes[index] = Number(value) as AccessType;
     this.notify();
   }
 
@@ -176,7 +184,7 @@ export default class CustomInspector extends Vue {
 
   onChangeOutputAccess ($e: Event, index: number) {
     const value = ($e.target as HTMLSelectElement).value;
-    this.outAccessTypes[index] = Number(value);
+    this.outAccessTypes[index] = Number(value) as AccessType;
     this.notify();
   }
 

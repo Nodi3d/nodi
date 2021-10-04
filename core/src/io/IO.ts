@@ -1,5 +1,5 @@
 
-import { AccessTypes } from '../data/AccessTypes';
+import { AccessType, AccessTypes } from '../data/AccessTypes';
 import { DataTree } from '../data/DataTree';
 import { DataTypes } from '../data/DataTypes';
 import { IOEvent } from '../misc/Events';
@@ -15,7 +15,7 @@ export type IOJSONType = {
   name?: string;
   comment?: string;
   dataType: DataTypes;
-  accessType?: AccessTypes;
+  accessType?: AccessType;
   connections: ConnectionJSONType[];
   displayType?: IODisplayType;
 };
@@ -33,11 +33,11 @@ export abstract class IO implements ISerializable {
 
   public abstract getData(): DataTree | undefined;
 
-  public getAccessType (): AccessTypes {
+  public getAccessType (): AccessType {
     return this.accessType;
   }
 
-  public setAccessType (type: AccessTypes): void {
+  public setAccessType (type: AccessType): void {
     this.accessType = type;
   }
 
@@ -50,13 +50,13 @@ export abstract class IO implements ISerializable {
   protected name: string;
   protected description: string;
   protected dataType: DataTypes;
-  protected accessType: AccessTypes = AccessTypes.ITEM;
+  protected accessType: AccessType = AccessTypes.ITEM;
   protected connections: WeakRef<IO>[] = [];
   protected _displayType: IODisplayType = IODisplayTypes.Default;
 
   public onStateChanged: IOEvent = new IOEvent();
 
-  constructor (parent: NodeBase, name: string, description: string, dataType: DataTypes = DataTypes.NONE, accessType: AccessTypes = AccessTypes.ITEM) {
+  constructor (parent: NodeBase, name: string, description: string, dataType: DataTypes = DataTypes.NONE, accessType: AccessType = AccessTypes.ITEM) {
     this.parent = new WeakRef(parent);
     this.name = name;
     this.description = description;

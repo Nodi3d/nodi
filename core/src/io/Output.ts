@@ -1,6 +1,6 @@
 
 import { NodeBase } from '../nodes/NodeBase';
-import { AccessTypes } from '../data/AccessTypes';
+import { AccessType, AccessTypes } from '../data/AccessTypes';
 import { DataTypes } from '../data/DataTypes';
 import { DataTree } from '../data/DataTree';
 import { IOEvent } from '../misc/Events';
@@ -10,7 +10,7 @@ export class Output extends IO {
   protected data: DataTree = new DataTree();
   public onDataChanged: IOEvent = new IOEvent();
 
-  constructor (parent:NodeBase, name: string, comment: string, dataType: DataTypes = DataTypes.NONE, accessType: AccessTypes = AccessTypes.ITEM) {
+  constructor (parent:NodeBase, name: string, comment: string, dataType: DataTypes = DataTypes.NONE, accessType: AccessType = AccessTypes.ITEM) {
     super(parent, name, comment, dataType, accessType);
   }
 

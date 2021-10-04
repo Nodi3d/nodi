@@ -1,16 +1,16 @@
-import { AccessTypes } from './AccessTypes';
+import { AccessType, AccessTypes } from './AccessTypes';
 import { DataPath } from './DataPath';
 import { DataTree } from './DataTree';
 
 export class DataAccess {
   protected index: number;
   protected path: DataPath;
-  protected inAccesses: AccessTypes[];
+  protected inAccesses: AccessType[];
   protected inValues: any[];
-  protected outAccesses: AccessTypes[];
+  protected outAccesses: AccessType[];
   protected outValues: any[] = [];
 
-  constructor (index: number, path: DataPath, inAccesses: AccessTypes[] = [], inValues: any[] = [], outAccesses: AccessTypes[] = []) {
+  constructor (index: number, path: DataPath, inAccesses: AccessType[] = [], inValues: any[] = [], outAccesses: AccessType[] = []) {
     this.index = index;
     this.path = path;
     this.inAccesses = inAccesses;
@@ -31,7 +31,7 @@ export class DataAccess {
     return this.outValues;
   }
 
-  public getAccessType (index: number): AccessTypes {
+  public getAccessType (index: number): AccessType {
     if (index >= this.inAccesses.length) { throw new Error(`${index} is out of bounds`); }
     return this.inAccesses[index];
   }

@@ -1,4 +1,4 @@
-import { AccessTypes } from '../../data/AccessTypes';
+import { AccessType, AccessTypes } from '../../data/AccessTypes';
 import { DataAccess } from '../../data/DataAccess';
 import { DataTypes, GeometryDataTypes } from '../../data/DataTypes';
 import { InputManager } from '../../io/InputManager';
@@ -27,9 +27,9 @@ import { NTrimmedSurface } from '~/src/math/geometry/surface/NTrimmedSurface';
 export type CustomPayloadType = {
   customName: string;
   inDataTypes: number[];
-  inAccessTypes: number[];
+  inAccessTypes: AccessType[];
   outDataTypes: number[];
-  outAccessTypes: number[];
+  outAccessTypes: AccessType[];
   customProgram: string;
 };
 

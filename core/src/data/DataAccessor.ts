@@ -1,7 +1,7 @@
 import { InputManager } from '../io/InputManager';
 import { OutputManager } from '../io/OutputManager';
 import { NodeBase } from '../nodes/NodeBase';
-import { AccessTypes } from './AccessTypes';
+import { AccessType, AccessTypes } from './AccessTypes';
 import { Branch } from './Branch';
 import { DataPath } from './DataPath';
 import { DataTree } from './DataTree';
@@ -13,8 +13,8 @@ export class DataAccessor {
   private output: WeakRef<OutputManager>;
 
   private principalDataTreeIndex: number = 0;
-  private inAccessTypes: AccessTypes[];
-  private outAccessTypes: AccessTypes[];
+  private inAccessTypes: AccessType[];
+  private outAccessTypes: AccessType[];
   private inValues: (DataTree | Branch[])[] = [];
   private inValueLength: number = 0;
   private result: DataAccess[] = [];

@@ -1,6 +1,6 @@
 
 import { NodeBase } from '../nodes/NodeBase';
-import { AccessTypes } from '../data/AccessTypes';
+import { AccessType, AccessTypes } from '../data/AccessTypes';
 import { DataTypes } from '../data/DataTypes';
 import { DataTreeJSONType, DataTree } from '../data/DataTree';
 import { Output } from './Output';
@@ -14,7 +14,7 @@ export class Input extends IO {
   protected default: DataTree | undefined;
   protected optional: boolean = false;
 
-  constructor (parent:NodeBase, name:string, comment: string, dataType: DataTypes = DataTypes.NONE, accessType: AccessTypes = AccessTypes.ITEM) {
+  constructor (parent:NodeBase, name:string, comment: string, dataType: DataTypes = DataTypes.NONE, accessType: AccessType = AccessTypes.ITEM) {
     super(parent, name, comment, dataType, accessType);
   }
 

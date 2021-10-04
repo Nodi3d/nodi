@@ -1,4 +1,4 @@
-import { AccessTypes } from '../data/AccessTypes';
+import { AccessTypes, AccessType } from '../data/AccessTypes';
 import { DataTypes } from '../data/DataTypes';
 import { NodeBase } from '../nodes/NodeBase';
 import { Input } from './Input';
@@ -6,7 +6,7 @@ import { IOManager } from './IOManager';
 import { Output } from './Output';
 
 export class OutputManager extends IOManager {
-  public add (name: string, comment: string, dataType: DataTypes, accessType: AccessTypes): Output {
+  public add (name: string, comment: string, dataType: DataTypes, accessType: AccessType): Output {
     const output = new Output(this.getParent(), name, comment, dataType, accessType);
     this.addIO(output);
     return output;
