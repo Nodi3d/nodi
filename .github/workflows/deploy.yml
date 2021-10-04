@@ -17,26 +17,43 @@ jobs:
       with: 
         node-version: 16.x
         registry-url: 'https://registry.npmjs.org'
-    - name: Install Dependencies
+    - name: Install Dependencies @nodi/core
+      working-directory: ./core
       run: |
+        yarn
+    - name: Build @nodi/core
+      working-directory: ./core
+      run: |
+        yarn build
+    - name: Test @nodi/core
+      working-directory: ./core
+      run: yarn test
+    - name: Install Dependencies @nodi/web
+      working-directory: ./web
+      run: |
+        yarn remove @nodi/core
+        yarn add ../core
         npm install -g firebase-tools
         npm install
     - name: Create .firebase.env.js file
+      working-directory: ./web
       env:
         FIREBASE_ENV_FILE: ${{ secrets.FIREBASE_ENV_FILE }}
       run: |
         echo $FIREBASE_ENV_FILE | base64 --decode > .firebase.env.js
     - name: Create .firebaserc file
+      working-directory: ./web
       env:
         FIREBASE_RC_FILE: ${{ secrets.FIREBASE_RC_FILE }}
       run: |
         echo $FIREBASE_RC_FILE | base64 --decode > .firebaserc
-    - name: Build
-      run: npm run build
-    - name: Generate
-      run: npm run generate
-    - name: Test
-      run: yarn test
+    - name: Generate @nodi/web
+      working-directory: ./web
+      run: yarn generate
+#    - name: Test
+#      working-directory: ./web
+#      run: yarn test
     - name: Deploy to Firebase
+      working-directory: ./web
       run: |
         yarn firebase:deploy --token=${{ secrets.FIREBASE_TOKEN }}
