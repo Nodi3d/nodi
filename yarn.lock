@@ -1895,12 +1895,12 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.15.tgz#6a9d143f7f4f49db2d782f9e1c8839a29b43ae23"
   integrity sha512-15spi3V28QdevleWBNXE4pIls3nFZmBbUGrW9IVPwiQczuSb9n76TCB4bsk8TSel+I1OkHEdPhu5QKMfY6rQHA==
 
-"@primer/css@^17.6.2":
-  version "17.6.2"
-  resolved "https://registry.yarnpkg.com/@primer/css/-/css-17.6.2.tgz#460fd4a06dde422a734fe482eefc8ad563ab61db"
-  integrity sha512-ywN0+FQgIN9fGNCQ+4TeExgH5kXP4Pu3c891B9ls7s0syEsSTupORz1fPSb82o3LapOVux1kHlBXWaY5hHo0oA==
+"@primer/css@^17.11.0":
+  version "17.11.0"
+  resolved "https://registry.yarnpkg.com/@primer/css/-/css-17.11.0.tgz#37f2ed0a6c7170e02f5389b05b97e9e291e8fc10"
+  integrity sha512-BGBVzM/SgMM96Q+FFSZlAyXF4MHaSQB7tvvgwTcPqPoNrW1zLVteWbdeQoLNHGphHXL0AlhpInmNXvlhUinOUw==
   dependencies:
-    "@primer/primitives" "^4.3.5"
+    "@primer/primitives" "^4.7.1"
 
 "@primer/octicons@^15.0.1":
   version "15.0.1"
@@ -1909,10 +1909,10 @@
   dependencies:
     object-assign "^4.1.1"
 
-"@primer/primitives@^4.3.5":
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-4.5.1.tgz#aede2364d7c33de4489ab1e6473925fc86284208"
-  integrity sha512-dA5EKORl1fqOa5+cDKYXTPLTNK0BuHS6NPHh1b11H4ngSd6cbuXzzVkUCJ1ooTDR6UbOrpeXMdlUbA9EcwwFVA==
+"@primer/primitives@^4.7.1":
+  version "4.8.1"
+  resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-4.8.1.tgz#05f76e47f67018514fd54b35ca615b9d27ef2a46"
+  integrity sha512-mgr6+EKpn4DixuhLt3drk7QmNQO8M7RYONWovg1nkV7p56jklhDLfZmp1luLUee37eQGAxx3ToStL6gqINFjnQ==
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
