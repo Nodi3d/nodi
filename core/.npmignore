@@ -1,0 +1,11 @@
+/jest/
+/node_modules/
+/pkg/
+/src/
+/test/
+/types/
+/wasm/
+index.ts
+.babelrc
+.eslintrc.js
+jest.config.js
