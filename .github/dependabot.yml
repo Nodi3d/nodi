@@ -3,8 +3,11 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory:
-      - "/core"
-      - "/service"
+    directory: "/core"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "npm"
+    directory: "/web"
     schedule:
       interval: "daily"
