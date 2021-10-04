@@ -16,7 +16,7 @@
     "firebase:deploy": "firebase deploy"
   },
   "dependencies": {
-    "@jscad/modeling": "^2.5.0",
+    "@jscad/modeling": "^2.5.3",
     "@nuxtjs/axios": "^5.13.6",
     "@tweenjs/tween.js": "^18.6.4",
     "@types/jest": "^27.0.1",
