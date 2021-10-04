@@ -80,9 +80,6 @@ import { AccessTypes, DataTypes, CustomPayloadType, AccessType } from '@nodi/cor
 const keys = Object.keys(DataTypes).filter(k => typeof DataTypes[k as any] === 'number');
 const values = keys.map(k => DataTypes[k as any] as unknown) as number[];
 
-console.log(AccessTypes);
-console.log(DataTypes);
-
 @Component({})
 export default class CustomInspector extends Vue {
   $refs!: {
@@ -108,16 +105,11 @@ export default class CustomInspector extends Vue {
   customProgram!: string;
 
   DataTypes: any = DataTypes;
-  DataTypeKeys: string[] = [];
-  DataTypeValues: number[] = [];
-  AccessTypes: { [index: number]: string } = {};
+  DataTypeKeys: string[] = keys;
+  DataTypeValues: number[] = values;
+  AccessTypes: { [index: number]: string } = { [AccessTypes.ITEM]: 'ITEM', [AccessTypes.LIST]: 'LIST' };
 
   mounted () {
-    this.DataTypeKeys  = keys;
-    this.DataTypeValues  = values;
-    console.log(AccessTypes);
-    this.AccessTypes = { [AccessTypes.ITEM]: 'ITEM', [AccessTypes.LIST]: 'LIST' };
-
     this.$nextTick(() => {
       const editor = CodeMirror.fromTextArea(this.$refs.CodeEditor, {
         lineNumbers: true,
