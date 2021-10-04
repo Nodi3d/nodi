@@ -5,7 +5,7 @@
 
 Nodi (β) is an online node-based geometry design tool & social development environment.
 
-<img src="web/assets/images/example.jpg" width="100%" />
+<img src="assets/images/example.jpg" width="100%" />
 
 - [nodi3d.com](https://nodi3d.com) (*Tested on Chrome only*)
 - [User's Guide](https://nodi3d.github.io/docs)
