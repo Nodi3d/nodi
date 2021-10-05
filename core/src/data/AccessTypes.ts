@@ -14,4 +14,4 @@ const AccessTypes = {
 } as const;
 type AccessType = typeof AccessTypes[keyof typeof AccessTypes];
 
-export { AccessTypes, AccessType }
+export { AccessTypes, AccessType };
