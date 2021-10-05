@@ -47,7 +47,7 @@
 <script lang='ts'>
 
 import { Component } from 'nuxt-property-decorator';
-import { NodeBase } from '@nodi/core';
+import { getNodeConstructorName, NodeBase } from '@nodi/core';
 import Tooltip from './Tooltip.vue';
 
 type NodeSearchCandidateType = {
@@ -72,7 +72,7 @@ export default class GraphSearchTooltip extends Tooltip {
     this.nodes = this.candidates = nodes.map((n) => {
       return {
         uuid: n.uuid,
-        name: n.constructor.name
+        name: getNodeConstructorName(n)!
       };
     });
     this.filter(this.text);

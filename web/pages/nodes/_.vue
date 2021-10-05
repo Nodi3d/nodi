@@ -90,7 +90,7 @@
 import { v4 } from 'uuid';
 import axios from 'axios';
 import { Component, Vue } from 'nuxt-property-decorator';
-import { NodeDictionary, Colors, getTypeNames } from '@nodi/core';
+import { NodeDictionary, DataTypeColors, getTypeNames } from '@nodi/core';
 
 import Spinner from '~/components/misc/Spinner.vue';
 import NodeDescription from '~/assets/json/description.json';
@@ -103,7 +103,7 @@ import { Permission } from '~/assets/scripts/service/Permission';
   }
 })
 export default class NodeExamplePage extends Vue {
-  colors: { [index: string]: string } = Colors;
+  colors: { [index: string]: string } = DataTypeColors;
   node: {
     name: string;
     path: string;

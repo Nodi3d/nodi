@@ -1,7 +1,7 @@
 import { Color, DoubleSide, MeshDepthMaterial, NearestFilter, NoBlending, OrthographicCamera, RGBADepthPacking, Scene, ShaderMaterial, Texture, UniformsUtils, Vector2, Vector3, WebGLRenderer, WebGLRenderTarget } from 'three';
 import { FullScreenQuad, Pass } from 'three/examples/jsm/postprocessing/Pass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
-import { ambientColor, defaultStandardColor, selectedStandardColor, NVFrep, FrepRenderingQuality } from '@nodi/core';
+import { PreviewColors, NVFrep, FrepRenderingQuality } from '@nodi/core';
 
 import FrepCommon from './shaders/FrepCommon.glsl';
 import QuadVertexShader from './shaders/Quad.vert';
@@ -66,9 +66,9 @@ export default class RaymarchingPass extends Pass {
         tEnv: { value: envMap },
 
         isNormal: { value: false },
-        ambient: { value: ambientColor },
-        defaultColor: { value: defaultStandardColor },
-        selectedColor: { value: selectedStandardColor },
+        ambient: { value: PreviewColors.ambient },
+        defaultColor: { value: PreviewColors.defaultStandard },
+        selectedColor: { value: PreviewColors.selectedStandard },
         lightDir: { value: new Vector3(0, 0, 1) },
 
         resolution: { value: new Vector2(1024, 768) },

@@ -1,7 +1,7 @@
 
 import { Vector2 } from 'three';
 import {
-  Colors, DataTypes, getTypeNames,
+  DataTypeColors, DataTypes, getTypeNames,
   Input, IO, IODisplayTypes,
   Output,
   HALF_PI, Rad2Deg
@@ -124,7 +124,7 @@ export default class IOView extends View {
     svg.setAttribute('width', `${ioSize}`);
     svg.setAttribute('height', `${ioSize}`);
 
-    const colors = getTypeNames(type).map(t => Colors[t.toUpperCase()]);
+    const colors = getTypeNames(type).map(t => DataTypeColors[t.toUpperCase()]);
     const count = colors.length;
     if (count <= 1) {
       this.addCircle(svg, colors[0]);

@@ -12,7 +12,7 @@ import {
   NCurve, NPolylineCurve,
   NNurbsCurve,
   NPoint, NMesh, NPlane, NBoundingBox, NSurface,
-  TypedEvent, IElementable, isDisplayNode, DataTree, NLineCurve, NRectangleCurve, GradientCubeTexture, NFrepBase, IResolutionResponsible, isResolutionResponsible, IDisposable, RenderingMode, ambientColor, GridGroup, GridGeometry, Axes, BoundingBoxLineSegments, NVBox, NVPlane, NVMesh, NVPoints, NVLine, NVFrep, NVPointTransformControls, CoordinateMode, isRenderingModeResponsible,
+  TypedEvent, IElementable, isDisplayNode, DataTree, NLineCurve, NRectangleCurve, GradientCubeTexture, NFrepBase, IResolutionResponsible, isResolutionResponsible, IDisposable, RenderingMode, PreviewColors, GridGroup, GridGeometry, Axes, BoundingBoxLineSegments, NVBox, NVPlane, NVMesh, NVPoints, NVLine, NVFrep, NVPointTransformControls, CoordinateMode, isRenderingModeResponsible,
   NodeBase, Point
 } from '@nodi/core';
 import RaymarchingPass from './RaymarchingPass';
@@ -48,7 +48,7 @@ export default class Viewer implements IDisposable {
   private container: Group = new Group();
   private renderingMode: RenderingMode = RenderingMode.Standard;
   private cubeMap: GradientCubeTexture = new GradientCubeTexture();
-  private ambient: AmbientLight = new AmbientLight(ambientColor);
+  private ambient: AmbientLight = new AmbientLight(PreviewColors.ambient);
   private light: DirectionalLight = new DirectionalLight(0xFFFFFF, 0.8);
   public camera: OrthographicCamera;
   private cameraControls: OrbitControls;

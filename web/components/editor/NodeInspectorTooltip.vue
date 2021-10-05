@@ -29,7 +29,8 @@ import {
   NodeBase, DataTypes, Input, UINodeBase, VariableInputNodeBase, VariableOutputNodeBase,
   Custom, CustomPayloadType,
   isImporterNode,
-  NPlane, NPoint, NDomain
+  NPlane, NPoint, NDomain,
+  getNodeConstructorNameOfInstance
 } from '@nodi/core';
 
 import Tooltip from './Tooltip.vue';
@@ -102,7 +103,8 @@ export default class NodeInspectorTooltip extends Tooltip {
   setup (node: NodeBase) {
     this.clear();
 
-    this.name = node.constructor.name;
+    const name = getNodeConstructorNameOfInstance(node)!;
+    this.name = name;
     this.description = (this.name in NodeDescription) ? NodeDescription[this.name] : '';
     const message = node.getErrorMessage();
     this.error = (message !== null) ? message : '';

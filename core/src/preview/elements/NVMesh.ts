@@ -8,7 +8,7 @@ import TransparentFrag from '../shaders/mesh/Transparent.frag';
 import { IElementable } from '@/src/misc/IElementable';
 import { IRenderingModeResponsible } from '../misc/IRenderingModeResponsible';
 import { IDisposable } from '@/src/misc/IDisposable';
-import { defaultStandardColor, selectedStandardColor } from '../Colors';
+import { PreviewColors } from '../PreviewColors';
 
 type MaterialDictionary<T extends string | symbol | number> = {
   [K in T]: Material;
@@ -22,7 +22,7 @@ export class NVMesh extends Mesh implements IElementable, IRenderingModeResponsi
   constructor (geometry: BufferGeometry, mode: RenderingMode = RenderingMode.Normal, side: Side = DoubleSide) {
     const materials: MaterialDictionary<RenderingMode> = {
       [RenderingMode.Standard]: new MeshStandardMaterial({
-        color: defaultStandardColor,
+        color: PreviewColors.defaultStandard,
         side,
         roughness: 0.47,
         metalness: 0.0,
@@ -123,7 +123,7 @@ export class NVMesh extends Mesh implements IElementable, IRenderingModeResponsi
     // const material = (this.material as LineMaterial);
     // material.color = new Color(node.selected ? 0x00FF00 : 0xFF0000);
     if (this.material === this.materials[RenderingMode.Standard]) {
-      (this.material as MeshStandardMaterial).color = node.selected ? selectedStandardColor : defaultStandardColor;
+      (this.material as MeshStandardMaterial).color = node.selected ? PreviewColors.selectedStandard : PreviewColors.defaultStandard;
     } else {
       (this.material as RawShaderMaterial).depthTest = !node.selected;
     }
