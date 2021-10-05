@@ -62,8 +62,6 @@ export class DivideCurve extends NodeBase {
       parameters.pop();
     }
 
-    // console.log(curve.constructor.name, curve.closed, parameters.length, n);
-
     return parameters.map((t, idx) => {
       if (idx >= n - 1) {
         t -= 1e-5;

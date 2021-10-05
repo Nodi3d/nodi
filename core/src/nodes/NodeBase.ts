@@ -15,6 +15,7 @@ import { ISerializable } from '../misc/ISerializable';
 import { ISelectable } from '../misc/ISelectable';
 import { TypedEvent } from '../misc/TypedEvent';
 import { AccessTypes } from '../data/AccessTypes';
+import { getNodeConstructorNameOfInstance } from './NodeUtils';
 
 export type NodeJSONType = {
   name: string;
@@ -453,7 +454,8 @@ export abstract class NodeBase extends ElementBase implements ISerializable, IDi
 
   public toJSON (): NodeJSONType {
     return {
-      name: this.constructor.name,
+      // name: this.constructor.name,
+      name: getNodeConstructorNameOfInstance(this)!,
       uuid: this.uuid,
       position: this.position,
       inputs: this.inputManager.toJSON(),

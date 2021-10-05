@@ -12,7 +12,8 @@ import {
   IDisposable,
   NodeBase,
   GroupElement,
-  NodeJSONType
+  NodeJSONType,
+  getNodeConstructorName
 } from '@nodi/core';
 
 import InputUtils from './misc/InputUtils';
@@ -338,7 +339,7 @@ export default class Editor implements IDisposable {
   }
 
   public selectNodeConstructor (nodeConstructor: NodeConstructorType, position: Vector2): void {
-    const name = nodeConstructor.name;
+    const name = getNodeConstructorName(nodeConstructor);
 
     // validate nodes in hierarchy
     if (
