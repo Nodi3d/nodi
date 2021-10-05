@@ -44,9 +44,9 @@ export abstract class VariableInputNodeBase extends NodeBase {
   public abstract getMinInputCount(): number;
   public abstract getMaxInputCount(): number;
 
-  public toJSON (): VariableInputNodeJSONType {
+  public toJSON (name: string): VariableInputNodeJSONType {
     return {
-      ...super.toJSON(),
+      ...super.toJSON(name),
       ...{
         inputCount: this.getInputCount()
       }

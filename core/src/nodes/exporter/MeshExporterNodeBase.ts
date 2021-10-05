@@ -153,8 +153,8 @@ export abstract class MeshExporterNodeBase extends ExporterNodeBase {
     a.dispatchEvent(e);
   }
 
-  public toJSON (): MeshExporterNodeJSONType {
-    const json = super.toJSON();
+  public toJSON (name: string): MeshExporterNodeJSONType {
+    const json = super.toJSON(name);
     return {
       ...json,
       ...{

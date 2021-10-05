@@ -11,6 +11,7 @@ import { NodeConstructorType } from './NodeConstructorType';
 import { GraphJSONTypeV0, migrate } from './Migration';
 import { Unknown } from './nodes/Unknown';
 import { IDisposable } from './misc/IDisposable';
+import { getNodeConstructorNameOfInstance } from './nodes/NodeUtils';
 
 export const GraphJSONVersion = 1;
 
@@ -325,7 +326,7 @@ export class Graph implements IDisposable {
   public toJSON (): GraphJSONType {
     return {
       version: GraphJSONVersion,
-      nodes: this.nodes.map(n => n.toJSON()),
+      nodes: this.nodes.map(n => n.toJSON(getNodeConstructorNameOfInstance(n)!)),
       groups: this.groups.map(g => g.toJSON())
     };
   }

@@ -105,8 +105,8 @@ export class Format extends VariableInputNodeBase {
     super.dispose();
   }
 
-  public toJSON (): FormatJSONType {
-    const json = super.toJSON();
+  public toJSON (name: string): FormatJSONType {
+    const json = super.toJSON(name);
     return {
       ...json,
       ...{

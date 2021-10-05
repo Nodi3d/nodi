@@ -170,9 +170,9 @@ export class UIValueList extends UINodeBase {
     access.setData(0, this.prev);
   }
 
-  public toJSON (): UIValueListJSONType {
+  public toJSON (name: string): UIValueListJSONType {
     return {
-      ...super.toJSON(),
+      ...super.toJSON(name),
       ...{
         prev: this.prev,
         valueListKeys: this.valueListKeys

@@ -172,9 +172,9 @@ export class UINumber extends UINodeBase {
     }
   }
 
-  public toJSON (): UINumberJSONType {
+  public toJSON (name: string): UINumberJSONType {
     return {
-      ...super.toJSON(),
+      ...super.toJSON(name),
       ...{
         value: this.prev,
         numberType: this.numberType,

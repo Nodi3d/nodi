@@ -13,7 +13,8 @@ import {
   NodeBase,
   GroupElement,
   NodeJSONType,
-  getNodeConstructorName
+  getNodeConstructorName,
+  getNodeConstructorNameOfInstance
 } from '@nodi/core';
 
 import InputUtils from './misc/InputUtils';
@@ -742,7 +743,7 @@ export default class Editor implements IDisposable {
   }
 
   protected copyNodesToClipboard (nodes: NodeBase[], e: ClipboardEvent | undefined): string {
-    const text = JSON.stringify(nodes.map(n => n.toJSON()));
+    const text = JSON.stringify(nodes.map(n => n.toJSON(getNodeConstructorNameOfInstance(n)!)));
     if (e !== undefined) {
       e.clipboardData?.setData('text/plain', text);
     } else {
@@ -829,7 +830,7 @@ export default class Editor implements IDisposable {
     // Connect copied outputs to copied inputs
     this.connectNodesJSON(cloned, copied);
 
-    const load = new Operations.LoadOperation({ version: GraphJSONVersion, nodes: copied.map(n => n.toJSON()), groups: [] });
+    const load = new Operations.LoadOperation({ version: GraphJSONVersion, nodes: copied.map(n => n.toJSON(getNodeConstructorNameOfInstance(n)!)), groups: [] });
     this.pushHistory(load);
 
     this.unselectAllNodes();

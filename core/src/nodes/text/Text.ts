@@ -140,8 +140,8 @@ export class Text extends NodeBase {
     this.onTextChanged.dispose();
   }
 
-  public toJSON (): TextJSONType {
-    const json = super.toJSON();
+  public toJSON (name: string): TextJSONType {
+    const json = super.toJSON(name);
     return {
       ...json,
       ...{

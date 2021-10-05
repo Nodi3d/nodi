@@ -179,10 +179,10 @@ access.setData(0, result);`;
     f(...Object.values(context));
   }
 
-  toJSON (): CustomJSONType {
+  toJSON (name: string): CustomJSONType {
     const setting = this.getCustomSetting();
     return {
-      ...super.toJSON(),
+      ...super.toJSON(name),
       ...setting
     };
   }

@@ -64,9 +64,9 @@ export class UIMDSlider extends UINodeBase {
     access.setData(0, v);
   }
 
-  public toJSON (): UIMDSliderJSONType {
+  public toJSON (name: string): UIMDSliderJSONType {
     return {
-      ...super.toJSON(),
+      ...super.toJSON(name),
       ...{
         sliderX: this.prev.x,
         sliderY: this.prev.y

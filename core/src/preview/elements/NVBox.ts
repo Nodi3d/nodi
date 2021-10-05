@@ -1,5 +1,4 @@
-import { BufferGeometry, Color, LineBasicMaterial, Vector3 } from 'three';
-import { LineSegments } from 'three/src/objects/LineSegments';
+import { BufferGeometry, Color, LineBasicMaterial, LineSegments, Vector3 } from 'three';
 import { NBoundingBox } from '@/src/math/geometry/NBoundingBox';
 import { IDisposable } from '@/src/misc/IDisposable';
 import { IElementable } from '@/src/misc/IElementable';

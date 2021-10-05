@@ -262,9 +262,9 @@ export class CustomPreview extends NodeBase implements IDisplayNode, IImporterNo
     this.notifyValueChanged();
   }
 
-  toJSON (): CustomPreviewJSONType {
+  toJSON (name: string): CustomPreviewJSONType {
     return {
-      ...super.toJSON(),
+      ...super.toJSON(name),
       ...{
         color: this.color,
         emission: this.emission,

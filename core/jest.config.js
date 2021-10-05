@@ -26,6 +26,9 @@ module.exports = {
     }
   },
   transformIgnorePatterns: [
+    'index.ts',
+    'src/index.ts',
+    'dist',
     '/node_modules/'
   ],
   collectCoverage: false,

@@ -333,8 +333,8 @@ export class FrepMCExporter extends ExporterNodeBase {
     a.dispatchEvent(e);
   }
 
-  public toJSON (): FrepMeshExporterNodeJSONType {
-    const json = super.toJSON();
+  public toJSON (name: string): FrepMeshExporterNodeJSONType {
+    const json = super.toJSON(name);
     return {
       ...json,
       ...{

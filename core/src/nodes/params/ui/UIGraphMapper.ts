@@ -180,9 +180,9 @@ export class UIGraphMapper extends UINodeBase {
     access.setData(0, v);
   }
 
-  public toJSON (): UIGraphMapperJSONType {
+  public toJSON (name: string): UIGraphMapperJSONType {
     return {
-      ...super.toJSON(),
+      ...super.toJSON(name),
       ...{
         graphMapType: this.mapper.type,
         graphMapControlPoints: this.mapper.points

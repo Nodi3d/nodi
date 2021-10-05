@@ -11,11 +11,9 @@ import { DataAccess } from '../data/DataAccess';
 import { DataTree } from '../data/DataTree';
 import { DataPath } from '../data/DataPath';
 import { GeometryDataTypes } from '../data/DataTypes';
-import { ISerializable } from '../misc/ISerializable';
 import { ISelectable } from '../misc/ISelectable';
 import { TypedEvent } from '../misc/TypedEvent';
 import { AccessTypes } from '../data/AccessTypes';
-import { getNodeConstructorNameOfInstance } from './NodeUtils';
 
 export type NodeJSONType = {
   name: string;
@@ -38,7 +36,7 @@ class NodeConnectEvent extends TypedEvent<{
   input: Input;
 }> {}
 
-export abstract class NodeBase extends ElementBase implements ISerializable, IDisposable, ISelectable {
+export abstract class NodeBase extends ElementBase implements IDisposable, ISelectable {
   selected: boolean = false;
   enabled: boolean = true;
   visible: boolean = true;
@@ -452,10 +450,10 @@ export abstract class NodeBase extends ElementBase implements ISerializable, IDi
     return this.inputManager.hasIO(io) || this.outputManager.hasIO(io);
   }
 
-  public toJSON (): NodeJSONType {
+  public toJSON (name: string): NodeJSONType {
     return {
       // name: this.constructor.name,
-      name: getNodeConstructorNameOfInstance(this)!,
+      name,
       uuid: this.uuid,
       position: this.position,
       inputs: this.inputManager.toJSON(),

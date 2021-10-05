@@ -123,9 +123,9 @@ export abstract class ImporterNodeBase extends AsyncNodeBase implements IImporte
     reader.readAsArrayBuffer(file);
   }
 
-  toJSON (): ImporterNodeJSONType {
+  toJSON (name: string): ImporterNodeJSONType {
     return {
-      ...super.toJSON(),
+      ...super.toJSON(name),
       ...{
         fileName: this.fileName,
         fileUrl: this.fileUrl

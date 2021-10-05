@@ -185,8 +185,8 @@ export class DxfExporter extends ExporterNodeBase {
     a.dispatchEvent(e);
   }
 
-  public toJSON (): DxfExporterJSONType {
-    const json = super.toJSON();
+  public toJSON (name: string): DxfExporterJSONType {
+    const json = super.toJSON(name);
     return {
       ...json,
       ...{

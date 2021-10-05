@@ -62,9 +62,9 @@ export abstract class UINodeBase extends NodeBase {
     return span;
   }
 
-  public toJSON (): UINodeJSONType {
+  public toJSON (name: string): UINodeJSONType {
     return {
-      ...super.toJSON(),
+      ...super.toJSON(name),
       ...{
         label: this.label,
         order: this.order

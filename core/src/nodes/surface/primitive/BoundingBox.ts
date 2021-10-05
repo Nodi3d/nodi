@@ -87,9 +87,9 @@ export class BoundingBox extends NodeBase {
     unionCheckbox.checked = this.union;
   }
 
-  public toJSON (): BoundingBoxJSONType {
+  public toJSON (name: string): BoundingBoxJSONType {
     return {
-      ...super.toJSON(),
+      ...super.toJSON(name),
       ...{
         union: this.union
       }

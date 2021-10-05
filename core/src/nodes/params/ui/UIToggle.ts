@@ -62,9 +62,9 @@ export class UIToggle extends UINodeBase {
     access.setData(0, this.checked);
   }
 
-  public toJSON (): UIToggleJSONType {
+  public toJSON (name: string): UIToggleJSONType {
     return {
-      ...super.toJSON(),
+      ...super.toJSON(name),
       ...{
         checked: this.checked
       }

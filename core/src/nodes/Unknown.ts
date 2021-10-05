@@ -59,9 +59,9 @@ export class Unknown extends NodeBase {
     super.fromJSON(json);
   }
 
-  public toJSON (): NodeJSONType {
+  public toJSON (name: string): NodeJSONType {
     return {
-      ...super.toJSON(),
+      ...super.toJSON(name),
       name: this.unknownNodeName
     };
   }

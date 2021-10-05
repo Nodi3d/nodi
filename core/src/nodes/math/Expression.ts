@@ -103,8 +103,8 @@ export class Expression extends VariableInputNodeBase {
     super.dispose();
   }
 
-  public toJSON (): ExpressionJSONType {
-    const json = super.toJSON();
+  public toJSON (name: string): ExpressionJSONType {
+    const json = super.toJSON(name);
     return {
       ...json,
       ...{

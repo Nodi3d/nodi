@@ -44,9 +44,9 @@ export abstract class VariableOutputNodeBase extends NodeBase {
   public abstract getMinOutputCount(): number;
   public abstract getMaxOutputCount(): number;
 
-  public toJSON (): VariableOutputNodeJSONType {
+  public toJSON (name: string): VariableOutputNodeJSONType {
     return {
-      ...super.toJSON(),
+      ...super.toJSON(name),
       ...{
         outputCount: this.getOutputCount()
       }

@@ -17,8 +17,8 @@ export abstract class ExporterNodeBase extends UINodeBase {
     container.appendChild(span);
   }
 
-  public toJSON (): ExporterNodeJSONType {
-    const json = super.toJSON();
+  public toJSON (name: string): ExporterNodeJSONType {
+    const json = super.toJSON(name);
     return {
       ...json,
       ...{

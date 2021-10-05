@@ -308,9 +308,9 @@ export class Comment extends NodeBase {
     };
   }
 
-  public toJSON (): CommentJSONType {
+  public toJSON (name: string): CommentJSONType {
     return {
-      ...super.toJSON(),
+      ...super.toJSON(name),
       ...{
         commentText: this.text,
         commentLink: this.link,
