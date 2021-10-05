@@ -64,6 +64,10 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
+    parallel: true,
+    babel: {
+      compact: true
+    },
     terser: {
       terserOptions: {
         keep_fnames: true
