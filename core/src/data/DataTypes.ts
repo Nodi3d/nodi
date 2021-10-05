@@ -22,7 +22,7 @@ export enum DataTypes {
 
 const GeometryDataTypes: DataTypes = DataTypes.POINT | DataTypes.PLANE | DataTypes.CURVE | DataTypes.SURFACE | DataTypes.BOX | DataTypes.MESH | DataTypes.FREP;
 
-const Colors: { [index: string]: string } = Object.freeze({
+const DataTypeColors: { [index: string]: string } = Object.freeze({
   STRING: 'rgb(228, 87, 86)',
   BOOLEAN: 'rgb(245, 133, 24)',
   NUMBER: 'rgb(76, 120, 168)',
@@ -74,6 +74,6 @@ const getTypeNames = (type: DataTypes): string[] => {
 
 export {
   GeometryDataTypes,
-  Colors,
+  DataTypeColors,
   getTypeNames
 };
