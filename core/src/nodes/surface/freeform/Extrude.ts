@@ -23,7 +23,7 @@ export class Extrude extends NodeBase {
   public registerInputs (manager: InputManager): void {
     manager.add('p', 'Profile curve or surface', DataTypes.CURVE | DataTypes.SURFACE, AccessTypes.ITEM);
     manager.add('d', 'Extrusion direction', DataTypes.VECTOR, AccessTypes.ITEM);
-    manager.add('r', 'Extrusion resolution', DataTypes.VECTOR, AccessTypes.ITEM).setDefault(new DataTree().add([16]));
+    manager.add('r', 'Extrusion resolution', DataTypes.NUMBER, AccessTypes.ITEM).setDefault(new DataTree().add([16]));
   }
 
   public registerOutputs (manager: OutputManager): void {
