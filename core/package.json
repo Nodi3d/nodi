@@ -33,7 +33,7 @@
     "@types/jest": "^27.0.2",
     "@types/noisejs": "^0.0.28",
     "@types/uuid": "^8.3.1",
-    "@typescript-eslint/eslint-plugin": "^4.32.0",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "@wasm-tool/wasm-pack-plugin": "^1.5.0",
     "babel-core": "7.0.0-bridge.0",
