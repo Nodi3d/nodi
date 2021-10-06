@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "declaration": true,
+    "declarationDir": "dist",
+    "sourceMap": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "lib": [
+      "ESNext",
+      "ESNext.AsyncIterable",
+      "DOM",
+      "WebWorker"
+    ],
+    "esModuleInterop": true,
+    "allowJs": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "./*"
+      ],
+      "@/*": [
+        "./*"
+      ]
+    },
+    "types": [
+      "@types/node",
+      "jest",
+      "./types"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "test",
+    "dist"
+  ]
+}

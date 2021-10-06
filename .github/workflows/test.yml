@@ -1,17 +1,22 @@
 name: test
 
-on: pull_request
+on: 
+  - pull_request
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Execute tests
+        uses: actions/checkout@v2
       
-      - name: yarn install
+      - name: Run yarn install
+        working-directory: ./core
         run: yarn install
-      - name: eslint
+      - name: Run lint
+        working-directory: ./core
         run: yarn lint
-      - name: test
+      - name: Run test
+        working-directory: ./core
         run: yarn test
