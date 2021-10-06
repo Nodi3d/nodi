@@ -1468,8 +1468,17 @@
     fastq "^1.6.0"
 
 "@nodi/core@link:../core":
-  version "0.0.0"
-  uid ""
+  version "1.0.0"
+  dependencies:
+    "@jscad/modeling" "^2.5.2"
+    "@types/three" "^0.130.0"
+    clipper-lib "^6.4.2"
+    d3-delaunay "^6.0.2"
+    dxf "^4.6.1"
+    dxf-writer "^1.11.0"
+    noisejs "^2.1.0"
+    three "^0.130.1"
+    uuid "^8.3.2"
 
 "@npmcli/fs@^1.0.0":
   version "1.0.0"
@@ -1919,10 +1928,10 @@
   dependencies:
     "@primer/primitives" "^4.7.1"
 
-"@primer/octicons@^15.0.1":
-  version "15.2.0"
-  resolved "https://registry.yarnpkg.com/@primer/octicons/-/octicons-15.2.0.tgz#0b44509ab164a0424e9a0ca366538691898e1cea"
-  integrity sha512-4cHZzcZ3F/HQNL4EKSaFyVsW7XtITiJkTeB1JDDmRuP/XobyWyF9gWxuV9c+byUa8dOB5KNQn37iRvNrIehPUQ==
+"@primer/octicons@^16.0.0":
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/@primer/octicons/-/octicons-16.0.0.tgz#5f7b3c92f9286b5fb4d70d6c6343c9570a8b6c1a"
+  integrity sha512-FRsFnJIU3YMrWXHnFQku4npNbMTz4wd+qIwXPkA/iA6cnvC1xmcSanT8AzN/pAEg8SLkXFS8nEP56xWUq92tfA==
   dependencies:
     object-assign "^4.1.1"
 
