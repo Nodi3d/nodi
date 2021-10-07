@@ -1,5 +1,5 @@
 
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import { mutationTree, actionTree } from 'typed-vuex';
 
 export type UserState = {
