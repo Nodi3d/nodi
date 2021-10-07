@@ -54,7 +54,7 @@
 
 <script lang='ts'>
 
-import firebase from 'firebase';
+import firebase from 'firebase/compat';
 import _ from 'lodash';
 import { Vector2 } from 'three';
 import { Component, Vue, Watch } from 'nuxt-property-decorator';
