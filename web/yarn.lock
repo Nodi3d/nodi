@@ -1580,8 +1580,17 @@
     fastq "^1.6.0"
 
 "@nodi/core@link:../core":
-  version "0.0.0"
-  uid ""
+  version "1.0.0"
+  dependencies:
+    "@jscad/modeling" "^2.5.3"
+    "@types/three" "^0.130.0"
+    clipper-lib "^6.4.2"
+    d3-delaunay "^6.0.2"
+    dxf "^4.6.1"
+    dxf-writer "^1.11.0"
+    noisejs "^2.1.0"
+    three "^0.130.1"
+    uuid "^8.3.2"
 
 "@npmcli/fs@^1.0.0":
   version "1.0.0"
@@ -2025,12 +2034,12 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.21.tgz#5de5a2385a35309427f6011992b544514d559aa1"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
 
-"@primer/css@^17.6.2":
-  version "17.11.0"
-  resolved "https://registry.yarnpkg.com/@primer/css/-/css-17.11.0.tgz#37f2ed0a6c7170e02f5389b05b97e9e291e8fc10"
-  integrity sha512-BGBVzM/SgMM96Q+FFSZlAyXF4MHaSQB7tvvgwTcPqPoNrW1zLVteWbdeQoLNHGphHXL0AlhpInmNXvlhUinOUw==
+"@primer/css@^18.0.1":
+  version "18.0.1"
+  resolved "https://registry.yarnpkg.com/@primer/css/-/css-18.0.1.tgz#74ce5659ea48c3b13d1be7129670d3fcc0c663be"
+  integrity sha512-6xc0SAQGFDNl7Lc1ETOl5CIaLP4P3Vo+soWisoCNGWlLbJlHUAJGCSyLR1nZpoIS7vbZeSmwULUzOXzpnFpTFg==
   dependencies:
-    "@primer/primitives" "^4.7.1"
+    "@primer/primitives" "^5.0.0"
 
 "@primer/octicons@^16.0.0":
   version "16.0.0"
@@ -2039,10 +2048,10 @@
   dependencies:
     object-assign "^4.1.1"
 
-"@primer/primitives@^4.7.1":
-  version "4.8.1"
-  resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-4.8.1.tgz#05f76e47f67018514fd54b35ca615b9d27ef2a46"
-  integrity sha512-mgr6+EKpn4DixuhLt3drk7QmNQO8M7RYONWovg1nkV7p56jklhDLfZmp1luLUee37eQGAxx3ToStL6gqINFjnQ==
+"@primer/primitives@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-5.0.0.tgz#20e5e7aae0464093f4742f5947c332cbcbc68edd"
+  integrity sha512-g2omeDBgfE5Q6+BQxPaflz5/shCFNjPvfpzphQMpeqIeSrV9boFyicLq7/Rd3WdsDvIMIsMCC1lWZE9JyEhR3w==
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
