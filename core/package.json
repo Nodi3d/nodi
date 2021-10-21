@@ -38,7 +38,7 @@
     "@wasm-tool/wasm-pack-plugin": "^1.6.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^27.3.0",
+    "babel-jest": "^27.3.1",
     "barrelsby": "^2.3.0",
     "eslint": "^7.32.0",
     "glslify-loader": "^2.0.0",
