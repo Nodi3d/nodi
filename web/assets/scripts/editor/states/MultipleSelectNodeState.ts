@@ -24,7 +24,9 @@ export default class MultipleSelectNodeState extends StateBase {
     return this;
   }
 
-  public mouseUp (context: Editor, _input: EditorMouseInput): StateBase {
+  public mouseUp (context: Editor, input: EditorMouseInput): StateBase {
+    this.rect.update(this.start.x, this.start.y, input.world.x, input.world.y);
+
     let intersected: NodeView[] = [];
 
     // check just a left click
