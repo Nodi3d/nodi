@@ -1586,10 +1586,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@jscad/modeling@^2.5.3":
-  version "2.5.3"
-  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.5.3.tgz#a3b7d881eb07d3b5b3e96186f55a31a8ccb15ead"
-  integrity sha512-ia49UBz2D55VlA5dZ7U6SZQ6zwbwYcuZD7Hz7qZzXcVSXR4uJoawTYgwQuj/ZLP9fYiuUcHMnA1Qyw7KnQ2L+w==
+"@jscad/modeling@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.6.0.tgz#c30860907923a6bd256a4a67d84dbd50563ba05f"
+  integrity sha512-RvnljIr0jduJsjFejT3P+jOO0szYwsYzLEqX5k883A4vnLeEc78bwtfsvU4RXOnwlgNc7gdVkVHJCT64dbxGzg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1615,7 +1615,7 @@
 "@nodi/core@link:../core":
   version "1.0.0"
   dependencies:
-    "@jscad/modeling" "^2.5.3"
+    "@jscad/modeling" "^2.6.0"
     "@types/three" "^0.130.0"
     clipper-lib "^6.4.2"
     d3-delaunay "^6.0.2"
@@ -2389,10 +2389,10 @@
   resolved "https://registry.yarnpkg.com/@types/less/-/less-3.0.2.tgz#2761d477678c8374cb9897666871662eb1d1115e"
   integrity sha512-62vfe65cMSzYaWmpmhqCMMNl0khen89w57mByPi1OseGfcV/LV03fO8YVrNj7rFQsRWNJo650WWyh6m7p8vZmA==
 
-"@types/lodash@^4.14.172":
-  version "4.14.175"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.175.tgz#b78dfa959192b01fae0ad90e166478769b215f45"
-  integrity sha512-XmdEOrKQ8a1Y/yxQFOMbC47G/V2VDO1GvMRnl4O75M4GW/abC5tnfzadQYkqEveqRM1dEJGFFegfPNA2vvx2iw==
+"@types/lodash@^4.14.176":
+  version "4.14.176"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.176.tgz#641150fc1cda36fbfa329de603bbb175d7ee20c0"
+  integrity sha512-xZmuPTa3rlZoIbtDUyJKZQimJV3bxCmzMIO2c9Pz9afyDro6kr7R79GwcB6mRhuoPmV2p1Vb66WOJH7F886WKQ==
 
 "@types/long@^4.0.1":
   version "4.0.1"
@@ -4089,10 +4089,10 @@ coa@^2.0.2:
     chalk "^2.4.1"
     q "^1.1.2"
 
-codemirror@^5.62.3:
-  version "5.63.1"
-  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.63.1.tgz#b0b9e8444206fd6a43a58a4b31d5740bb891fa57"
-  integrity sha512-baivaNZreZOGh1/tYyTvCupC9NeWk7qlZeGUDi4nFKj/J0JU8FYKZND4QqLw70P7HOttlCt4JJAOj9GoIhHEkA==
+codemirror@^5.63.3:
+  version "5.63.3"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.63.3.tgz#97042a242027fe0c87c09b36bc01931d37b76527"
+  integrity sha512-1C+LELr+5grgJYqwZKqxrcbPsHFHapVaVAloBsFBASbpLnQqLw1U8yXJ3gT5D+rhxIiSpo+kTqN+hQ+9ialIXw==
 
 collect-v8-coverage@^1.0.0:
   version "1.0.1"
