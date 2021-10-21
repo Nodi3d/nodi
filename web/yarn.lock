@@ -1586,10 +1586,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@jscad/modeling@^2.5.3":
-  version "2.5.3"
-  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.5.3.tgz#a3b7d881eb07d3b5b3e96186f55a31a8ccb15ead"
-  integrity sha512-ia49UBz2D55VlA5dZ7U6SZQ6zwbwYcuZD7Hz7qZzXcVSXR4uJoawTYgwQuj/ZLP9fYiuUcHMnA1Qyw7KnQ2L+w==
+"@jscad/modeling@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.6.0.tgz#c30860907923a6bd256a4a67d84dbd50563ba05f"
+  integrity sha512-RvnljIr0jduJsjFejT3P+jOO0szYwsYzLEqX5k883A4vnLeEc78bwtfsvU4RXOnwlgNc7gdVkVHJCT64dbxGzg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1615,7 +1615,7 @@
 "@nodi/core@link:../core":
   version "1.0.0"
   dependencies:
-    "@jscad/modeling" "^2.5.3"
+    "@jscad/modeling" "^2.6.0"
     "@types/three" "^0.130.0"
     clipper-lib "^6.4.2"
     d3-delaunay "^6.0.2"
@@ -2067,12 +2067,12 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.21.tgz#5de5a2385a35309427f6011992b544514d559aa1"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
 
-"@primer/css@^17.6.2":
-  version "17.11.0"
-  resolved "https://registry.yarnpkg.com/@primer/css/-/css-17.11.0.tgz#37f2ed0a6c7170e02f5389b05b97e9e291e8fc10"
-  integrity sha512-BGBVzM/SgMM96Q+FFSZlAyXF4MHaSQB7tvvgwTcPqPoNrW1zLVteWbdeQoLNHGphHXL0AlhpInmNXvlhUinOUw==
+"@primer/css@^18.0.2":
+  version "18.0.2"
+  resolved "https://registry.yarnpkg.com/@primer/css/-/css-18.0.2.tgz#6fed723893d6e1a0ff994d353e74787ab2c0d211"
+  integrity sha512-iZgL52N1F5tVit30v7DqTkz63DeLbB+n0Z2U5QdFriIYBc6ZfsihFFj1RCjbf8k1rKThvXt7ad/1bjIeBWJWww==
   dependencies:
-    "@primer/primitives" "^4.7.1"
+    "@primer/primitives" "^5.1.0"
 
 "@primer/octicons@^16.0.0":
   version "16.0.0"
@@ -2081,10 +2081,10 @@
   dependencies:
     object-assign "^4.1.1"
 
-"@primer/primitives@^4.7.1":
-  version "4.8.1"
-  resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-4.8.1.tgz#05f76e47f67018514fd54b35ca615b9d27ef2a46"
-  integrity sha512-mgr6+EKpn4DixuhLt3drk7QmNQO8M7RYONWovg1nkV7p56jklhDLfZmp1luLUee37eQGAxx3ToStL6gqINFjnQ==
+"@primer/primitives@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-5.1.0.tgz#698ad3a173f3a1d7090651cce0a7088e4b93da39"
+  integrity sha512-pW8DIh6rZV0/R7lxHnVRJ/tdN4kDVSpAtdcCecxKsvtgK5d9haekt3ERpM6i93xKwB5CJYy9ouuC9C0UqWPI0A==
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
@@ -4089,10 +4089,10 @@ coa@^2.0.2:
     chalk "^2.4.1"
     q "^1.1.2"
 
-codemirror@^5.62.3:
-  version "5.63.1"
-  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.63.1.tgz#b0b9e8444206fd6a43a58a4b31d5740bb891fa57"
-  integrity sha512-baivaNZreZOGh1/tYyTvCupC9NeWk7qlZeGUDi4nFKj/J0JU8FYKZND4QqLw70P7HOttlCt4JJAOj9GoIhHEkA==
+codemirror@^5.63.3:
+  version "5.63.3"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.63.3.tgz#97042a242027fe0c87c09b36bc01931d37b76527"
+  integrity sha512-1C+LELr+5grgJYqwZKqxrcbPsHFHapVaVAloBsFBASbpLnQqLw1U8yXJ3gT5D+rhxIiSpo+kTqN+hQ+9ialIXw==
 
 collect-v8-coverage@^1.0.0:
   version "1.0.1"
@@ -10503,10 +10503,10 @@ sass-loader@^10.2.0:
     schema-utils "^3.0.0"
     semver "^7.3.2"
 
-sass@1.32.12:
-  version "1.32.12"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.32.12.tgz#a2a47ad0f1c168222db5206444a30c12457abb9f"
-  integrity sha512-zmXn03k3hN0KaiVTjohgkg98C3UowhL1/VSGdj4/VAAiMKGQOE80PFPxFP2Kyq0OUskPKcY5lImkhBKEHlypJA==
+sass@1.43.2:
+  version "1.43.2"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.43.2.tgz#c02501520c624ad6622529a8b3724eb08da82d65"
+  integrity sha512-DncYhjl3wBaPMMJR0kIUaH3sF536rVrOcqqVGmTZHQRRzj7LQlyGV7Mb8aCKFyILMr5VsPHwRYtyKpnKYlmQSQ==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
 
