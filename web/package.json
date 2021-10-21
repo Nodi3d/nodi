@@ -41,7 +41,7 @@
     "@nuxtjs/svg": "^0.3.0",
     "@primer/css": "^18.0.2",
     "@primer/octicons": "^16.0.0",
-    "@types/codemirror": "^5.60.2",
+    "@types/codemirror": "^5.60.5",
     "@types/jest": "^27.0.1",
     "@types/lodash": "^4.14.172",
     "@types/uuid": "^8.3.1",
