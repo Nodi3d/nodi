@@ -13,7 +13,7 @@
     >
       <a
         v-if="item.children"
-        class="color-text-white"
+        class="color-fg-on-emphasis"
       >
         &nbsp;> {{ item.name }}
         <NodeHierarchyList
@@ -23,7 +23,7 @@
           @select="onClick"
         />
       </a>
-      <a v-else class="color-text-white">&nbsp;{{ item.name }}</a>
+      <a v-else class="color-fg-on-emphasis">&nbsp;{{ item.name }}</a>
     </li>
   </ul>
 </template>
