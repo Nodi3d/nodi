@@ -1,7 +1,7 @@
 <template>
   <div v-if="project !== null" class="dark-theme">
     <template v-if="!isMobile">
-      <a v-show="!isEditing" class="color-text-white no-underline cursor-pointer dark-theme-hover px-3 py-2" name="" @click.prevent="click">{{ title }}</a>
+      <a v-show="!isEditing" class="color-fg-on-emphasis no-underline cursor-pointer dark-theme-hover px-3 py-2" name="" @click.prevent="click">{{ title }}</a>
       <input
         v-show="isEditing"
         ref="Input"

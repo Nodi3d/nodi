@@ -12,7 +12,7 @@
         :style="{ height: menuHeight + &quot;px&quot; }"
       >
         <li class="ml-4 mr-4">
-          <a class="color-text-white cursor-pointer" @click.prevent.stop="openDrawer" v-html="svg.menu" />
+          <a class="color-fg-on-emphasis cursor-pointer" @click.prevent.stop="openDrawer" v-html="svg.menu" />
         </li>
         <li class="mr-3">
           <div class="step-indicator d-flex flex-items-center" :class="{ animated: isProcessing }" v-html="svg.logoWhiteIconOnlyMask" />
@@ -42,7 +42,7 @@
           <HelpMenu :dark="true" />
         </li>
         <li v-if="!isMobile" class="d-flex flex-items-center dark-theme-hover" style="height: 100%;">
-          <a class="button no-underline px-3 color-text-white" href="https://nodi3d.github.io/docs/user/examples" target="blank">
+          <a class="button no-underline px-3 color-fg-on-emphasis" href="https://nodi3d.github.io/docs/user/examples" target="blank">
             Examples
           </a>
         </li>
