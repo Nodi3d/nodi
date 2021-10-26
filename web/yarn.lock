@@ -2513,6 +2513,11 @@
   resolved "https://registry.yarnpkg.com/@types/three/-/three-0.130.2.tgz#af48f897c844b3b41f649cc2642f61566332be7e"
   integrity sha512-9rgbc2KobttgyCbaizjxUa6lfmbXSUhjcdd3TKPiG6YIr0ZkUSUuRu0q5qA72sak3gxSGSZCjV+Zuzhl/+VRjA==
 
+"@types/three@^0.133.1":
+  version "0.133.1"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.133.1.tgz#6007faaf7f6b53339150a2a1fe57121e4c6607c1"
+  integrity sha512-XqBrP/+kbs+o0CYRhCVVE95v7FaL2bO5Z7+3VQJE0nEyjo+9LoLfeNgZITOnndKHxM+7ltEciAIR7uE0SZlsOg==
+
 "@types/uglify-js@*":
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/@types/uglify-js/-/uglify-js-3.13.1.tgz#5e889e9e81e94245c75b6450600e1c5ea2878aea"
