@@ -1554,10 +1554,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@jscad/modeling@^2.6.0":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.6.0.tgz#c30860907923a6bd256a4a67d84dbd50563ba05f"
-  integrity sha512-RvnljIr0jduJsjFejT3P+jOO0szYwsYzLEqX5k883A4vnLeEc78bwtfsvU4RXOnwlgNc7gdVkVHJCT64dbxGzg==
+"@jscad/modeling@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.6.1.tgz#96bc823c54972856669b07a077290095cdf1fac7"
+  integrity sha512-bUMccSiBW7r6vajozqHC33GACJIezH8x/0XXNbbZWAWAkfVarRzPz+KIazsX7rouoDDkzrTrWWJxJ5HDbwWvFg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1583,12 +1583,12 @@
 "@nodi/core@link:../core":
   version "1.0.0"
   dependencies:
-    "@jscad/modeling" "^2.6.0"
+    "@jscad/modeling" "^2.6.1"
     "@types/three" "^0.130.0"
     clipper-lib "^6.4.2"
     d3-delaunay "^6.0.2"
     dxf "^4.6.1"
-    dxf-writer "^1.11.0"
+    dxf-writer "^1.12.0"
     noisejs "^2.1.0"
     three "^0.130.1"
     uuid "^8.3.2"
@@ -4937,10 +4937,10 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dxf-writer@^1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/dxf-writer/-/dxf-writer-1.11.0.tgz#846d528650413504bf3e9c88065b4823084a9e58"
-  integrity sha512-v9DqrN8hE6IrimI9DLHP6BN69K72MhmtNmlcnuN/embQPEmPAURy73s+O50JOPj3XrbP12aS3HqPOxoji7XH+A==
+dxf-writer@^1.12.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/dxf-writer/-/dxf-writer-1.12.0.tgz#438df6a53f19965ae323f2bfee40e74079040495"
+  integrity sha512-iEFyo4DPJC8/XlOd13yN7A/KRZwQTU3oLibOk1VyaiclxIYhnRLcB2r+hAMqYeW5ZGArVp/6xyY5kkoiZnok2g==
 
 dxf@^4.6.1:
   version "4.6.1"
@@ -11300,6 +11300,11 @@ three@^0.130.1:
   version "0.130.1"
   resolved "https://registry.yarnpkg.com/three/-/three-0.130.1.tgz#797588b2877ace31603bbbc864eb2e3022f0b3b4"
   integrity sha512-OSPPKcGvFSiGkG3jFrwwC76PBV/ZSrGxpBbg28bW8s9GU8r/y2spNGtEXHEb/CVqo0Ctf5Lx2rVaxQZB6OasaA==
+
+three@^0.134.0:
+  version "0.134.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.134.0.tgz#d7ad4d85d050da0861bf39749b06ddfb5f17157f"
+  integrity sha512-LbBerg7GaSPjYtTOnu41AMp7tV6efUNR3p4Wk5NzkSsNTBuA5mDGOfwwZL1jhhVMLx9V20HolIUo0+U3AXehbg==
 
 throat@^6.0.1:
   version "6.0.1"
