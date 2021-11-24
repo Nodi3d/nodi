@@ -2354,10 +2354,10 @@ domexception@^2.0.1:
   dependencies:
     webidl-conversions "^5.0.0"
 
-dxf-writer@^1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/dxf-writer/-/dxf-writer-1.11.0.tgz#846d528650413504bf3e9c88065b4823084a9e58"
-  integrity sha512-v9DqrN8hE6IrimI9DLHP6BN69K72MhmtNmlcnuN/embQPEmPAURy73s+O50JOPj3XrbP12aS3HqPOxoji7XH+A==
+dxf-writer@^1.12.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/dxf-writer/-/dxf-writer-1.12.0.tgz#438df6a53f19965ae323f2bfee40e74079040495"
+  integrity sha512-iEFyo4DPJC8/XlOd13yN7A/KRZwQTU3oLibOk1VyaiclxIYhnRLcB2r+hAMqYeW5ZGArVp/6xyY5kkoiZnok2g==
 
 dxf@^4.6.1:
   version "4.6.1"
