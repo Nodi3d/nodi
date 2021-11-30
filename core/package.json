@@ -42,7 +42,7 @@
     "barrelsby": "^2.3.0",
     "eslint": "^7.32.0",
     "glslify-loader": "^2.0.0",
-    "jest": "^27.3.1",
+    "jest": "^27.4.2",
     "jest-raw-loader": "^1.0.1",
     "raw-loader": "^4.0.2",
     "terser-webpack-plugin": "^5.2.5",
