@@ -1,4 +1,4 @@
-import { RGBAFormat, Texture, WebGLRenderer, RenderTarget, WebGLRenderTarget, Vector3, FloatType } from 'three';
+import { RGBAFormat, Texture, WebGLRenderer, WebGLRenderTarget, Vector3, FloatType } from 'three';
 import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRenderer';
 import { NFrepBase } from '../NFrepBase';
 import FrepCommon from '../../../shaders/FrepCommon.glsl';
@@ -20,7 +20,7 @@ export class NFrepTexture {
     this.renderer = source !== undefined ? source : new WebGLRenderer();
   }
 
-  public render (props: FrepRenderProps): RenderTarget {
+  public render (props: FrepRenderProps): WebGLRenderTarget {
     const { frep, min, max, width, height, depth } = props;
     const code = frep.compile('p');
 
@@ -69,7 +69,7 @@ export class NFrepTexture {
 
   // public build (props: FrepRenderProps): Uint8Array {
   public build (props: FrepRenderProps): Float32Array {
-    const target = this.render(props) as WebGLRenderTarget;
+    const target = this.render(props);
 
     const { width, height } = target;
     const wh = width * height;

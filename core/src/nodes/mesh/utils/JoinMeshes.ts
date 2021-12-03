@@ -1,5 +1,5 @@
 
-import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils';
+import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils';
 import { AccessTypes } from '../../../data/AccessTypes';
 import { DataAccess } from '../../../data/DataAccess';
 import { DataTypes } from '../../../data/DataTypes';
@@ -24,7 +24,7 @@ export class JoinMeshes extends NodeBase {
   public solve (access: DataAccess): void {
     const meshes = access.getDataList(0) as NMesh[];
     const geometries = meshes.map(m => m.build());
-    const merged = BufferGeometryUtils.mergeBufferGeometries(geometries);
+    const merged = mergeBufferGeometries(geometries);
     access.setData(0, NMesh.fromBufferGeometry(merged));
   }
 }
