@@ -1554,10 +1554,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@jscad/modeling@^2.6.0":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.6.0.tgz#c30860907923a6bd256a4a67d84dbd50563ba05f"
-  integrity sha512-RvnljIr0jduJsjFejT3P+jOO0szYwsYzLEqX5k883A4vnLeEc78bwtfsvU4RXOnwlgNc7gdVkVHJCT64dbxGzg==
+"@jscad/modeling@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.6.1.tgz#96bc823c54972856669b07a077290095cdf1fac7"
+  integrity sha512-bUMccSiBW7r6vajozqHC33GACJIezH8x/0XXNbbZWAWAkfVarRzPz+KIazsX7rouoDDkzrTrWWJxJ5HDbwWvFg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1581,17 +1581,8 @@
     fastq "^1.6.0"
 
 "@nodi/core@link:../core":
-  version "1.0.0"
-  dependencies:
-    "@jscad/modeling" "^2.6.0"
-    "@types/three" "^0.130.0"
-    clipper-lib "^6.4.2"
-    d3-delaunay "^6.0.2"
-    dxf "^4.6.1"
-    dxf-writer "^1.11.0"
-    noisejs "^2.1.0"
-    three "^0.130.1"
-    uuid "^8.3.2"
+  version "0.0.0"
+  uid ""
 
 "@npmcli/fs@^1.0.0":
   version "1.0.0"
@@ -2508,10 +2499,10 @@
     "@types/webpack" "^4"
     terser "^4.6.13"
 
-"@types/three@^0.130.0":
-  version "0.130.2"
-  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.130.2.tgz#af48f897c844b3b41f649cc2642f61566332be7e"
-  integrity sha512-9rgbc2KobttgyCbaizjxUa6lfmbXSUhjcdd3TKPiG6YIr0ZkUSUuRu0q5qA72sak3gxSGSZCjV+Zuzhl/+VRjA==
+"@types/three@^0.134.0":
+  version "0.134.0"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.134.0.tgz#22ae9892f4490faaf35f0ccea127df18407b8ab3"
+  integrity sha512-4YB+99Rgqq27EjiYTItEoZtdjLnTh8W9LxowgpC9eWsjaQJIL4Kn/ZcUKAnW3gB/jS4hqGN8iqmid+RcUZDzpA==
 
 "@types/uglify-js@*":
   version "3.13.1"
@@ -4937,10 +4928,10 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dxf-writer@^1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/dxf-writer/-/dxf-writer-1.11.0.tgz#846d528650413504bf3e9c88065b4823084a9e58"
-  integrity sha512-v9DqrN8hE6IrimI9DLHP6BN69K72MhmtNmlcnuN/embQPEmPAURy73s+O50JOPj3XrbP12aS3HqPOxoji7XH+A==
+dxf-writer@^1.12.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/dxf-writer/-/dxf-writer-1.12.0.tgz#438df6a53f19965ae323f2bfee40e74079040495"
+  integrity sha512-iEFyo4DPJC8/XlOd13yN7A/KRZwQTU3oLibOk1VyaiclxIYhnRLcB2r+hAMqYeW5ZGArVp/6xyY5kkoiZnok2g==
 
 dxf@^4.6.1:
   version "4.6.1"
@@ -11296,10 +11287,10 @@ thread-loader@^3.0.4:
     neo-async "^2.6.2"
     schema-utils "^3.0.0"
 
-three@^0.130.1:
-  version "0.130.1"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.130.1.tgz#797588b2877ace31603bbbc864eb2e3022f0b3b4"
-  integrity sha512-OSPPKcGvFSiGkG3jFrwwC76PBV/ZSrGxpBbg28bW8s9GU8r/y2spNGtEXHEb/CVqo0Ctf5Lx2rVaxQZB6OasaA==
+three@^0.135.0:
+  version "0.135.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.135.0.tgz#cff4ec8edd3c51ce9bc7e88d13e8eafed4d0ddfc"
+  integrity sha512-kuEpuuxRzLv0MDsXai9huCxOSQPZ4vje6y0gn80SRmQvgz6/+rI0NAvCRAw56zYaWKMGMfqKWsxF9Qa2Z9xymQ==
 
 throat@^6.0.1:
   version "6.0.1"
