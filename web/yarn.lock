@@ -1581,8 +1581,17 @@
     fastq "^1.6.0"
 
 "@nodi/core@link:../core":
-  version "0.0.0"
-  uid ""
+  version "1.0.0"
+  dependencies:
+    "@jscad/modeling" "^2.6.1"
+    "@types/three" "^0.135.0"
+    clipper-lib "^6.4.2"
+    d3-delaunay "^6.0.2"
+    dxf "^4.6.1"
+    dxf-writer "^1.12.1"
+    noisejs "^2.1.0"
+    three "^0.135.0"
+    uuid "^8.3.2"
 
 "@npmcli/fs@^1.0.0":
   version "1.0.0"
@@ -2033,10 +2042,10 @@
   dependencies:
     "@primer/primitives" "^5.1.0"
 
-"@primer/octicons@^16.1.0":
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/@primer/octicons/-/octicons-16.1.0.tgz#caf53dde5efab9ce042d7eb16ba5811ca727d28d"
-  integrity sha512-B48ToLSK2brtzJR0cSJ9JTdresyWhGepQuHhxfrIySefBkjrEI1qQ150Jvv2lLxehhIP37a+Yoze0EPzCOe39w==
+"@primer/octicons@^16.1.1":
+  version "16.1.1"
+  resolved "https://registry.yarnpkg.com/@primer/octicons/-/octicons-16.1.1.tgz#2f4c261952221ae62640fe35bc9ccee65dc70947"
+  integrity sha512-qlMErXg4I7oOofP4d5GceLbNpjTRSkyLoe5Ng1mfebtTvjeBj8x+kdqgwFWLRp7QO1ye5AaxcCvn1AJMAeURzw==
   dependencies:
     object-assign "^4.1.1"
 
@@ -2498,6 +2507,11 @@
   dependencies:
     "@types/webpack" "^4"
     terser "^4.6.13"
+
+"@types/three@^0.135.0":
+  version "0.135.0"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.135.0.tgz#db7f9d9699b60aba844fc5b2893adf6dd6811665"
+  integrity sha512-l7WLhIHjhHMtlpyTSltPPAKLpiMwgMD1hXHj59AVUpYRoZP7Fd9NNOSRSvZBCPLpTHPYojgQvSJCoza9zoL7bg==
 
 "@types/three@^0.135.0":
   version "0.135.0"
