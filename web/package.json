@@ -44,7 +44,7 @@
     "@types/codemirror": "^5.60.5",
     "@types/jest": "^27.0.1",
     "@types/lodash": "^4.14.176",
-    "@types/uuid": "^8.3.1",
+    "@types/uuid": "^8.3.3",
     "@vue/test-utils": "^1.2.2",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",

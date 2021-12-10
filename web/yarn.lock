@@ -1581,8 +1581,17 @@
     fastq "^1.6.0"
 
 "@nodi/core@link:../core":
-  version "0.0.0"
-  uid ""
+  version "1.0.0"
+  dependencies:
+    "@jscad/modeling" "^2.6.1"
+    "@types/three" "^0.135.0"
+    clipper-lib "^6.4.2"
+    d3-delaunay "^6.0.2"
+    dxf "^4.6.1"
+    dxf-writer "^1.12.1"
+    noisejs "^2.1.0"
+    three "^0.135.0"
+    uuid "^8.3.2"
 
 "@npmcli/fs@^1.0.0":
   version "1.0.0"
@@ -2504,6 +2513,11 @@
   resolved "https://registry.yarnpkg.com/@types/three/-/three-0.134.0.tgz#22ae9892f4490faaf35f0ccea127df18407b8ab3"
   integrity sha512-4YB+99Rgqq27EjiYTItEoZtdjLnTh8W9LxowgpC9eWsjaQJIL4Kn/ZcUKAnW3gB/jS4hqGN8iqmid+RcUZDzpA==
 
+"@types/three@^0.135.0":
+  version "0.135.0"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.135.0.tgz#db7f9d9699b60aba844fc5b2893adf6dd6811665"
+  integrity sha512-l7WLhIHjhHMtlpyTSltPPAKLpiMwgMD1hXHj59AVUpYRoZP7Fd9NNOSRSvZBCPLpTHPYojgQvSJCoza9zoL7bg==
+
 "@types/uglify-js@*":
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/@types/uglify-js/-/uglify-js-3.13.1.tgz#5e889e9e81e94245c75b6450600e1c5ea2878aea"
@@ -2511,10 +2525,10 @@
   dependencies:
     source-map "^0.6.1"
 
-"@types/uuid@^8.3.1":
-  version "8.3.1"
-  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.1.tgz#1a32969cf8f0364b3d8c8af9cc3555b7805df14f"
-  integrity sha512-Y2mHTRAbqfFkpjldbkHGY8JIzRN6XqYRliG8/24FcHm2D2PwW24fl5xMRTVGdrb7iMrwCaIEbLWerGIkXuFWVg==
+"@types/uuid@^8.3.3":
+  version "8.3.3"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.3.tgz#c6a60686d953dbd1b1d45e66f4ecdbd5d471b4d0"
+  integrity sha512-0LbEEx1zxrYB3pgpd1M5lEhLcXjKJnYghvhTRgaBeUivLHMDM1TzF3IJ6hXU2+8uA4Xz+5BA63mtZo5DjVT8iA==
 
 "@types/webpack-bundle-analyzer@3.9.3":
   version "3.9.3"
@@ -4928,10 +4942,10 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-dxf-writer@^1.12.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/dxf-writer/-/dxf-writer-1.12.0.tgz#438df6a53f19965ae323f2bfee40e74079040495"
-  integrity sha512-iEFyo4DPJC8/XlOd13yN7A/KRZwQTU3oLibOk1VyaiclxIYhnRLcB2r+hAMqYeW5ZGArVp/6xyY5kkoiZnok2g==
+dxf-writer@^1.12.1:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/dxf-writer/-/dxf-writer-1.12.1.tgz#cdd00df01d27e5e353a64ab0884f93ed54186453"
+  integrity sha512-cP63FuIrHKpgWyS143jvkzGH3WbaWYQVt0wNhkV2mVqLU6AOUY0lPDgSJ92/GGn9j10ikae++qEmVauZltmh7Q==
 
 dxf@^4.6.1:
   version "4.6.1"
