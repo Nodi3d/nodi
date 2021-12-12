@@ -22,7 +22,7 @@
     "@tweenjs/tween.js": "^18.6.4",
     "@types/three": "^0.135.0",
     "clipboard": "^2.0.8",
-    "codemirror": "^5.63.3",
+    "codemirror": "^5.64.0",
     "core-js": "^3.19.0",
     "firebase": "^9.1.3",
     "ismobilejs": "^1.1.1",
