@@ -22,7 +22,7 @@
     "clipper-lib": "^6.4.2",
     "d3-delaunay": "^6.0.2",
     "dxf": "^4.6.1",
-    "dxf-writer": "^1.12.1",
+    "dxf-writer": "^1.13.1",
     "noisejs": "^2.1.0",
     "three": "^0.135.0",
     "uuid": "^8.3.2"
