@@ -30,7 +30,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.16.5",
     "@types/d3-delaunay": "^6.0.0",
-    "@types/jest": "^27.0.3",
+    "@types/jest": "^27.4.0",
     "@types/noisejs": "^0.0.28",
     "@types/uuid": "^8.3.3",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
