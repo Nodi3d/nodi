@@ -28,7 +28,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.16.5",
+    "@babel/preset-env": "^7.16.7",
     "@types/d3-delaunay": "^6.0.0",
     "@types/jest": "^27.4.0",
     "@types/noisejs": "^0.0.28",
