@@ -17,8 +17,8 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@jscad/modeling": "^2.7.0",
-    "@types/three": "^0.135.0",
+    "@jscad/modeling": "^2.7.1",
+    "@types/three": "^0.136.1",
     "clipper-lib": "^6.4.2",
     "d3-delaunay": "^6.0.2",
     "dxf": "^4.6.1",
@@ -28,9 +28,9 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.16.5",
+    "@babel/preset-env": "^7.16.7",
     "@types/d3-delaunay": "^6.0.0",
-    "@types/jest": "^27.0.3",
+    "@types/jest": "^27.4.0",
     "@types/noisejs": "^0.0.28",
     "@types/uuid": "^8.3.3",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
