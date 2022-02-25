@@ -82,7 +82,7 @@ list.forEach(fullpath => {
   }
 
   const name = trace[trace.length - 1];
-  if (name === 'index' || name === 'NodeDictionary') return;
+  if (name === 'index' || name === 'NodeDictionary' || name === 'NodeUtils') return;
 
   const path = `./${trace.join('/')}`;
   program.push(`import { ${name} } from '${path}';`);
