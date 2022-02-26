@@ -33,6 +33,9 @@ uniform float nearClip, farClip;
 // replace to frep.glsl
 #include <frep_common>
 
+// replace to compiled custom function
+#include <frep_custom_function>
+
 float getDepth(const in vec2 screenPosition ) {
   #if DEPTH_PACKING == 1
   return unpackRGBAToDepth( texture2D( tDepth, screenPosition ) );

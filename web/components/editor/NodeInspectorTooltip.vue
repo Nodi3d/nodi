@@ -28,6 +28,7 @@ import { Vector2, Vector3 } from 'three';
 import {
   NodeBase, DataTypes, Input, UINodeBase, VariableInputNodeBase, VariableOutputNodeBase,
   Custom, CustomPayloadType,
+  FrepCustom, FrepCustomPayloadType,
   isImporterNode,
   NPlane, NPoint, NDomain,
   getNodeConstructorNameOfInstance
@@ -185,12 +186,16 @@ export default class NodeInspectorTooltip extends Tooltip {
       });
     }
 
-    if (node instanceof Custom) {
+    if (node instanceof Custom || node instanceof FrepCustom) {
       const payload = node.getCustomSetting();
+      console.log((node instanceof Custom));
       const instance = new (Vue.extend(CustomInspector))({
-        propsData: payload
+        propsData: {
+          ...payload,
+          io: (node instanceof Custom)
+        }
       });
-      instance.$on('change', (payload: CustomPayloadType) => {
+      instance.$on('change', (payload: any) => {
         node.updateCustomSetting(payload);
       });
       instance.$mount();

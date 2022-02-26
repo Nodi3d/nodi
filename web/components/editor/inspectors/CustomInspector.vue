@@ -14,7 +14,7 @@
           >
         </div>
       </li>
-      <li class="border-0 px-0 py-1">
+      <li v-if="io" class="border-0 px-0 py-1">
         <h4 class="f6 pb-1">
           Inputs
         </h4>
@@ -37,7 +37,7 @@
           </li>
         </ul>
       </li>
-      <li class="border-0 px-0 py-1">
+      <li v-if="io" class="border-0 px-0 py-1">
         <h4 class="f6 pb-1">
           Outputs
         </h4>
@@ -89,16 +89,19 @@ export default class CustomInspector extends Vue {
   @Prop({ type: String, required: true })
   customName!: string;
 
-  @Prop({ type: Array, required: true })
+  @Prop({ type: Boolean, required: true })
+  io!: boolean;
+
+  @Prop({ type: Array, required: false, default: () => [] })
   inDataTypes!: number[];
 
-  @Prop({ type: Array, required: true })
+  @Prop({ type: Array, required: false, default: () => [] })
   inAccessTypes!: AccessType[];
 
-  @Prop({ type: Array, required: true })
+  @Prop({ type: Array, required: false, default: () => [] })
   outDataTypes!: number[];
 
-  @Prop({ type: Array, required: true })
+  @Prop({ type: Array, required: false, default: () => [] })
   outAccessTypes!: AccessType[];
 
   @Prop({ type: String, required: true })

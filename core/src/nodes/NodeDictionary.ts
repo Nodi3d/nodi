@@ -63,6 +63,7 @@ import { TPMSFischerKochS } from './frep/tpms/TPMSFischerKochS';
 import { TPMSGyroid } from './frep/tpms/TPMSGyroid';
 import { TPMSLidinoid } from './frep/tpms/TPMSLidinoid';
 import { TPMSSchwarzP } from './frep/tpms/TPMSSchwarzP';
+import { FrepCustom } from './frep/utils/FrepCustom';
 import { FrepRound } from './frep/utils/FrepRound';
 import { MarchingCubes } from './frep/utils/MarchingCubes';
 import { CurveImporter } from './importer/CurveImporter';
@@ -317,6 +318,7 @@ const Nodes = {
   TPMSGyroid,
   TPMSLidinoid,
   TPMSSchwarzP,
+  FrepCustom,
   FrepRound,
   MarchingCubes,
   CurveImporter,
@@ -573,6 +575,7 @@ const NodeDictionary: { [index: string]: { name:string; entity: NodeConstructorT
   'frep/tpms/TPMSGyroid': { name: 'TPMSGyroid', entity: TPMSGyroid },
   'frep/tpms/TPMSLidinoid': { name: 'TPMSLidinoid', entity: TPMSLidinoid },
   'frep/tpms/TPMSSchwarzP': { name: 'TPMSSchwarzP', entity: TPMSSchwarzP },
+  'frep/utils/FrepCustom': { name: 'FrepCustom', entity: FrepCustom },
   'frep/utils/FrepRound': { name: 'FrepRound', entity: FrepRound },
   'frep/utils/MarchingCubes': { name: 'MarchingCubes', entity: MarchingCubes },
   'importer/CurveImporter': { name: 'CurveImporter', entity: CurveImporter },

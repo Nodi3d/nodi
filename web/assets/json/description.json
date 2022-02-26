@@ -242,6 +242,7 @@
   "FrepRound": "Rounding a frep shape",
   "MarchingCubes": "Create a mesh from frep by marching cubes",
   "FrepMCExporter": "Export a frep as mesh format by marching cubes",
+  "FrepCustom": "User custom distance function (.glsl) for FRep",
   "UIGraphMapper": "Represents a numeric mapping function",
   "UIMDSlider": "A multidimensional slider",
   "UIToggle": "Boolean (true/false) toggle",
