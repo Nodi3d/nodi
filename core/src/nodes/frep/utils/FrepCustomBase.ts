@@ -10,16 +10,12 @@ import { NFrepFilter } from '../../../math/frep/NFrepFilter';
 import { NBoundingBox } from '../../../math/geometry/NBoundingBox';
 import { NDomain } from '../../../math/primitive/NDomain';
 import { NodeJSONType } from '../../NodeBase';
+import { CustomPayloadType } from '../../plugins/Custom';
 import { FrepNodeBase } from '../FrepNodeBase';
 
-export type FrepCustomPayloadType = {
-  customName: string;
-  customProgram: string;
-};
+export type FrepCustomJSONType = NodeJSONType & Partial<CustomPayloadType>;
 
-export type FrepCustomJSONType = NodeJSONType & Partial<FrepCustomPayloadType>;
-
-export class FrepCustom extends FrepNodeBase {
+export abstract class FrepCustomBase extends FrepNodeBase {
   public get customName (): string {
     return this._customName;
   }
@@ -28,10 +24,8 @@ export class FrepCustom extends FrepNodeBase {
     return this._customProgram;
   }
 
-  protected _customName: string = 'FCustom';
-  protected _customProgram: string = `// custom distance function (.glsl) here
-// variable p(vec3) is input position 
-return p;`;
+  protected abstract _customName: string;
+  protected abstract _customProgram: string;
 
   public get displayName (): string {
     return this._customName;
@@ -56,42 +50,9 @@ return p;`;
     manager.add('R', 'Frep custom result', DataTypes.FREP, AccessTypes.ITEM);
   }
 
-  public solve (access: DataAccess): void {
-    const frep = access.getData(0) as NFrepBase;
-    const { uuid, customProgram } = this;
-    const customFunctionName = `fn_${uuid.split('-').join('')}`;
+  public abstract getCustomSetting (): CustomPayloadType;
 
-    const code = function (p: string): string {
-      return `${customFunctionName}(${frep.compile(p)})`;
-    };
-
-    // const fn = `vec3 ${customFunctionName} (const in vec3 p) {
-    const fn = `float ${customFunctionName} (const in float p) {
-      ${customProgram}
-    }`;
-    const result = new NFrepFunctionFilter(code, frep, frep.boundingBox, fn);
-    access.setData(0, result);
-  }
-
-  public getCustomSetting (): FrepCustomPayloadType {
-    return {
-      customName: this.customName,
-      customProgram: this.customProgram
-    };
-  }
-
-  public updateCustomSetting (setting: FrepCustomPayloadType): void {
-    this._customName = setting.customName;
-    const updateCustomProgram = this._customProgram !== setting.customProgram;
-    if (updateCustomProgram) {
-      this._customProgram = setting.customProgram;
-    }
-
-    this.notifyStateChanged();
-    if (updateCustomProgram) {
-      this.notifyValueChanged();
-    }
-  }
+  public abstract updateCustomSetting (setting: CustomPayloadType): void;
 
   toJSON (name: string): FrepCustomJSONType {
     const setting = this.getCustomSetting();

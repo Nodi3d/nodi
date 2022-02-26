@@ -1,20 +1,14 @@
-import { Matrix4 } from 'three';
 import { NBoundingBox } from '../geometry/NBoundingBox';
-import { TransformerType, ITransformable } from '../geometry/ITransformable';
 import { NFrepBase } from './NFrepBase';
-import { NFrepMatrix } from './NFrepMatrix';
 import { NFrepFilter } from './NFrepFilter';
+import { IFrepCustomFunction } from './misc/IFrepCustomFunction';
 
-export class NFrepFunctionFilter extends NFrepFilter {
-  public get fn(): string {
+export class NFrepFunctionFilter extends NFrepFilter implements IFrepCustomFunction {
+  public fn(): string {
     return this._fn;
   }
 
   protected _fn: string;
-
-  public transform (f: TransformerType): ITransformable {
-    throw new Error('Method not implemented.');
-  }
 
   constructor (
     code: (p: string) => string, frep: NFrepBase, boundingBox: NBoundingBox,

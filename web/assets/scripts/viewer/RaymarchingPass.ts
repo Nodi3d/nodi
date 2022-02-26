@@ -1,7 +1,7 @@
 import { Color, DoubleSide, MeshDepthMaterial, NearestFilter, NoBlending, OrthographicCamera, RGBADepthPacking, Scene, ShaderMaterial, Texture, UniformsUtils, Vector2, Vector3, WebGLRenderer, WebGLRenderTarget } from 'three';
 import { FullScreenQuad, Pass } from 'three/examples/jsm/postprocessing/Pass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
-import { PreviewColors, NVFrep, NFrepFunctionFilter, FrepRenderingQuality } from '@nodi/core';
+import { PreviewColors, NVFrep, FrepRenderingQuality, isFrepCustomFunction } from '@nodi/core';
 
 import FrepCommon from './shaders/FrepCommon.glsl';
 import QuadVertexShader from './shaders/Quad.vert';
@@ -126,11 +126,11 @@ export default class RaymarchingPass extends Pass {
 
     const defines = this.materialRaymarching.defines;
 
-    const filters = this.freps.map(fr => fr.entity).flat(1).filter(fr => fr instanceof NFrepFunctionFilter);
+    const filters = this.freps.map(fr => fr.entity).flat(1).filter(fr => isFrepCustomFunction(fr));
     const frepCustomFunction = filters.filter((fr, idx) => {
       return filters.indexOf(fr) === idx;
     }).map(fr => {
-      return fr.fn;
+      return fr.fn();
     }).join('\n');
 
     const visibles = this.freps.filter(n => n.visible);
@@ -151,8 +151,6 @@ export default class RaymarchingPass extends Pass {
     if (existsSelectedScene) {
       defines.SELECTED_SCENE_CODE = this.compile(selected);
     }
-
-    console.log(defines);
 
     this.materialRaymarching.fragmentShader = this.fragmentShader(frepCustomFunction);
     this.materialRaymarching.needsUpdate = true;
