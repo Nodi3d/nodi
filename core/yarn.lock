@@ -2105,9 +2105,9 @@ balanced-match@^1.0.0:
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
 barrelsby@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/barrelsby/-/barrelsby-2.3.1.tgz#892c2ee226b970158cd244544c363b316e888f3d"
-  integrity sha512-R86pKev8x+PnA2ScFqRqFLdAtmAd2F50VhZM8sUDxxovupBslt8Nv4gLfDFaE4WMloErxnu3/SwAXCZzPHQv+Q==
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/barrelsby/-/barrelsby-2.3.3.tgz#bc1dd62bd39682ee7eae77e8a9fade33f3323a0f"
+  integrity sha512-4zHhiOcSaa4TR2cnDIFJeYTpSEX+vp2WVtdDkOKfZdLxmzK5GZctwOxP+vDb9uPt0kjApUPrFS/+9gm/qXjVhQ==
   dependencies:
     "@types/yargs" "^17.0.3"
     signale "^1.4.0"
