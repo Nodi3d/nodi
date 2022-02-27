@@ -66,6 +66,10 @@ export abstract class FrepCustomBase extends FrepNodeBase {
     const current = this.getCustomSetting();
     current.customName = json.customName ?? current.customName;
     current.customProgram = json.customProgram ?? current.customProgram;
+    current.inDataTypes = json.inDataTypes ?? current.inDataTypes;
+    current.inAccessTypes = json.inAccessTypes ?? current.inAccessTypes;
+    current.outDataTypes = json.outDataTypes ?? current.outDataTypes;
+    current.outAccessTypes = json.outAccessTypes ?? current.outAccessTypes;
     this.updateCustomSetting(current);
     super.fromJSON(json);
   }

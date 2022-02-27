@@ -14,13 +14,13 @@
           >
         </div>
       </li>
-      <li v-if="io" class="border-0 px-0 py-1">
+      <li v-if="input" class="border-0 px-0 py-1">
         <h4 class="f6 pb-1">
           Inputs
         </h4>
         <ul class="">
-          <li v-for="(dataType, idx) in inDataTypes" :key="idx" class="d-flex border-0 px-0 pt-0 pb-1">
-            <select class="form-select select-sm mr-1 flex-auto" :value="dataType" @change="onChangeInputType($event, idx)">
+          <li v-for="(dataType, idx) in inDataTypes" :key="`input-${idx}`" class="d-flex border-0 px-0 pt-0 pb-1">
+            <select class="form-select select-sm mr-1 flex-auto" :value="dataType" :disabled="DataTypeKeys.length <= 1" @change="onChangeInputType($event, idx)">
               <option v-for="(dataTypeName, index) in DataTypeKeys" :key="dataTypeName" :value="DataTypeValues[index]" v-text="toPascalCase(dataTypeName)" />
             </select>
             <select class="form-select select-sm mr-1 flex-auto" :value="inAccessTypes[idx]" @change="onChangeInputAccess($event, idx)">
@@ -37,13 +37,13 @@
           </li>
         </ul>
       </li>
-      <li v-if="io" class="border-0 px-0 py-1">
+      <li v-if="output" class="border-0 px-0 py-1">
         <h4 class="f6 pb-1">
           Outputs
         </h4>
         <ul class="">
-          <li v-for="(dataType, idx) in outDataTypes" :key="idx" class="d-flex px-0 pt-0 pb-1 border-0">
-            <select class="form-select select-sm flex-auto mr-2" :value="dataType" @change="onChangeOutputType($event, idx)">
+          <li v-for="(dataType, idx) in outDataTypes" :key="`output-${idx}`" class="d-flex px-0 pt-0 pb-1 border-0">
+            <select class="form-select select-sm flex-auto mr-2" :value="dataType" :disabled="DataTypeKeys.length <= 1" @change="onChangeOutputType($event, idx)">
               <option v-for="(dataTypeName, index) in DataTypeKeys" :key="dataTypeName" :value="DataTypeValues[index]" v-text="toPascalCase(dataTypeName)" />
             </select>
             <select class="form-select select-sm mr-1 flex-auto" :value="outAccessTypes[idx]" @change="onChangeOutputAccess($event, idx)">
@@ -73,12 +73,10 @@
 
 import CodeMirror from 'codemirror';
 import 'codemirror/mode/javascript/javascript.js';
+import 'codemirror/mode/clike/clike.js';
 
-import { Vue, Prop, Component } from 'nuxt-property-decorator';
+import { Vue, Prop, Component, Watch } from 'nuxt-property-decorator';
 import { AccessTypes, DataTypes, CustomPayloadType, AccessType } from '@nodi/core';
-
-const keys = Object.keys(DataTypes).filter(k => typeof DataTypes[k as any] === 'number');
-const values = keys.map(k => DataTypes[k as any] as unknown) as number[];
 
 @Component({})
 export default class CustomInspector extends Vue {
@@ -86,11 +84,17 @@ export default class CustomInspector extends Vue {
     CodeEditor: HTMLTextAreaElement;
   };
 
+  @Prop({ type: String, required: false, default: 'javascript' })
+  mode!: string;
+
   @Prop({ type: String, required: true })
   customName!: string;
 
-  @Prop({ type: Boolean, required: true })
-  io!: boolean;
+  @Prop({ type: Boolean, required: false, default: true })
+  input!: boolean;
+
+  @Prop({ type: Boolean, required: false, default: true })
+  output!: boolean;
 
   @Prop({ type: Array, required: false, default: () => [] })
   inDataTypes!: number[];
@@ -107,16 +111,30 @@ export default class CustomInspector extends Vue {
   @Prop({ type: String, required: true })
   customProgram!: string;
 
+  @Prop({ type: Array, required: false, default: () => [] })
+  availableDataTypes!: number[];
+
   DataTypes: any = DataTypes;
-  DataTypeKeys: string[] = keys;
-  DataTypeValues: number[] = values;
+  DataTypeKeys: string[] = [];
+  DataTypeValues: number[] = [];
   AccessTypes: { [index: number]: string } = { [AccessTypes.ITEM]: 'ITEM', [AccessTypes.LIST]: 'LIST' };
+
+  beforeMount () {
+    const keys = Object.keys(DataTypes).filter((k) => {
+      const t = DataTypes[k as any];
+      return (typeof t === 'number') && this.availableDataTypes.includes(t);
+    });
+    const values = keys.map(k => DataTypes[k as any] as unknown) as number[];
+    this.DataTypeKeys = keys;
+    this.DataTypeValues = values;
+  }
 
   mounted () {
     this.$nextTick(() => {
       const editor = CodeMirror.fromTextArea(this.$refs.CodeEditor, {
         lineNumbers: true,
-        mode: 'javascript'
+        // mode: 'javascript'
+        mode: this.mode
       });
       editor.setSize(520, 320);
       editor.setValue(this.customProgram);

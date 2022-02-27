@@ -129,7 +129,7 @@ export default class RaymarchingPass extends Pass {
     const filters = this.freps.map(fr => fr.entity).flat(1).filter(fr => isFrepCustomFunction(fr));
     const frepCustomFunction = filters.filter((fr, idx) => {
       return filters.indexOf(fr) === idx;
-    }).map(fr => {
+    }).map((fr) => {
       return fr.fn();
     }).join('\n');
 

@@ -26,7 +26,7 @@ return abs(p) - $i0;`;
   public registerInputs (manager: InputManager): void {
     manager.add('p', 'Plane for bounding box', DataTypes.PLANE, AccessTypes.ITEM).setDefault(new DataTree().add([new NPlane()]));
     manager.add('s', 'Size for bounding box', DataTypes.VECTOR, AccessTypes.ITEM).setDefault(new DataTree().add([new Vector3(1, 1, 1)]));
-    manager.add('$i0', '$i0', DataTypes.NUMBER, AccessTypes.ITEM).setDefault(new DataTree().add([0.0]));
+    manager.add('$i0', '$i0', DataTypes.NUMBER, AccessTypes.ITEM);
   }
 
   public registerOutputs (manager: OutputManager): void {
