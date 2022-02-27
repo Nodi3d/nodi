@@ -28,9 +28,11 @@ import { Vector2, Vector3 } from 'three';
 import {
   NodeBase, DataTypes, Input, UINodeBase, VariableInputNodeBase, VariableOutputNodeBase,
   Custom, CustomPayloadType,
+  FrepCustomBase,
   isImporterNode,
   NPlane, NPoint, NDomain,
-  getNodeConstructorNameOfInstance
+  getNodeConstructorNameOfInstance,
+  FrepCustomDistanceFunction
 } from '@nodi/core';
 
 import Tooltip from './Tooltip.vue';
@@ -94,7 +96,7 @@ export default class NodeInspectorTooltip extends Tooltip {
     if (type === 'boolean') { return DataTypes.BOOLEAN; }
     if (type === 'number') { return DataTypes.NUMBER; }
     if (value instanceof NPoint) { return DataTypes.POINT; }
-    if (value instanceof Vector3) { return DataTypes.VECTOR; }
+    if ('isVector3' in value) { return DataTypes.VECTOR; }
     if (value instanceof NDomain) { return DataTypes.DOMAIN; }
     if (value instanceof NPlane) { return DataTypes.PLANE; }
     return DataTypes.NONE;
@@ -185,10 +187,21 @@ export default class NodeInspectorTooltip extends Tooltip {
       });
     }
 
-    if (node instanceof Custom) {
+    if (node instanceof Custom || node instanceof FrepCustomBase) {
       const payload = node.getCustomSetting();
+      const isFrep = (node instanceof FrepCustomBase);
+      // eslint-disable-next-line multiline-ternary
+      const availableDataTypes = isFrep ? (
+        (node instanceof FrepCustomDistanceFunction)
+          ? [DataTypes.NUMBER] // FRep distance function can receive only numbers
+          : [DataTypes.NUMBER, DataTypes.FREP] // FRep filter can receive only numbers & FReps
+      ) : (Object.keys(DataTypes).map(k => parseInt(k)).filter(k => !isNaN(k) && k !== DataTypes.NONE)); // custom can receive all types
       const instance = new (Vue.extend(CustomInspector))({
-        propsData: payload
+        propsData: {
+          ...payload,
+          output: !isFrep, // frep custom components cannot edit outputs
+          availableDataTypes
+        }
       });
       instance.$on('change', (payload: CustomPayloadType) => {
         node.updateCustomSetting(payload);

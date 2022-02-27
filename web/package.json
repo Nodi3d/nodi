@@ -6,7 +6,7 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate",
+    "generate": "nuxt generate --force-build",
     "core:install": "node preprocess/install.mjs",
     "lint:js": "eslint --ext .js,.vue,.ts --ignore-path .gitignore .",
     "lint": "yarn lint:js",

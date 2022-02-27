@@ -1,23 +1,23 @@
 
-float dot2( in vec2 v ) { return dot(v, v); }
-float dot2( in vec3 v ) { return dot(v, v); }
-float ndot( in vec2 a, in vec2 b ) { return a.x*b.x - a.y*b.y; }
+float dot2( const in vec2 v ) { return dot(v, v); }
+float dot2( const in vec3 v ) { return dot(v, v); }
+float ndot( const in vec2 a, const in vec2 b ) { return a.x*b.x - a.y*b.y; }
 
-float sdSphere(const vec3 p, const float r) {
+float sdSphere(const in vec3 p, const in float r) {
   return length(p) - r;
 }
 
-float sdBox(const vec3 p, const vec3 size) {
+float sdBox(const in vec3 p, const in vec3 size) {
   vec3 d = abs(p) - size / 2.0;
   return length(max(d,0.0)) + min(max(d.x,max(d.y,d.z)),0.0);
 }
 
-float sdCylinder(const vec3 p, const float radius, const float height) {
+float sdCylinder(const in vec3 p, const in float radius, const in float height) {
   vec2 d = vec2(length(p.xz)-radius, abs(p.y) - height / 2.0);
   return min(max(d.x,d.y),0.0) + length(max(d,0.0));
 }
 
-float sdCappedCone(vec3 p, float h, float r1, float r2)
+float sdCappedCone(const in vec3 p, const in float h, const in float r1, const in float r2)
 {
   vec2 q = vec2(length(p.xz), p.y);
   vec2 k1 = vec2(r2, h);
@@ -28,7 +28,7 @@ float sdCappedCone(vec3 p, float h, float r1, float r2)
   return s * sqrt(min(dot2(ca), dot2(cb)));
 }
 
-float sdCapsule(vec3 p, vec3 a, vec3 b, float r )
+float sdCapsule(const in vec3 p, const in vec3 a, const in vec3 b, const in float r)
 {
   vec3 pa = p - a, ba = b - a;
   float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
@@ -38,25 +38,25 @@ float sdCapsule(vec3 p, vec3 a, vec3 b, float r )
 // TPMS functions
 // https://github.com/dbt-ethz/Axolotl/blob/master/code/lTMPS.py
 
-float opGyroid(const vec3 p, const float scale, const float thickness, const float bias) {
+float opGyroid(const in vec3 p, const in float scale, const in float thickness, const in float bias) {
   vec3 q = p * scale;
   return abs(dot(sin(q), cos(q.zxy)) - bias) / scale - thickness;
 }
 
-float opSchwarzP(const vec3 p, const float scale, const float thickness, const float bias) {
+float opSchwarzP(const in vec3 p, const in float scale, const in float thickness, const in float bias) {
   vec3 q = p * scale;
   vec3 c = cos(q);
   return abs((c.x + c.y + c.z) - bias) / scale - thickness;
 }
 
-float opDiamond(const vec3 p, const float scale, const float thickness, const float bias) {
+float opDiamond(const in vec3 p, const in float scale, const in float thickness, const in float bias) {
   vec3 q = p * scale;
   vec3 s = sin(q);
   vec3 c = cos(q);
   return abs(((s.x * s.y * s.z) + (s.x * c.y * c.z) + (c.x * s.y * c.z) + (c.x * c.y * s.z)) - bias) / scale - thickness;
 }
 
-float opFischerKoch(const vec3 p, const float scale, const float thickness, const float bias) {
+float opFischerKoch(const in vec3 p, const in float scale, const in float thickness, const in float bias) {
   vec3 q = p * scale * 0.5;
   vec3 s = sin(q);
   vec3 c = cos(q);
@@ -65,7 +65,7 @@ float opFischerKoch(const vec3 p, const float scale, const float thickness, cons
   return abs((c2.x * s.y * c.z) + (c2.y * s.z * c.x) + (c2.z * s.x * c.y) - bias) / scale - ht;
 }
 
-float opLidinoid(const vec3 p, const float scale, const float thickness, const float bias) {
+float opLidinoid(const in vec3 p, const in float scale, const in float thickness, const in float bias) {
   vec3 q = p * scale * 0.5;
   vec3 q2 = q * 2.0;
   vec3 s = sin(q);
@@ -78,49 +78,49 @@ float opLidinoid(const vec3 p, const float scale, const float thickness, const f
   return abs(v1 - v2 - bias) / scale - ht;
 }
 
-float opNeovius(const vec3 p, const float scale, const float thickness, const float bias) {
+float opNeovius(const in vec3 p, const in float scale, const in float thickness, const in float bias) {
   vec3 q = p * scale;
   vec3 c = cos(q);
   return abs((3.0 * (c.x + c.y + c.z) + 4.0 * (c.x * c.y * c.z)) - bias) / scale - thickness;
 }
 
-float sdRoundBox(const vec3 p, const vec3 b, const float r)
+float sdRoundBox(const in vec3 p, const in vec3 b, const in float r)
 {
   vec3 q = abs(p) - b;
   return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0) - r;
 }
 
-float sdTorus(const vec3 p, const vec2 t)
+float sdTorus(const in vec3 p, const vec2 t)
 {
   vec2 q = vec2(length(p.xz)-t.x,p.y);
   return length(q)-t.y;
 }
 
-float opOnion(const float sdf, const float thickness)
+float opOnion(const in float sdf, const in float thickness)
 {
     return abs(sdf) - thickness;
 }
 
-float opUnion(const float d1, const float d2) { return min(d1, d2); }
-float opDifference(const float d1, const float d2) { return max(d1, -d2); }
-float opIntersection(const float d1, const float d2) { return max(d1, d2); }
+float opUnion(const in float d1, const in float d2) { return min(d1, d2); }
+float opDifference(const in float d1, const in float d2) { return max(d1, -d2); }
+float opIntersection(const in float d1, const in float d2) { return max(d1, d2); }
 
-float opSmoothUnion( float d1, float d2, float k ) {
+float opSmoothUnion(const in float d1, const in float d2, const in float k) {
   float h = clamp( 0.5 + 0.5*(d2-d1)/k, 0.0, 1.0 );
   return mix( d2, d1, h ) - k*h*(1.0-h); 
 }
 
-float opSmoothDifference( float d1, float d2, float k ) {
+float opSmoothDifference(const in float d1, const in float d2, const in float k) {
   float h = clamp( 0.5 - 0.5*(d1+d2)/k, 0.0, 1.0 );
   return mix( d1, -d2, h ) + k*h*(1.0-h); 
 }
 
-float opSmoothIntersection( float d1, float d2, float k ) {
+float opSmoothIntersection(const in float d1, const in float d2, const in float k) {
   float h = clamp( 0.5 - 0.5*(d2-d1)/k, 0.0, 1.0 );
   return mix( d2, d1, h ) + k*h*(1.0-h); 
 }
 
-vec3 opTwist(vec3 p)
+vec3 opTwist(const in vec3 p)
 {
     const float k = 10.0; // or some other amount
     float c = cos(k*p.y);
@@ -130,7 +130,7 @@ vec3 opTwist(vec3 p)
     return q;
 }
 
-vec3 opCheapBend(const vec3 p, const float k)
+vec3 opCheapBend(const in vec3 p, const in float k)
 {
     float c = cos(k*p.x);
     float s = sin(k*p.x);

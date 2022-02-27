@@ -3,6 +3,7 @@ import { GPUComputationRenderer } from 'three/examples/jsm/misc/GPUComputationRe
 import { NFrepBase } from '../NFrepBase';
 import FrepCommon from '../../../shaders/FrepCommon.glsl';
 import FrepTextureFragment from '../shaders/FrepTexture.frag';
+import { isFrepCustomFunction } from './IFrepCustomFunction';
 
 export type FrepRenderProps = {
   frep: NFrepBase;
@@ -22,7 +23,9 @@ export class NFrepTexture {
 
   public render (props: FrepRenderProps): WebGLRenderTarget {
     const { frep, min, max, width, height, depth } = props;
+
     const code = frep.compile('p');
+    const custom = isFrepCustomFunction(frep) ? frep.fn() : '';
 
     const tw = width * height;
     const th = depth;
@@ -40,6 +43,9 @@ export class NFrepTexture {
       FrepTextureFragment.replace(
         '#include <frep_common>',
         FrepCommon
+      ).replace(
+        '#include <frep_custom_function>',
+        custom
       ),
       initialValueTexture
     );

@@ -1554,10 +1554,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@jscad/modeling@^2.7.0":
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.7.0.tgz#77cdc4760d703e5847ee842233862a03c8117e49"
-  integrity sha512-/ewZtTKCMeFqH/zRc4W10jeic5U6ApSLHvXQHvWMJH+m1IvzdCFEUHJ4whDZBZBhjnwWi6MFBHv4kwRrkFfQ2g==
+"@jscad/modeling@^2.7.1":
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.7.2.tgz#540232aae3894ab8d6140460e9782b816f058e00"
+  integrity sha512-18NuBOWemX/1l8fe3IeftO6nflUmg0zS+iD2wapoo3Qfi/8QqXWmH70G9qWrRgUIdLSR7trnm/dDWbNGI3wqWg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1581,17 +1581,8 @@
     fastq "^1.6.0"
 
 "@nodi/core@link:../core":
-  version "1.0.0"
-  dependencies:
-    "@jscad/modeling" "^2.7.0"
-    "@types/three" "^0.135.0"
-    clipper-lib "^6.4.2"
-    d3-delaunay "^6.0.2"
-    dxf "^4.6.1"
-    dxf-writer "^1.13.1"
-    noisejs "^2.1.0"
-    three "^0.135.0"
-    uuid "^8.3.2"
+  version "0.0.0"
+  uid ""
 
 "@npmcli/fs@^1.0.0":
   version "1.0.0"

@@ -1,11 +1,16 @@
 import { Color, DoubleSide, MeshDepthMaterial, NearestFilter, NoBlending, OrthographicCamera, RGBADepthPacking, Scene, ShaderMaterial, Texture, UniformsUtils, Vector2, Vector3, WebGLRenderer, WebGLRenderTarget } from 'three';
 import { FullScreenQuad, Pass } from 'three/examples/jsm/postprocessing/Pass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
-import { PreviewColors, NVFrep, FrepRenderingQuality } from '@nodi/core';
+import { PreviewColors, NVFrep, FrepRenderingQuality, isFrepCustomFunction } from '@nodi/core';
 
 import FrepCommon from './shaders/FrepCommon.glsl';
 import QuadVertexShader from './shaders/Quad.vert';
 import RaymarchingFragmentShader from './shaders/Raymarching.frag';
+
+const fragmentShaderBase = RaymarchingFragmentShader.replace(
+  '#include <frep_common>',
+  FrepCommon
+);
 
 export default class RaymarchingPass extends Pass {
   private scene: Scene;
@@ -93,10 +98,7 @@ export default class RaymarchingPass extends Pass {
         threshold: { value: 1e-4 }
       },
       vertexShader: QuadVertexShader,
-      fragmentShader: RaymarchingFragmentShader.replace(
-        '#include <frep_common>',
-        FrepCommon
-      )
+      fragmentShader: this.fragmentShader()
     });
 
     const shader = CopyShader;
@@ -112,8 +114,25 @@ export default class RaymarchingPass extends Pass {
     this.oldClearColor = new Color();
   }
 
+  private fragmentShader (frepCustomFunction: string = ''): string {
+    return fragmentShaderBase.replace(
+      '#include <frep_custom_function>',
+      frepCustomFunction
+    );
+  }
+
   public update (freps: NVFrep[]): void {
     this.freps = freps;
+
+    const defines = this.materialRaymarching.defines;
+
+    const filters = this.freps.map(fr => fr.entity).flat(1).filter(fr => isFrepCustomFunction(fr));
+    const frepCustomFunction = filters.filter((fr, idx) => {
+      return filters.indexOf(fr) === idx;
+    }).map((fr) => {
+      return fr.fn();
+    }).join('\n');
+
     const visibles = this.freps.filter(n => n.visible);
     const unselected = visibles.filter(n => !n.selected);
     const selected = visibles.filter(n => n.selected);
@@ -121,7 +140,6 @@ export default class RaymarchingPass extends Pass {
     this.visibleFrepCount = visibles.length;
     this.selectedFrepCount = selected.length;
 
-    const defines = this.materialRaymarching.defines;
     const existsScene = unselected.length > 0;
     defines.EXISTS_SCENE = existsScene ? 1 : 0;
     if (existsScene) {
@@ -134,6 +152,7 @@ export default class RaymarchingPass extends Pass {
       defines.SELECTED_SCENE_CODE = this.compile(selected);
     }
 
+    this.materialRaymarching.fragmentShader = this.fragmentShader(frepCustomFunction);
     this.materialRaymarching.needsUpdate = true;
   }
 
@@ -157,7 +176,7 @@ export default class RaymarchingPass extends Pass {
         lines.push(u);
       }
       const union = lines.join(';');
-      return `${union}; return u${n - 1};`;
+      return `${union} return u${n - 1};`;
     }
   }
 

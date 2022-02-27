@@ -11,6 +11,10 @@ export abstract class NFrepBase implements ITransformable {
     return this.compile('p');
   }
 
+  public toString (): string {
+    return 'FRep';
+  }
+
   public abstract applyMatrix (matrix: Matrix4): ITransformable;
   public abstract transform (f: TransformerType): ITransformable;
 }

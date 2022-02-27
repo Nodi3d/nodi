@@ -161,7 +161,8 @@ export class NBoundingBox implements IBoundable, ITransformable {
   }
 
   public bounds (plane: NPlane): NBoundingBox {
-    throw new Error('Method not implemented.');
+    const points = this.projectPoints(plane);
+    return NBoundingBox.fromPoints(plane, points);
   }
 
   public projectPoints (plane: NPlane): NPoint[] {
@@ -236,6 +237,15 @@ export class NBoundingBox implements IBoundable, ITransformable {
     return [
       points[0], points[1], points[5], points[4]
     ];
+  }
+
+  public clone (): NBoundingBox {
+    return new NBoundingBox(
+      this.plane.clone(),
+      this.dx.clone(),
+      this.dy.clone(),
+      this.dz.clone()
+    );
   }
 
   public toString (): string {

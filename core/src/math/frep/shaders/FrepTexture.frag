@@ -6,6 +6,9 @@ uniform float iU, iV;
 
 #include <frep_common>
 
+// replace to compiled custom function
+#include <frep_custom_function>
+
 float scene(vec3 p) {
   return SCENE_CODE;
 }

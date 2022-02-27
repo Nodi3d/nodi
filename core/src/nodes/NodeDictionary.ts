@@ -53,6 +53,8 @@ import { FrepSmoothDifference } from './frep/blend/FrepSmoothDifference';
 import { FrepSmoothIntersection } from './frep/blend/FrepSmoothIntersection';
 import { FrepSmoothUnion } from './frep/blend/FrepSmoothUnion';
 import { FrepUnion } from './frep/blend/FrepUnion';
+import { FrepCustomDistanceFunction } from './frep/plugins/FrepCustomDistanceFunction';
+import { FrepCustomFilter } from './frep/plugins/FrepCustomFilter';
 import { FBox } from './frep/primitives/FBox';
 import { FCapsule } from './frep/primitives/FCapsule';
 import { FCone } from './frep/primitives/FCone';
@@ -63,6 +65,7 @@ import { TPMSFischerKochS } from './frep/tpms/TPMSFischerKochS';
 import { TPMSGyroid } from './frep/tpms/TPMSGyroid';
 import { TPMSLidinoid } from './frep/tpms/TPMSLidinoid';
 import { TPMSSchwarzP } from './frep/tpms/TPMSSchwarzP';
+import { FrepBoundingBox } from './frep/utils/FrepBoundingBox';
 import { FrepRound } from './frep/utils/FrepRound';
 import { MarchingCubes } from './frep/utils/MarchingCubes';
 import { CurveImporter } from './importer/CurveImporter';
@@ -194,6 +197,7 @@ import { Revolution } from './surface/freeform/Revolution';
 import { SurfaceFromPoints } from './surface/freeform/SurfaceFromPoints';
 import { Sweep } from './surface/freeform/Sweep';
 import { BoundingBox } from './surface/primitive/BoundingBox';
+import { ConstructBoundingBox } from './surface/primitive/ConstructBoundingBox';
 import { DeconstructBoundingBox } from './surface/primitive/DeconstructBoundingBox';
 import { OrientedBoundingBox } from './surface/primitive/OrientedBoundingBox';
 import { PlaneSurface } from './surface/primitive/PlaneSurface';
@@ -307,6 +311,8 @@ const Nodes = {
   FrepSmoothIntersection,
   FrepSmoothUnion,
   FrepUnion,
+  FrepCustomDistanceFunction,
+  FrepCustomFilter,
   FBox,
   FCapsule,
   FCone,
@@ -317,6 +323,7 @@ const Nodes = {
   TPMSGyroid,
   TPMSLidinoid,
   TPMSSchwarzP,
+  FrepBoundingBox,
   FrepRound,
   MarchingCubes,
   CurveImporter,
@@ -448,6 +455,7 @@ const Nodes = {
   SurfaceFromPoints,
   Sweep,
   BoundingBox,
+  ConstructBoundingBox,
   DeconstructBoundingBox,
   OrientedBoundingBox,
   PlaneSurface,
@@ -563,6 +571,8 @@ const NodeDictionary: { [index: string]: { name:string; entity: NodeConstructorT
   'frep/blend/FrepSmoothIntersection': { name: 'FrepSmoothIntersection', entity: FrepSmoothIntersection },
   'frep/blend/FrepSmoothUnion': { name: 'FrepSmoothUnion', entity: FrepSmoothUnion },
   'frep/blend/FrepUnion': { name: 'FrepUnion', entity: FrepUnion },
+  'frep/plugins/FrepCustomDistanceFunction': { name: 'FrepCustomDistanceFunction', entity: FrepCustomDistanceFunction },
+  'frep/plugins/FrepCustomFilter': { name: 'FrepCustomFilter', entity: FrepCustomFilter },
   'frep/primitives/FBox': { name: 'FBox', entity: FBox },
   'frep/primitives/FCapsule': { name: 'FCapsule', entity: FCapsule },
   'frep/primitives/FCone': { name: 'FCone', entity: FCone },
@@ -573,6 +583,7 @@ const NodeDictionary: { [index: string]: { name:string; entity: NodeConstructorT
   'frep/tpms/TPMSGyroid': { name: 'TPMSGyroid', entity: TPMSGyroid },
   'frep/tpms/TPMSLidinoid': { name: 'TPMSLidinoid', entity: TPMSLidinoid },
   'frep/tpms/TPMSSchwarzP': { name: 'TPMSSchwarzP', entity: TPMSSchwarzP },
+  'frep/utils/FrepBoundingBox': { name: 'FrepBoundingBox', entity: FrepBoundingBox },
   'frep/utils/FrepRound': { name: 'FrepRound', entity: FrepRound },
   'frep/utils/MarchingCubes': { name: 'MarchingCubes', entity: MarchingCubes },
   'importer/CurveImporter': { name: 'CurveImporter', entity: CurveImporter },
@@ -704,6 +715,7 @@ const NodeDictionary: { [index: string]: { name:string; entity: NodeConstructorT
   'surface/freeform/SurfaceFromPoints': { name: 'SurfaceFromPoints', entity: SurfaceFromPoints },
   'surface/freeform/Sweep': { name: 'Sweep', entity: Sweep },
   'surface/primitive/BoundingBox': { name: 'BoundingBox', entity: BoundingBox },
+  'surface/primitive/ConstructBoundingBox': { name: 'ConstructBoundingBox', entity: ConstructBoundingBox },
   'surface/primitive/DeconstructBoundingBox': { name: 'DeconstructBoundingBox', entity: DeconstructBoundingBox },
   'surface/primitive/OrientedBoundingBox': { name: 'OrientedBoundingBox', entity: OrientedBoundingBox },
   'surface/primitive/PlaneSurface': { name: 'PlaneSurface', entity: PlaneSurface },
