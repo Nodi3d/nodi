@@ -1,32 +1,26 @@
-import { Vector3 } from 'three';
-import { NFrepFunctionFilter } from '~/src/math/frep/NFrepFunctionFilter';
 import { NFrepFunctionShape } from '~/src/math/frep/NFrepFunctionShape';
-import { NFrepShape } from '~/src/math/frep/NFrepShape';
 import { NBoundingBox } from '~/src/math/geometry/NBoundingBox';
-import { NPlane } from '~/src/math/geometry/NPlane';
-import { NDomain } from '~/src/math/primitive/NDomain';
 import { AccessTypes } from '../../../data/AccessTypes';
 import { DataAccess } from '../../../data/DataAccess';
-import { DataTree } from '../../../data/DataTree';
 import { DataTypes } from '../../../data/DataTypes';
 import { InputManager } from '../../../io/InputManager';
 import { OutputManager } from '../../../io/OutputManager';
+import { NFrepBase } from '../../../math/frep/NFrepBase';
 import { CustomPayloadType } from '../../plugins/Custom';
 import { FrepCustomBase } from './FrepCustomBase';
 
 const defaultInputCount = 2;
 
-export class FrepCustomDistanceFunction extends FrepCustomBase {
-  protected _customName: string = "FCustomDF";
+export class FrepCustomFilter extends FrepCustomBase {
+  protected _customName: string = 'FCustomFilter';
   protected _customProgram: string = `// custom distance function (.glsl) here
-// variable p(vec3) is input position value
-// variable $i0(float) is input number value from node
-return abs(p) - $i0;`;
+// variable p(vec3) is const input position value
+// variable $i0(float) is input distance value
+return $i0;`;
 
   public registerInputs (manager: InputManager): void {
-    manager.add('p', 'Plane for bounding box', DataTypes.PLANE, AccessTypes.ITEM).setDefault(new DataTree().add([new NPlane()]));
-    manager.add('s', 'Size for bounding box', DataTypes.VECTOR, AccessTypes.ITEM).setDefault(new DataTree().add([new Vector3(1, 1, 1)]));
-    manager.add('$i0', '$i0', DataTypes.NUMBER, AccessTypes.ITEM);
+    manager.add('b', 'Bounding box for resulting frep', DataTypes.BOX, AccessTypes.ITEM);
+    manager.add('f', 'Base frep', DataTypes.FREP, AccessTypes.ITEM);
   }
 
   public registerOutputs (manager: OutputManager): void {
@@ -34,11 +28,10 @@ return abs(p) - $i0;`;
   }
 
   public solve (access: DataAccess): void {
-    const plane = access.getData(0) as NPlane;
-    const size = access.getData(1) as Vector3;
-
     const { uuid, customProgram } = this;
     const customFunctionName = `fn_${uuid.split('-').join('')}`;
+
+    const bb = access.getData(0);
 
     const code = function (p: string): string {
       return `${customFunctionName}(${p})`;
@@ -47,26 +40,28 @@ return abs(p) - $i0;`;
     let fn = `float ${customFunctionName} (const in vec3 p) {
       ${customProgram}
     }`;
-
     const n = access.getInputCount();
     for (let idx = defaultInputCount; idx < n; idx++) {
       const placeHolder = `$i${idx - defaultInputCount}`;
-      const $i = access.getData(idx) as number;
-      const v = $i.toPrecision(8);
-      fn = fn.replaceAll(placeHolder, v.toString());
+      const data = access.getData(idx - defaultInputCount);
+      if (data instanceof NFrepBase) {
+        // evaluate frep 
+        const evaluated = data.compile('p'); // p is const input(vec3) in fn arguments
+        fn = fn.replace(placeHolder, evaluated);
+      } else {
+        if (typeof data === 'number') {
+          fn = fn.replace(placeHolder, data.toPrecision(8).toString());
+        } else {
+          fn = fn.replace(placeHolder, data.toString());
+        }
+      }
     }
 
-    const bb = new NBoundingBox(
-      plane,
-      new NDomain(-size.x * 0.5, size.x * 0.5),
-      new NDomain(-size.y * 0.5, size.y * 0.5),
-      new NDomain(-size.z * 0.5, size.z * 0.5)
-    );
     const result = new NFrepFunctionShape(code, bb, fn);
     access.setData(0, result);
   }
 
-  public getCustomSetting (): CustomPayloadType {
+  public getCustomSetting(): CustomPayloadType {
     const n = this.inputManager.getIOCount() - defaultInputCount;
     const arr = [...Array(n)];
     const inputs = arr.map((_, i) => {
