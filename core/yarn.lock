@@ -2488,9 +2488,9 @@ dxf-writer@^1.13.1:
   integrity sha512-3gYGBIxBZJTtKc3rDsbwyjqr5uCDzE3nXiLPUGiz7A6Bq/cFAZE5nPg3WuNA30GZ4aiFkAY0/zwwT+U62/al/Q==
 
 dxf@^4.6.1:
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/dxf/-/dxf-4.6.1.tgz#f924b77898dbd5e519c7ec1437c59f702cc749d6"
-  integrity sha512-CfJpELGSOyn5J2vaKFawaGkpl8LtDjmFSTppolXkKYR8HeOUCgN87JkEHsUko4cKlxAzeK/oJ15P5WfcRsjv4Q==
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/dxf/-/dxf-4.6.2.tgz#d63e5c2146772d3b5f0aa934d450dd19413064c5"
+  integrity sha512-J+yOun1WzxW6M5v436D7o7b1cXGd+DIjgbJvPO4omFA8cfDKIwlpCRQ1EkGe7eesYzwbo4nFPEuQ/fdVUpPheQ==
   dependencies:
     commander "^2.20.3"
     lodash "^4.17.15"
