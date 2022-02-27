@@ -31,7 +31,7 @@ return $i0;`;
     const { uuid, customProgram } = this;
     const customFunctionName = `fn_${uuid.split('-').join('')}`;
 
-    const bb = access.getData(0);
+    const bb = access.getData(0) as NBoundingBox;
 
     const code = function (p: string): string {
       return `${customFunctionName}(${p})`;
@@ -41,18 +41,21 @@ return $i0;`;
       ${customProgram}
     }`;
     const n = access.getInputCount();
-    for (let idx = defaultInputCount; idx < n; idx++) {
-      const placeHolder = `$i${idx - defaultInputCount}`;
-      const data = access.getData(idx - defaultInputCount);
+
+    const offset = 1;
+    const start = defaultInputCount - offset;
+    for (let idx = start; idx < n; idx++) {
+      const placeHolder = `$i${idx - offset}`;
+      const data = access.getData(idx);
       if (data instanceof NFrepBase) {
         // evaluate frep 
         const evaluated = data.compile('p'); // p is const input(vec3) in fn arguments
-        fn = fn.replace(placeHolder, evaluated);
+        fn = fn.replaceAll(placeHolder, evaluated);
       } else {
         if (typeof data === 'number') {
-          fn = fn.replace(placeHolder, data.toPrecision(8).toString());
+          fn = fn.replaceAll(placeHolder, data.toPrecision(8).toString());
         } else {
-          fn = fn.replace(placeHolder, data.toString());
+          fn = fn.replaceAll(placeHolder, data.toString());
         }
       }
     }
