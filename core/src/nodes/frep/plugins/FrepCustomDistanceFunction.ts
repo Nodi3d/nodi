@@ -15,7 +15,7 @@ export class FrepCustomDistanceFunction extends FrepCustomBase {
   protected _customProgram: string = `// custom distance function (.glsl) here
 // variable p(vec3) is input position value
 // variable $i0(float) is input number value from node
-return abs(p) - $i0;`;
+return length(p) - $i0;`;
 
   public registerInputs (manager: InputManager): void {
     manager.add('b', 'Bounding box for resulting frep', DataTypes.BOX, AccessTypes.ITEM);
