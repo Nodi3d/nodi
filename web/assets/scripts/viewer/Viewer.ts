@@ -18,7 +18,7 @@ import {
 import RaymarchingPass from './RaymarchingPass';
 
 const minZoomScale = 1 / 2;
-const maxZoomScale = 25;
+const maxZoomScale = 1e2 * 2.5;
 
 type ControlPivot = {
   position0: Vector3;
