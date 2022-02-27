@@ -1581,8 +1581,17 @@
     fastq "^1.6.0"
 
 "@nodi/core@link:../core":
-  version "0.0.0"
-  uid ""
+  version "1.0.0"
+  dependencies:
+    "@jscad/modeling" "^2.7.1"
+    "@types/three" "^0.135.0"
+    clipper-lib "^6.4.2"
+    d3-delaunay "^6.0.2"
+    dxf "^4.6.1"
+    dxf-writer "^1.13.1"
+    noisejs "^2.1.0"
+    three "^0.135.0"
+    uuid "^8.3.2"
 
 "@npmcli/fs@^1.0.0":
   version "1.0.0"
@@ -2026,12 +2035,12 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.21.tgz#5de5a2385a35309427f6011992b544514d559aa1"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
 
-"@primer/css@^18.0.2":
-  version "18.0.2"
-  resolved "https://registry.yarnpkg.com/@primer/css/-/css-18.0.2.tgz#6fed723893d6e1a0ff994d353e74787ab2c0d211"
-  integrity sha512-iZgL52N1F5tVit30v7DqTkz63DeLbB+n0Z2U5QdFriIYBc6ZfsihFFj1RCjbf8k1rKThvXt7ad/1bjIeBWJWww==
+"@primer/css@^19.4.0":
+  version "19.4.0"
+  resolved "https://registry.yarnpkg.com/@primer/css/-/css-19.4.0.tgz#3a6c1436987034253c05d3f4627b53b6593382de"
+  integrity sha512-Ptg9eTw140v97M+jdxP8vjC4BsiWjAvhMA0qjPx1rsH9oHfIrAqLEBDXkfMl5wYZrEflatyHAbxa4zos5DJttA==
   dependencies:
-    "@primer/primitives" "^5.1.0"
+    "@primer/primitives" "^7.4.0"
 
 "@primer/octicons@^16.1.1":
   version "16.1.1"
@@ -2040,10 +2049,10 @@
   dependencies:
     object-assign "^4.1.1"
 
-"@primer/primitives@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-5.1.0.tgz#698ad3a173f3a1d7090651cce0a7088e4b93da39"
-  integrity sha512-pW8DIh6rZV0/R7lxHnVRJ/tdN4kDVSpAtdcCecxKsvtgK5d9haekt3ERpM6i93xKwB5CJYy9ouuC9C0UqWPI0A==
+"@primer/primitives@^7.4.0":
+  version "7.4.1"
+  resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-7.4.1.tgz#5ab1af3b078bb6b7b158ac84a1ae8a07fbdd3f95"
+  integrity sha512-cos7zQ6tgTtbQzF1gymiuQPcccqkHpccQCaahMRdqHqJP7kiG9/lbq+u13UdrAFJ8iJEyORfHXKd+bwhQf4svw==
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
