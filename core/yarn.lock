@@ -1401,9 +1401,9 @@
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
 "@jscad/modeling@^2.7.1":
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.7.1.tgz#b2a4b8aa4fa4e3cba05c05a94a0002f8171b508c"
-  integrity sha512-HgO96oiSIlfqA0iCJdNK2RhJ1r3s1ZlH/0kQZagbDQ36dQNBvoqIa/1Kw9zlzYrTlzRiz856jYoJeenCtAy1zQ==
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.7.2.tgz#540232aae3894ab8d6140460e9782b816f058e00"
+  integrity sha512-18NuBOWemX/1l8fe3IeftO6nflUmg0zS+iD2wapoo3Qfi/8QqXWmH70G9qWrRgUIdLSR7trnm/dDWbNGI3wqWg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -2488,9 +2488,9 @@ dxf-writer@^1.13.1:
   integrity sha512-3gYGBIxBZJTtKc3rDsbwyjqr5uCDzE3nXiLPUGiz7A6Bq/cFAZE5nPg3WuNA30GZ4aiFkAY0/zwwT+U62/al/Q==
 
 dxf@^4.6.1:
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/dxf/-/dxf-4.6.1.tgz#f924b77898dbd5e519c7ec1437c59f702cc749d6"
-  integrity sha512-CfJpELGSOyn5J2vaKFawaGkpl8LtDjmFSTppolXkKYR8HeOUCgN87JkEHsUko4cKlxAzeK/oJ15P5WfcRsjv4Q==
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/dxf/-/dxf-4.6.2.tgz#d63e5c2146772d3b5f0aa934d450dd19413064c5"
+  integrity sha512-J+yOun1WzxW6M5v436D7o7b1cXGd+DIjgbJvPO4omFA8cfDKIwlpCRQ1EkGe7eesYzwbo4nFPEuQ/fdVUpPheQ==
   dependencies:
     commander "^2.20.3"
     lodash "^4.17.15"
