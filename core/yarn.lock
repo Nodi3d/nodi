@@ -1401,9 +1401,9 @@
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
 "@jscad/modeling@^2.7.1":
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.7.2.tgz#540232aae3894ab8d6140460e9782b816f058e00"
-  integrity sha512-18NuBOWemX/1l8fe3IeftO6nflUmg0zS+iD2wapoo3Qfi/8QqXWmH70G9qWrRgUIdLSR7trnm/dDWbNGI3wqWg==
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.8.0.tgz#8e720530b65331dc383a321fb10ae620d704acc2"
+  integrity sha512-RSa9TwULUvIWdX5c0n4AArSQ718CHKeDvC3cagJZuRX0pTgQ9KU6ZZCFY3mWPeETyEbqmgLMQ1cpFH2A1IfafA==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
