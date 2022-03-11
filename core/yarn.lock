@@ -2467,13 +2467,12 @@ dxf-writer@^1.13.1:
   integrity sha512-3gYGBIxBZJTtKc3rDsbwyjqr5uCDzE3nXiLPUGiz7A6Bq/cFAZE5nPg3WuNA30GZ4aiFkAY0/zwwT+U62/al/Q==
 
 dxf@^4.6.1:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/dxf/-/dxf-4.6.2.tgz#d63e5c2146772d3b5f0aa934d450dd19413064c5"
-  integrity sha512-J+yOun1WzxW6M5v436D7o7b1cXGd+DIjgbJvPO4omFA8cfDKIwlpCRQ1EkGe7eesYzwbo4nFPEuQ/fdVUpPheQ==
+  version "4.6.3"
+  resolved "https://registry.yarnpkg.com/dxf/-/dxf-4.6.3.tgz#da570b028214807c0698b1ad9fe04bc3ad94ceab"
+  integrity sha512-cnApNcEn7bFLe93Px+F68R5Bj2MO3Bvc8xO/CD3LC8iw3PE0iGRsf3L44jIundgExQPuacF580jhImgND05DhQ==
   dependencies:
     commander "^2.20.3"
     lodash "^4.17.15"
-    pretty-data "^0.40.0"
     vecks "^3.9.0"
 
 electron-to-chromium@^1.4.17:
@@ -4225,11 +4224,6 @@ prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
-
-pretty-data@^0.40.0:
-  version "0.40.0"
-  resolved "https://registry.yarnpkg.com/pretty-data/-/pretty-data-0.40.0.tgz#572aa8ea23467467ab94b6b5266a6fd9c8fddd72"
-  integrity sha1-Vyqo6iNGdGerlLa1Jmpv2cj93XI=
 
 pretty-format@^27.0.0, pretty-format@^27.5.1:
   version "27.5.1"
