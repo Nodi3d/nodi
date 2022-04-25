@@ -1401,9 +1401,9 @@
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
 "@jscad/modeling@^2.7.1":
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.9.2.tgz#97445ec06d46be7333d017a7faac66c09ea68fc5"
-  integrity sha512-bU4WKfJcg3ijcRt4WEq4rh5kcnYA7XdOOlOev7/azV/07aiOffSJwqMDEoLeJQyiwBtk5Q/Iw6Ph+5C4iXeXJQ==
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/@jscad/modeling/-/modeling-2.9.3.tgz#b058015b82fb6fd54257f32510ce4b8cc491d257"
+  integrity sha512-UnSKU1OAl5g93sh84VnDxF/EMGsUBIZuhD1PjkCh3Gxaut3p+39GTTF5MHYhGFEfvQKbhXQHVbtoE+mdohQuxg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -4762,9 +4762,9 @@ tr46@^2.1.0:
     punycode "^2.1.1"
 
 ts-jest@^27.1.2:
-  version "27.1.3"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-27.1.3.tgz#1f723e7e74027c4da92c0ffbd73287e8af2b2957"
-  integrity sha512-6Nlura7s6uM9BVUAoqLH7JHyMXjz8gluryjpPXxr3IxZdAXnU6FhjvVLHFtfd1vsE1p8zD1OJfskkc0jhTSnkA==
+  version "27.1.4"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-27.1.4.tgz#84d42cf0f4e7157a52e7c64b1492c46330943e00"
+  integrity sha512-qjkZlVPWVctAezwsOD1OPzbZ+k7zA5z3oxII4dGdZo5ggX/PL7kvwTM0pXTr10fAtbiVpJaL3bWd502zAhpgSQ==
   dependencies:
     bs-logger "0.x"
     fast-json-stable-stringify "2.x"
