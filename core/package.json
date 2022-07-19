@@ -18,7 +18,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@jscad/modeling": "^2.7.1",
-    "@types/three": "^0.135.0",
+    "@types/three": "^0.140.0",
     "clipper-lib": "^6.4.2",
     "d3-delaunay": "^6.0.2",
     "dxf": "^4.6.1",
