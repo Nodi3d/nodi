@@ -11,9 +11,6 @@
         <a href="//nodi3d.github.io/docs/" target="_blank"><span class="menu__button--left">Document</span></a>
       </li>
       <li>
-        <a href="//forum.nodi3d.com" target="_blank"><span class="menu__button--left">Forum</span></a>
-      </li>
-      <li>
         <a href="//github.com/Nodi3d" target="_blank"><span class="menu__button--left">Github</span></a>
       </li>
     </ul>
