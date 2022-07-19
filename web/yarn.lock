@@ -2218,10 +2218,10 @@
   dependencies:
     http-proxy-middleware "^1.0.6"
 
-"@nuxtjs/svg@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/svg/-/svg-0.3.0.tgz#a6f91743ffba8ed05766c013a401c96452c35176"
-  integrity sha512-eokmEiDYE6bZR6FNUQ6VlOnck1Z2lfxlZUv56JNXXSpD6SR6qvfxmQYgTuxD++7//LcsRSqBOb54EL+ebwnDRQ==
+"@nuxtjs/svg@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/svg/-/svg-0.4.0.tgz#db6b188bc74d71021d58ea8c45a03fe4c1f30011"
+  integrity sha512-XF8uvV5YKBPAJr52SFRVkhltAsjCBTwwTc4GTysSm8WPYB2utJLY48qXdVC/J9dNQiMd7NHo1xmEYEqQfzqpqg==
   dependencies:
     file-loader "^6.0.0"
     raw-loader "^4.0.0"
