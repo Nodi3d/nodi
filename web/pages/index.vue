@@ -74,8 +74,8 @@
         <div class="item--support">
           <h3>Bug Reports & Troubleshooting</h3>
           <p>Nodi is under heavy development.</p>
-          <p>There might be bugs or problems, please let us know about them in public Forum.</p>
-          <a class="link--button" href="//forum.nodi3d.com" target="_blank">Forum</a>
+          <p>There might be bugs or problems, please let us know about them in public issues.</p>
+          <a class="link--button" href="https://github.com/Nodi3d/nodi/issues" target="_blank">Issues</a>
         </div>
         <div class="item--support">
           <h3>General Question</h3>
