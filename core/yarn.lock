@@ -2770,9 +2770,9 @@ domexception@^2.0.1:
     webidl-conversions "^5.0.0"
 
 dxf-writer@^1.13.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/dxf-writer/-/dxf-writer-1.13.1.tgz#3a146e46a38cdca27c2bca84427cb43cecd58df6"
-  integrity sha512-3gYGBIxBZJTtKc3rDsbwyjqr5uCDzE3nXiLPUGiz7A6Bq/cFAZE5nPg3WuNA30GZ4aiFkAY0/zwwT+U62/al/Q==
+  version "1.18.1"
+  resolved "https://registry.yarnpkg.com/dxf-writer/-/dxf-writer-1.18.1.tgz#0794b321f1dc14b29b2e7a0b824ca6c49091e04c"
+  integrity sha512-6LdK1eba3SOMO9gnyQnUTUcaJdaX5bFv6kdONOzB1gxEggLjiscWwmN7lqM2Fz9N1rNRPeGH8TWAvOLztUlCMA==
 
 dxf@^4.6.1:
   version "4.6.3"
