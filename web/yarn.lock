@@ -2243,12 +2243,12 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.21.tgz#5de5a2385a35309427f6011992b544514d559aa1"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
 
-"@primer/css@^18.0.2":
-  version "18.0.2"
-  resolved "https://registry.yarnpkg.com/@primer/css/-/css-18.0.2.tgz#6fed723893d6e1a0ff994d353e74787ab2c0d211"
-  integrity sha512-iZgL52N1F5tVit30v7DqTkz63DeLbB+n0Z2U5QdFriIYBc6ZfsihFFj1RCjbf8k1rKThvXt7ad/1bjIeBWJWww==
+"@primer/css@^20.5.1":
+  version "20.5.1"
+  resolved "https://registry.yarnpkg.com/@primer/css/-/css-20.5.1.tgz#85e30ceb629e469f164f03549a2313f9fdd7a2a4"
+  integrity sha512-kMjlYzXqE0k6xIKC0BCZEDlngYZUcvbTgDWqUVbOk9IM19EYTMgHxME5i8wHpVGH22fQb8jnMbShdIq03uCWJw==
   dependencies:
-    "@primer/primitives" "^5.1.0"
+    "@primer/primitives" "^7.9.0"
 
 "@primer/octicons@^16.1.1":
   version "16.1.1"
@@ -2257,10 +2257,10 @@
   dependencies:
     object-assign "^4.1.1"
 
-"@primer/primitives@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-5.1.0.tgz#698ad3a173f3a1d7090651cce0a7088e4b93da39"
-  integrity sha512-pW8DIh6rZV0/R7lxHnVRJ/tdN4kDVSpAtdcCecxKsvtgK5d9haekt3ERpM6i93xKwB5CJYy9ouuC9C0UqWPI0A==
+"@primer/primitives@^7.9.0":
+  version "7.10.0"
+  resolved "https://registry.yarnpkg.com/@primer/primitives/-/primitives-7.10.0.tgz#de0d9648d484184442583564f02d6600b872fa5f"
+  integrity sha512-DdLHq21e93R9qDHyRuRpytBLY0Up9IwNWMOUgPNW6lRSng4N4+IdUlLS3Ekbasmxfs8Z8vKS8aezeYovQ5qsxQ==
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
