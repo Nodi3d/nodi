@@ -58,7 +58,7 @@
     "nuxt-typed-vuex": "^0.2.0",
     "raw-loader": "^4.0.2",
     "sass": "1.49.9",
-    "sass-loader": "^10.2.0",
+    "sass-loader": "^13.2.0",
     "ts-jest": "^27.1.4",
     "vue-jest": "^3.0.4"
   }
