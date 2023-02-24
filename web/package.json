@@ -39,7 +39,7 @@
     "@nuxtjs/eslint-config-typescript": "^6.0.1",
     "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/svg": "^0.3.0",
-    "@primer/css": "^18.0.2",
+    "@primer/css": "^20.8.3",
     "@primer/octicons": "^16.1.1",
     "@types/codemirror": "^5.60.5",
     "@types/jest": "^27.4.1",
