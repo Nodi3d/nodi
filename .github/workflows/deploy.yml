@@ -33,7 +33,7 @@ jobs:
       run: |
         yarn remove @nodi/core
         yarn add ../core
-        npm install -g firebase-tools
+        npm install -g firebase-tools@9.16.0
         npm install
     - name: Create .firebase.env.js file
       working-directory: ./web
