@@ -49,7 +49,7 @@ jobs:
         echo $FIREBASE_RC_FILE | base64 --decode > .firebaserc
     - name: Generate @nodi/web
       working-directory: ./web
-      run: yarn generate
+      run: NODE_OPTIONS=--openssl-legacy-provider yarn generate
 #    - name: Test
 #      working-directory: ./web
 #      run: yarn test
