@@ -67,7 +67,7 @@ export class NPolylineCurve extends NCurve implements IClosedCurve {
     for (let i = 0, n = p2d.length; i < n; i++) {
       const p0 = p2d[i];
       const p1 = p2d[(i + 1) % n];
-      area += (p1.x + p0.x) * (p1.y - p0.y);
+      area += (p0.x * p1.y) - (p1.y * p1.x);
     }
     return Math.abs(area / 2.0);
   }

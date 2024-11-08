@@ -17,7 +17,7 @@ export class DivideSurface extends NodeBase {
   public registerInputs (manager: InputManager): void {
     manager.add('s', 'Surface to divide', DataTypes.SURFACE, AccessTypes.ITEM);
     manager.add('u', 'Number of segments in {u} direction', DataTypes.NUMBER, AccessTypes.ITEM);
-    manager.add('v', 'Number of segments in {v} direction', DataTypes.SURFACE, AccessTypes.ITEM);
+    manager.add('v', 'Number of segments in {v} direction', DataTypes.NUMBER, AccessTypes.ITEM);
   }
 
   public registerOutputs (manager: OutputManager): void {

@@ -10,7 +10,7 @@ import { NodeBase } from '../../NodeBase';
 
 export class Range extends NodeBase {
   public get displayName (): string {
-    return 'Random';
+    return 'Range';
   }
 
   public registerInputs (manager: InputManager): void {
