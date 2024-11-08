@@ -1,5 +1,9 @@
 # Nodi
 
+*This version of the Nodi is deprecated. Nodi is currently developing Version 2, which can be accessed here: [v2.nodi3d.com](https://v2.nodi3d.com).*
+
+--- 
+
 [![test](https://github.com/Nodi3d/nodi/actions/workflows/test.yml/badge.svg)](https://github.com/Nodi3d/nodi/actions/workflows/test.yml)
 [![deploy](https://github.com/Nodi3d/nodi/actions/workflows/deploy.yml/badge.svg)](https://github.com/Nodi3d/nodi/actions/workflows/deploy.yml)
 
