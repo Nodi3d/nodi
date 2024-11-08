@@ -2,7 +2,10 @@
   <footer class="dark-theme position-absolute p-0 m-0 border-0 overflow-hidden" style="width: 100%; z-index: 2; bottom: 0px;">
     <ul class="d-flex flex-items-center">
       <li class="m-0">
-        <router-link to="/" class="step-indicator ml-2 d-block py-1" :class="{ animated: isProcessing }" v-html="svg.logoWhiteOnlyMask" />
+        <router-link to="/" class="step-indicator mx-2 d-block py-1" :class="{ animated: isProcessing }" v-html="svg.logoWhiteOnlyMask" />
+      </li>
+      <li class="py-1">
+        This version is deprecated. Please visit <a href="https://v2.nodi3d.com" target="_blank" class="color-fg-on-emphasis" :style="{ 'text-decoration': 'underline' }">v2.nodi3d.com</a>
       </li>
     </ul>
   </footer>

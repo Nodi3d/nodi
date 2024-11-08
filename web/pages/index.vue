@@ -15,6 +15,11 @@
       </div>
     </div>
     <div class="container px-8 pt-4">
+      <section class="information">
+        <p>This version is deprecated. Please visit <a href="https://v2.nodi3d.com">v2.nodi3d.com</a>.</p>
+      </section>
+    </div>
+    <div class="container px-8 pt-4">
       <section class="feature">
         <div class="text">
           <h2>Creation</h2>
