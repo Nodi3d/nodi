@@ -2,18 +2,6 @@
 import { Vector2 } from 'three';
 import { XorShift as Xorshift } from './XorShift';
 
-const nearPow2 = (n: number): number => {
-  if (n <= 0) { return 0; }
-  if ((n & (n - 1)) === 0) { return n; }
-
-  let ret = 1;
-  while (n > 0) {
-    ret <<= 1;
-    n >>= 1;
-  }
-  return ret;
-};
-
 const getGrid = (count: number, lmin: number, lmax: number): number => {
   let division = 1;
   while (true) {
